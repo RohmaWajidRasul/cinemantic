@@ -1,0 +1,10 @@
+sentence-transformers
+transformers
+accelerate
+datasets
+torch
+numpy
+scipy
+scikit-learn
+requests
+pandas
