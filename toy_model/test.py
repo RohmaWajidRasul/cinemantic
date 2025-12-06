@@ -118,7 +118,7 @@ genre_embs = compute_genre_embeddings(df, model, GENRE_EMB_PATH)
 combined_vectors = build_combined_vectors(desc_embs, genre_embs)
 neighbours = fit_n_neighbours(combined_vectors, n_neighbors=30)
 
-input = "Iron Man"
+input = "Hush"
 recs = recommend_by_title(input, df, combined_vectors, neighbours, top_k=5)
 for rec in recs:
     print(rec)
