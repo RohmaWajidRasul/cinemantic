@@ -7,6 +7,7 @@ from sklearn.preprocessing import normalize
 from sklearn.neighbors import NearestNeighbors
 import random
 from torch.utils.data import DataLoader
+from save_to_sqlite import init_db
 
 class MovieRecommender:
     """
@@ -191,10 +192,11 @@ class MovieRecommender:
     def setup_recommender(self, fine_tune=False):
         """Loads all data and prepares the recommender"""
 
-        self._load_movies_from_sqlite(self.limit)
-
         if fine_tune:
+            init_db()
             print("Building training pairs...")
+            self._load_movies_from_sqlite(self.limit)
+
             training_examples = self._build_training_pairs()
             print(f"Found {len(training_examples)} training pairs.")
             
@@ -207,6 +209,7 @@ class MovieRecommender:
             except:
                 raise Exception("The specified fine-tuned model does not exist")
             
+        self._load_movies_from_sqlite(self.limit)
         self._compute_text_embeddings()
         self._compute_genre_embeddings()
         self._build_combined_vectors()

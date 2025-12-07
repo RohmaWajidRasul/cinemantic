@@ -3,3 +3,5 @@ pandas
 sentence_transformers
 scikit-learn
 torch
+datasets
+accelerate>=0.26.0
