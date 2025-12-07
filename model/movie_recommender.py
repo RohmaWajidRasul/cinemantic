@@ -15,20 +15,18 @@ class MovieRecommender:
     and provides movie recommendations based on textual descriptions and genres.
     """
 
-    def __init__(self, sqlite_path="./movies.db", table_name="movies",
-                 text_emb_path="./description_embeddings.npy",
-                 genre_emb_path="./genre_embeddings.npy",
+    def __init__(self, sqlite_path="./movies.db", table_name="movies", 
                  genre_scale=0.5, model_name="all-MiniLM-L6-v2",
                  output_path="./fine_tuned_model", limit=6000,
-                 batch_size=64, epochs=1):
+                 batch_size=64, epochs=2):
         
         if genre_scale <= 0 or limit < 1 or batch_size < 1 or epochs < 1:
             raise Exception("Integer params must be greater than 0")
 
         self.sqlite_path = sqlite_path
         self.table_name = table_name
-        self.text_emb_path = text_emb_path
-        self.genre_emb_path = genre_emb_path
+        self.text_emb_path = f"{output_path}/desc_embeddings.npy"
+        self.genre_emb_path = f"{output_path}/genre_embeddings.npy"
         self.genre_scale = genre_scale
         self.model_name = model_name
         self.output_path = output_path
@@ -46,10 +44,14 @@ class MovieRecommender:
     def _load_movies_from_sqlite(self, limit):
         """Turn movies into an SQLite database"""
 
-        conn = sqlite3.connect(self.sqlite_path)
-        query = f"SELECT id, names, genre, overview FROM {self.table_name} LIMIT {limit}"
-        self.df = pd.read_sql_query(query, conn)
-        conn.close()
+        try:
+            conn = sqlite3.connect(self.sqlite_path)
+            query = f"SELECT id, names, genre, overview FROM {self.table_name} LIMIT {limit}"
+            self.df = pd.read_sql_query(query, conn)
+        except Exception as e:
+            raise Exception(e)
+        finally:
+            conn.close()
 
         self.df["id"] = self.df["id"].astype(int)
         self.df["names"] = self.df["names"].astype(str)
@@ -86,6 +88,12 @@ class MovieRecommender:
 
     def _fine_tune_model(self, training_examples):
         """Fine tune model using new tuples"""
+
+        # Clean up old embeddings for this model path if they exist
+        if os.path.exists(self.text_emb_path):
+            os.remove(self.text_emb_path)
+        if os.path.exists(self.genre_emb_path):
+            os.remove(self.genre_emb_path)
 
         model = SentenceTransformer(self.model_name)
         train_dataloader = DataLoader(training_examples, shuffle=True, batch_size=self.batch_size)
@@ -194,22 +202,20 @@ class MovieRecommender:
 
         if fine_tune:
             init_db()
-            print("Building training pairs...")
             self._load_movies_from_sqlite(self.limit)
-
             training_examples = self._build_training_pairs()
             print(f"Found {len(training_examples)} training pairs.")
             
             print("Fine-tuning model...")
             self._fine_tune_model(training_examples)
         else:
+            self._load_movies_from_sqlite(self.limit)
             # If not fine-tuning, try to load a pre fine-tuned model
             try:
                 self.model = SentenceTransformer(self.output_path)
-            except:
-                raise Exception("The specified fine-tuned model does not exist")
+            except Exception as e:
+                raise Exception(f"The specified fine-tuned model does not exist: {e}")
             
-        self._load_movies_from_sqlite(self.limit)
         self._compute_text_embeddings()
         self._compute_genre_embeddings()
         self._build_combined_vectors()
