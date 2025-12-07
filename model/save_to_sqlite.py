@@ -7,8 +7,6 @@ def _save_csv_to_sqlite():
         df = pd.read_csv("hf://datasets/ExecuteAutomation/ImdbMovieDataSet/imdb_movies.csv")
         df.to_sql("movies", conn, if_exists="replace", index=False)
         print(len(df), "Stored rows and", len(df.columns), "columns to movies.db.")
-    except Exception as e:
-        raise Exception(e)
     finally:
         conn.close()
 
@@ -49,9 +47,6 @@ CREATE TABLE movies_new (
         cursor.execute("ALTER TABLE movies_new RENAME TO movies;")
 
         conn.commit()
-
-    except Exception as e:
-        raise Exception(e)
     finally:
         conn.close()
 

@@ -48,8 +48,6 @@ class MovieRecommender:
             conn = sqlite3.connect(self.sqlite_path)
             query = f"SELECT id, names, genre, overview FROM {self.table_name} LIMIT {limit}"
             self.df = pd.read_sql_query(query, conn)
-        except Exception as e:
-            raise Exception(e)
         finally:
             conn.close()
 
