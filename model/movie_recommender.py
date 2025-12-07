@@ -155,7 +155,7 @@ class MovieRecommender:
     def recommend_by_title(self, movie, top_k=5):
         """Get recommendations for a given movie title"""
 
-        if not self.df or not self.combined_vectors or not self.nn_index:
+        if self.df is None or self.combined_vectors is None or self.nn_index is None:
             raise ValueError("Recommender not set up. Call load_movies, compute embeddings, and fit_n_neighbours first.")
 
         matches = self.df[self.df["names"].str.lower() == movie.lower()]
