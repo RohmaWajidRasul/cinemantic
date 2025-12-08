@@ -1,10 +1,17 @@
+import sys
+import random
 from movie_recommender import MovieRecommender
 
-recommender = MovieRecommender()
-recommender.setup_recommender()
+random.randint
 
-input_movie = "Avatar"
-recommendations = recommender.recommend_by_title(input_movie)
+try:
+    input_movie = sys.argv[1] if len(sys.argv) > 1 else "Shazam!"
+    recommender = MovieRecommender()
+    recommender.setup_recommender()
+    recommendations = recommender.recommend_by_title(input_movie)
 
-for rec in recommendations:
-    print(rec)
+    for rec in recommendations:
+        print(rec)
+        
+except ValueError:
+    print("Movie not in database.")
