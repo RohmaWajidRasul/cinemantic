@@ -1,8 +1,5 @@
 import sys
-import random
 from movie_recommender import MovieRecommender
-
-random.randint
 
 try:
     input_movie = sys.argv[1] if len(sys.argv) > 1 else "Shazam!"

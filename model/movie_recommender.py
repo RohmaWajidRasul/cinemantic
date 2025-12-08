@@ -94,7 +94,7 @@ class MovieRecommender:
             os.remove(self.genre_emb_path)
 
         model = SentenceTransformer(self.model_name)
-        train_dataloader = DataLoader(training_examples, shuffle=True, batch_size=self.batch_size)
+        train_dataloader = DataLoader(training_examples, shuffle=True, batch_size=self.batch_size, pin_memory=False)
         train_loss = losses.MultipleNegativesRankingLoss(model)
 
         model.fit(
