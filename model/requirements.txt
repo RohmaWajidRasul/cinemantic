@@ -1,7 +1,7 @@
-numpy
-pandas
-sentence_transformers
-scikit-learn
-torch
-datasets
-accelerate>=0.26.0
+numpy==2.3.5
+pandas==2.3.3
+sentence_transformers==5.1.2
+scikit-learn==1.7.2
+torch==2.9.1
+datasets==4.4.1
+accelerate==1.12.0
