@@ -56,28 +56,39 @@ class MovieRecommender:
         self.df["genre"] = self.df["genre"].fillna("").astype(str)
         self.df["overview"] = self.df["overview"].fillna("").astype(str)
 
+        # Filter genres
         self.df["genres_list"] = self.df["genre"].apply(lambda s: [g.strip() for g in s.split(",")])
 
     def _build_training_pairs(self, num_pairs_per_movie=2):
-        """Build training pairs from dataframe"""
+        """
+        Build positive training pairs for fine-tuning the sentence transformer.
+        A positive pair consists of two movie overviews that share at least one genre.
+        The model will be trained to learn that these pairs are similar.
+        """
 
+        # Create a map from genre to a list of movie indices that have that genre.
+        # e.g., {'Action': [0, 5, 12], 'Comedy': [1, 5, 20]}
         genre_map = {}
         for idx, genres in self.df["genres_list"].items():
             for g in genres:
                 genre_map.setdefault(g, []).append(idx)
 
         examples = []
+        # Iterate through each movie to create training pairs.
         for idx, row in self.df.iterrows():
             genres = row["genres_list"]
+            # Find all other movies that share at least one genre with the current movie.
             candidates = set()
             for g in genres:
                 candidates.update(genre_map.get(g, []))
             
             candidates.discard(idx)
 
+            # If no other movies share a genre, we can't create a pair.
             if not candidates:
                 continue
 
+            # Randomly select a few candidates to form pairs with the current movie.
             selected = random.sample(list(candidates), min(num_pairs_per_movie, len(candidates)))
             for pos_idx in selected:
                 examples.append(InputExample(texts=[row["overview"], self.df.iloc[pos_idx]["overview"]]))
