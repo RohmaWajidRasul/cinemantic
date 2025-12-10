@@ -5,7 +5,7 @@ class MovieSerializer(serializers.ModelSerializer):
     genres = serializers.StringRelatedField(many=True)
     class Meta:
         model = Movie
-        fields = ['id','title','release_date','score','overview','crew','original_title','status','original_language','budget','revenue','country','genres']
+        fields = ['id','title','release_date','score','overview','crew','original_title','status','original_language','budget','revenue','country','genres', 'poster_url']
 
 class RecommendationSerializer(serializers.ModelSerializer):
     movie_title = serializers.CharField(source='movie.title', read_only=True)
