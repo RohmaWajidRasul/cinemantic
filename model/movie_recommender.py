@@ -1,4 +1,3 @@
-import sqlite3
 import numpy as np
 import pandas as pd
 import os
@@ -7,7 +6,6 @@ from sklearn.preprocessing import normalize
 from sklearn.neighbors import NearestNeighbors
 import random
 from torch.utils.data import DataLoader
-from save_to_sqlite import init_db
 
 class MovieRecommender:
     """
@@ -15,46 +13,32 @@ class MovieRecommender:
     and provides movie recommendations based on textual descriptions and genres.
     """
 
-    def __init__(self, sqlite_path="./movies.db", table_name="movies", 
-                 genre_scale=0.5, model_name="all-MiniLM-L6-v2",
-                 output_path="./fine_tuned_model", limit=6000,
-                 batch_size=64, epochs=2):
+    def __init__(self, df, genre_scale=0.5, model_name="all-MiniLM-L6-v2",
+                 output_path="./fine_tuned_model", batch_size=64, epochs=2):
         
-        if genre_scale <= 0 or limit < 1 or batch_size < 1 or epochs < 1:
+        if genre_scale <= 0 or batch_size < 1 or epochs < 1:
             raise Exception("Integer params must be greater than 0")
 
-        self.sqlite_path = sqlite_path
-        self.table_name = table_name
-        self.text_emb_path = f"{output_path}/desc_embeddings.npy"
-        self.genre_emb_path = f"{output_path}/genre_embeddings.npy"
         self.genre_scale = genre_scale
         self.model_name = model_name
         self.output_path = output_path
-        self.limit = limit
         self.batch_size = batch_size
         self.epochs = epochs
+        self.df = df
 
-        self.df = None
         self.model = None
         self.desc_embs = None
         self.genre_embs = None
         self.combined_vectors = None
         self.nn_index = None
 
-    def _load_movies_from_sqlite(self, limit):
-        """Turn movies into an SQLite database"""
-
-        try:
-            conn = sqlite3.connect(self.sqlite_path)
-            query = f"SELECT id, names, genre, overview FROM {self.table_name} LIMIT {limit}"
-            self.df = pd.read_sql_query(query, conn)
-        finally:
-            conn.close()
+    def _load_movies_from_dataframe(self):
+        """Get data from dataframe"""
 
         self.df["id"] = self.df["id"].astype(int)
         self.df["names"] = self.df["names"].astype(str)
-        self.df["genre"] = self.df["genre"].fillna("").astype(str)
-        self.df["overview"] = self.df["overview"].fillna("").astype(str)
+        self.df["genre"] = self.df["genre"].astype(str)
+        self.df["overview"] = self.df["overview"].astype(str)
 
         # Filter genres
         self.df["genres_list"] = self.df["genre"].apply(lambda s: [g.strip() for g in s.split(",")])
@@ -98,12 +82,6 @@ class MovieRecommender:
     def _fine_tune_model(self, training_examples):
         """Fine tune model using new tuples"""
 
-        # Clean up old embeddings for this model path if they exist
-        if os.path.exists(self.text_emb_path):
-            os.remove(self.text_emb_path)
-        if os.path.exists(self.genre_emb_path):
-            os.remove(self.genre_emb_path)
-
         model = SentenceTransformer(self.model_name)
         train_dataloader = DataLoader(training_examples, shuffle=True, batch_size=self.batch_size, pin_memory=False)
         train_loss = losses.MultipleNegativesRankingLoss(model)
@@ -119,48 +97,54 @@ class MovieRecommender:
     def _compute_embeddings(self, texts):
         """Helper to turn strings into vector embeddings"""
 
-        all_embs = []
+        embeddings_map = {}
+    
         for i in range(0, len(texts), self.batch_size):
-            batch = texts[i : i + self.batch_size]
-            batch_emb = self.model.encode(batch, show_progress_bar=False)
-            all_embs.append(batch_emb)
-        return np.vstack(all_embs)
+            batch_texts = texts[i : i + self.batch_size]
+            batch_ids = ids[i : i + self.batch_size]
+            batch_embs = self.model.encode(batch_texts, show_progress_bar=False)
+            
+            # Map each ID to its embedding
+            for movie_id, emb in zip(batch_ids, batch_embs):
+                embeddings_map[movie_id] = emb
+        
+        return embeddings_map
 
     def _compute_text_embeddings(self):
         """Responsible for encoding the movies' overviews"""
 
-        if os.path.exists(self.text_emb_path):
-            print("Loading cached text embeddings...")
-            self.desc_embs = np.load(self.text_emb_path)
-            return
-
         print("Computing text embeddings...")
+        ids = self.df["movie_id"].tolist()  # get the IDs
         descriptions = self.df["overview"].tolist()
-        self.desc_embs = self._compute_embeddings(descriptions)
-        np.save(self.text_emb_path, self.desc_embs)
+        self.desc_embs = self._compute_embeddings(ids, descriptions)
+        
 
     def _compute_genre_embeddings(self):
         """Responsible for encoding the movies' genres"""
 
-        if os.path.exists(self.genre_emb_path):
-            print("Loading cached genre embeddings...")
-            self.genre_embs = np.load(self.genre_emb_path)
-            return
-
         print("Computing genre embeddings...")
+        ids = self.df["movie_id"].tolist()  # same IDs as above
         genre_texts = [" ".join(genres) for genres in self.df["genres_list"]]
-        self.genre_embs = self._compute_embeddings(genre_texts)
-        np.save(self.genre_emb_path, self.genre_embs)
+        self.genre_embs = self._compute_embeddings(ids, genre_texts)
+
 
     def _build_combined_vectors(self):
         """Combine overview and genre embeddings to get a unified vector"""
 
         if self.desc_embs is None or self.genre_embs is None:
             raise ValueError("Embeddings not computed or loaded.")
-        
-        combined = self.desc_embs + self.genre_scale * self.genre_embs
-        self.combined_vectors = normalize(combined)
 
+        combined_map = {}
+        for movie_id in self.desc_embs:
+            desc_emb = self.desc_embs[movie_id]
+            genre_emb = self.genre_embs.get(movie_id, 0)  # default 0 if missing
+            combined_map[movie_id] = desc_emb + self.genre_scale * genre_emb
+
+        # Convert to NumPy array (rows in same order as movie IDs)
+        self.combined_vectors = normalize(np.vstack(list(combined_map.values())))
+        self.combined_ids = list(combined_map.keys())  # keep IDs aligned
+        
+    ###TODO:REPLACE for PGvectors
     def _fit_n_neighbours(self, n_neighbors=20):
         """Uses cosine similarity to find nearest neighbours (aka similar movies)"""
 
@@ -170,6 +154,7 @@ class MovieRecommender:
         self.nn_index = NearestNeighbors(n_neighbors=n_neighbors, metric="cosine", n_jobs=-1)
         self.nn_index.fit(self.combined_vectors)
 
+    ###TODO:ALTER
     def recommend_by_title(self, movie, top_k=5):
         """Get recommendations for a given movie title"""
 
@@ -210,15 +195,14 @@ class MovieRecommender:
         """Loads all data and prepares the recommender"""
 
         if fine_tune:
-            init_db()
-            self._load_movies_from_sqlite(self.limit)
+            self._load_movies_from_dataframe()
             training_examples = self._build_training_pairs()
             print(f"Found {len(training_examples)} training pairs.")
             
             print("Fine-tuning model...")
             self._fine_tune_model(training_examples)
         else:
-            self._load_movies_from_sqlite(self.limit)
+            self._load_movies_from_dataframe()
             # If not fine-tuning, try to load a pre fine-tuned model
             try:
                 self.model = SentenceTransformer(self.output_path)

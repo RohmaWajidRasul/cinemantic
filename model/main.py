@@ -5,6 +5,7 @@ from movie_recommender import MovieRecommender
 import asyncio
 import pandas as pd
 from pydantic import BaseModel
+from dataHandler import validateCSV, insertCSV
 
 class FineTuneParameter(BaseModel):
     model_name: str
@@ -38,8 +39,13 @@ async def train(params: FineTuneParameter, file: UploadFile = File(...)):
         )
 
     try:
+        # Validation
         file_bytes = await file.read()
         df = pd.read_csv(file_bytes)
+        df = validateCSV(df)
+        ### TODO:
+        insertCSV(df)
+
     except Exception as e:
         raise HTTPException(
             status_code=500,
@@ -47,7 +53,7 @@ async def train(params: FineTuneParameter, file: UploadFile = File(...)):
         )
 
     try:
-        ## fine-tune
+        ## Fine-tuning
         asyncio.create_task(run_fine_tuning(df, params_dict))
         return JSONResponse(
             status_code=200,
