@@ -230,7 +230,7 @@ class ExternalMovieRecommendationView(APIView):
         genres = omdb_data.get("Genre", "")
         overview = omdb_data.get("Plot", "")
 
-        ai_url = settings.AI_SERVICE_URL + "/api/v1/movies/:movieId/"
+        ai_url = settings.AI_SERVICE_URL + "/api/v1/movies/"
 
         payload = {
             "title": title,
