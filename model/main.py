@@ -1,6 +1,24 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 from .settings import POSTGRES
+from movie_recommender import MovieRecommender
+import asyncio
+import pandas as pd
+from pydantic import BaseModel
+
+class FineTuneParameter(BaseModel):
+    model_name: str
+    batch_size: int
+    epochs: int
+
+async def run_fine_tuning(df, params):
+    recommender = MovieRecommender(
+        df=df,
+        model_name=params["model_name"],
+        batch_size=params["batch_size"],
+        epochs=params["epochs"]
+    )
+    recommender.setup_recommender(True)
 
 app = FastAPI()
 
@@ -9,7 +27,9 @@ def health():
     return {"db": POSTGRES}
 
 @app.post("/api/v1/movies/fine-tune/")
-async def train(file: UploadFile = File(...)):
+async def train(params: FineTuneParameter, file: UploadFile = File(...)):
+    
+    params_dict = params.model_dump()
 
     if not file:
         raise HTTPException(
@@ -19,6 +39,7 @@ async def train(file: UploadFile = File(...)):
 
     try:
         file_bytes = await file.read()
+        df = pd.read_csv(file_bytes)
     except Exception as e:
         raise HTTPException(
             status_code=500,
@@ -26,10 +47,11 @@ async def train(file: UploadFile = File(...)):
         )
 
     try:
-        ## call model 
+        ## fine-tune
+        asyncio.create_task(run_fine_tuning(df, params_dict))
         return JSONResponse(
             status_code=200,
-            content={"detail": "Training completed successfully."}
+            content={"detail": "Training started."}
         )
     except Exception as e:
         raise HTTPException(
@@ -50,7 +72,7 @@ async def recommend(payload: dict):
         )
 
     try:
-        results = 
+        #results = 
         return JSONResponse(
             status_code=200,
             content={"detail": "Training completed successfully.", **results}
