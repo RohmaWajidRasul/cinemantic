@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="{% static 'global.css' %}">
+</head>
+<html>
+
+<body>
+    <div class="film-border top"></div>
+    <!--TODO: might have to change, check with Rohma -->
+    <main>
+        <div class="main-container">
+            <div class="form">
+                <label for="current_username">Username</label>
+                <input type="current_password" name="current_password" id="current_password"
+                    placeholder="Your current password" required>
+
+                <label for="current_password">Current</label>
+                <input type="current_password" name="current_password" id="current_password"
+                    placeholder="Your current password" required>
+                <div class="button_container">
+                    <button>Show password</button>
+                </div>
+
+            </div>
+            <form class="form">
+                <label for="new_password">New password</label>
+                <input type="password" name="password" id="new_password" placeholder="New password" required>
+
+                <label for="new_password">Repeat password</label>
+                <input type="password" name="repeat_password" id="repeat_password" placeholder="Repeat password"
+                    required>
+                <div class="button_container">
+                    <button>Change password</button>
+                </div>
+            </form>
+        </div>
+    </main>
+    <div class="film-border bottom"></div>
+</body>
+
+</html>
+
+<style scoped>
+    .main-container {
+        display: flex;
+        padding: 5px 0px;
+    }
+
+
+    .form {
+        flex: 5;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
+        margin: 30px auto;
+        max-width: 400px;
+        width: 90%;
+    }
+
+    .form label {
+        font-size: 1.1rem;
+        padding-left: 0.1em;
+        margin-bottom: 0.5ch;
+        color: rgba(255, 217, 0, 0.752);
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-shadow: 0 0 3px rgba(255, 215, 0, 0.5);
+    }
+
+    .form input {
+        font-size: 1.1rem;
+        margin-bottom: 1.5em;
+        padding: 1em 1em;
+        background-color: #000;
+        color: #f0f0f0;
+        border: 2px solid #333;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.9);
+    }
+
+    .form input:focus {
+        outline: none;
+        border-color: gold;
+        box-shadow:
+            inset 0 1px 5px rgba(0, 0, 0, 0.9),
+            0 0 8px rgba(255, 215, 0, 0.7);
+    }
+
+    .button_container {
+        display: grid;
+        justify-items: center;
+    }
+
+    button {
+        padding: 10px 20px;
+        margin-top: 30px;
+        background-color: #e50914;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 1.1em;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #f40612;
+    }
+</style>

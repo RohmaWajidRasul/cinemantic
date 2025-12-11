@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="{% static 'global.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
+</head>
+<html>
+
+<body>
+    <div class="film-border top"></div>
+    <main>
+        <div class="main-container">
+            <h1>Welcome to Cinemantic!</h1>
+            <p>Are you tired of scrolling endelesly on different websites to find a good movie recommendation? Well, you
+                don't need to do that bullshit anymore because with Cinemantic you can get tailored movie
+                recommendations based on all of the movies you already know what you like! So stop wasting your time and
+                let's get started with it.
+            </p>
+            <div class="button_container">
+                <button class="red-button">Login</button>
+                <button class="red-button">Register</button>
+
+            </div>
+        </div>
+    </main>
+    <div class="film-border bottom"></div>
+</body>
+
+</html>
+
+<style>
+    .main-container {
+        width: 55%;
+        padding: 30px;
+    }
+
+    p {
+        text-align: justify;
+        width: 70%;
+        margin: auto;
+    }
+
+    .button_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px
+    }
+</style>

@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="{% static 'global.css' %}">
+</head>
+<html>
+
+<body>
+    <div class="film-border top"></div>
+    <div class="header">
+        <h1>Cinemantic</h1>
+        <div class="logo">
+            <img src="{% static 'logo.png' %}" alt="Movie icon">
+        </div>
+    </div>
+    <div class="white-container">
+        <form class="form">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" placeholder="Email" required>
+
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+
+            <button class="black-button">Login</button>
+        </form>
+    </div>
+    <div class="film-border bottom"></div>
+</body>
+
+</html>
+
+<style scoped>
+    h1 {
+        font-size: 3rem;
+        margin: 20px 0;
+    }
+
+    .header {
+        gap: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
