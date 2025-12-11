@@ -17,15 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
+from django.shortcuts import render
 
 
 def home(request):
-    return HttpResponse("Welcome to the Movie Recommender API!")
+    return render(request, 'homepage.html')
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/users/', include('users.urls')),
-    path('api/movies/', include('movies.urls')),
-    path('', home),
+    path('api/users/', include('users.urls')),      # Routes to users
+    path('api/movies/', include('movies.urls')),    # Routes to movies
+    path('', home),                                 # Homepage 
 ]

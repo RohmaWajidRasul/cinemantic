@@ -2,12 +2,15 @@ from rest_framework import generics, permissions, status
 from .serializers import RegisterSerializer, ProfileSerializer, UserUpdateSerializer
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from django.views.generic import TemplateView
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Profile
 from movies.serializers import MovieSerializer
 from movies.models import Movie
+from django.http import HttpResponse
+from django.template import loader
 
 User = get_user_model()
 
@@ -47,3 +50,13 @@ class DeleteAllUsersView(APIView):
     def delete(self, request):
         count, _ = User.objects.all().delete()
         return Response({'detail': f'{count} users deleted'}, status=200)
+    
+# Classes for the page views
+class LoginPageView(TemplateView):
+    template_name = "login.html"
+
+class RegisterPageView(TemplateView):
+    template_name = "register.html"
+
+class AccountPageView(TemplateView):
+    template_name = "account.html"

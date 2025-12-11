@@ -7,7 +7,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(to bottom, #5A0E24, #a30e40, #5A0E24);
+    background: linear-gradient(to bottom, #292e48, #404968);
     line-height: 1.6;
     font-family:
         'Playfair Display',
@@ -17,7 +17,7 @@ body {
 h1 {
     text-align: center;
     font-size: 3.5rem;
-    color: rgba(255, 217, 0, 0.775)
+    color: black
 }
 
 /* ==========================================================================*/
@@ -145,7 +145,7 @@ main {
 .red-button {
     padding: 10px 20px;
     margin-top: 30px;
-    background-color: #e50914c4;
+    background-color: #6470a6;
     color: white;
     border: none;
     border-radius: 3px;

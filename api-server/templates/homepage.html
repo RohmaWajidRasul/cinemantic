@@ -21,9 +21,12 @@
                 let's get started with it.
             </p>
             <div class="button_container">
-                <button class="red-button">Login</button>
-                <button class="red-button">Register</button>
-
+                <a href="{% url 'login-page' %}">
+                    <button class="red-button">Login</button>
+                </a>
+                <a href="{% url 'register-page' %}">
+                    <button class="red-button">Register</button>
+                </a>
             </div>
         </div>
     </main>
