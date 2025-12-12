@@ -68,7 +68,7 @@ h1 {
     width: 40px;
     height: 40px;
     object-fit: contain;
-    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .logo img {
@@ -142,10 +142,10 @@ main {
     margin-top: 0;
 }
 
-.red-button {
+.blue-button {
     padding: 10px 20px;
     margin-top: 30px;
-    background-color: #6470a6;
+    background-color: #444b6d;
     color: white;
     border: none;
     border-radius: 3px;
