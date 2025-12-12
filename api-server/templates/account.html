@@ -13,14 +13,14 @@
         <div class="main-container">
             <div class="form">
                 <label for="current_username">Username</label>
-                <input type="current_password" name="current_password" id="current_password"
-                    placeholder="Your current password" required>
+                <input type="text" name="current_username" id="current_username" placeholder="Loading username..."
+                    disabled>
 
-                <label for="current_password">Current</label>
-                <input type="current_password" name="current_password" id="current_password"
-                    placeholder="Your current password" required>
+                <label for="bio">Bio</label>
+                <input type="text" name="bio" id="bio" placeholder="Bio" required>
+
                 <div class="button_container">
-                    <button class="blue-button">Show password</button>
+                    <button onclick="changeUser()" class="blue-button">Change bio</button>
                 </div>
 
             </div>
@@ -42,12 +42,137 @@
 
 </html>
 
+<script>
+    // Event listener to fetch user data
+    document.addEventListener('DOMContentLoaded', () => {
+        const apiEndpoint = "{% url 'api-get-user-profile' %}"
+        loadUserProfile(apiEndpoint);
+    });
+
+    // Function to fetch user data
+    async function loadUserProfile(apiEndpoint) {
+
+        const token = localStorage.getItem('access_token');
+        const usernameInputId = 'current_username';
+        const bioInputId = 'bio';
+        const loginPageUrl = "{% url 'login-page' %}";
+        const usernameInput = document.getElementById(usernameInputId);
+        const bioInput = document.getElementById(bioInputId);
+
+        // Check authentication (tokens)
+        if (!token) {
+            console.log('Error: Authentication token not found. Redirecting to login.');
+            if (usernameInput) {
+                usernameInput.value = 'Please log in to view your profile.';
+            }
+            window.location.href = loginPageUrl;
+            return;
+        }
+
+        // Fetch user data
+        try {
+            const response = await fetch(apiEndpoint, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw errorData;
+            }
+
+            const data = await response.json();
+            console.log('Profile data successfully retrieved:', data);
+
+            // Update the username
+            if (usernameInput) {
+                if (data.profile?.user?.username) {
+                    usernameInput.value = data.profile.user.username;
+                } else {
+                    console.log('Warning: Username field is missing in response.');
+                    usernameInput.value = 'Username not found in data.';
+                }
+            } else {
+                console.log(`Error: Username input element with ID '${usernameInputId}' not found.`);
+            }
+
+            // Update Bio
+            const bioInput = document.getElementById(bioInputId);
+            if (bioInput) {
+                if (data.profile?.bio) {
+                    bioInput.value = data.profile.bio;
+                }
+            } else {
+                console.log(`Error: Bio input element with ID '${bioInputId}' not found.`);
+            }
+
+        } catch (error) {
+            console.error('Error:', error.message);
+
+            if (usernameInput) {
+                usernameInput.value = 'Failed to load the username';
+            }
+
+            if (bioInput) {
+                bioInput.value = 'Failed to load the bio'
+            }
+
+            if (error.message.includes('401')) {
+                console.log('Token might be expired or invalid. Redirecting to login.');
+
+                // Todo: change to pop up with button
+                window.location.href = loginPageUrl;
+            }
+        }
+    }
+
+    async function changeUser() {
+        const bioInputId = 'bio';
+        const bioInput = document.getElementById(bioInputId);
+        const apiEndpoint = "{% url 'api-get-user-profile' %}";
+        const token = localStorage.getItem('access_token');
+        const userData = {
+            bio: bioInput.value,
+        }
+
+        try {
+            const response = await fetch(apiEndpoint, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(userData),
+            })
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw errorData;
+            }
+
+            const responseData = await response.json();
+
+            //TODO: fix the transition between old and new values
+            bioInput.value = '';
+            console.log(responseData);
+            loadUserProfile(apiEndpoint);
+
+
+        } catch (error) {
+            console.log("Error:", error.message);
+        }
+
+    }
+</script>
+
 <style scoped>
     .main-container {
         display: flex;
         padding: 5px 0px;
     }
-
 
     .form {
         flex: 5;
@@ -93,21 +218,5 @@
     .button_container {
         display: grid;
         justify-items: center;
-    }
-
-    button {
-        padding: 10px 20px;
-        margin-top: 30px;
-        background-color: #e50914;
-        color: white;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-        font-size: 1.1em;
-        transition: background-color 0.3s;
-    }
-
-    button:hover {
-        background-color: #f40612;
     }
 </style>
