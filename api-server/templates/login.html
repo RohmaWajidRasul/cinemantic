@@ -10,25 +10,64 @@
     <div class="film-border top"></div>
     <div class="header">
         <h1>Cinemantic</h1>
-        <div class="logo">
-            <img src="{% static 'logo.png' %}" alt="Movie icon">
-        </div>
     </div>
     <div class="white-container">
-        <form class="form">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" placeholder="Email" required>
+        <form class="form" id="login-form" onsubmit="handleLogin(event)">
+            <label for="username">Username</label>
+            <input type="username" name="username" id="username" placeholder="Username" required>
 
             <label for="password">Password</label>
             <input type="password" name="password" id="password" placeholder="Password" required>
 
-            <button class="black-button">Login</button>
+            <button type="submit" class="black-button">Login</button>
         </form>
     </div>
     <div class="film-border bottom"></div>
 </body>
 
 </html>
+
+<script>
+    async function handleLogin(event) {
+        event.preventDefault();
+
+        const form = document.getElementById('login-form');
+        const apiEndpoint = "{% url 'api-token_obtain_pair' %}";
+        const loginData = {
+            username: form.username.value,
+            password: form.password.value,
+        };
+        const targetPage = "{% url 'chat-page' %}"
+
+        try {
+            const response = await fetch(apiEndpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(loginData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw errorData;
+            }
+
+            const responseData = await response.json();
+            localStorage.setItem('access_token', responseData.access);
+            localStorage.setItem('refresh_token', responseData.refresh);
+            form.reset();
+
+
+            console.log('Login successful:', responseData);
+
+            // Todo: change to pop up with button
+            window.location.href = targetPage;
+        
+        } catch (error) {
+            console.log("Error:", error.message);
+
+        }
+    }
+</script>
 
 <style scoped>
     h1 {
@@ -37,7 +76,6 @@
     }
 
     .header {
-        gap: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
