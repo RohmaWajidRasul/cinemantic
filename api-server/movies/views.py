@@ -1,6 +1,7 @@
 import requests
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from django.views.generic import TemplateView
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, IsAdminUser
@@ -256,5 +257,14 @@ class ExternalMovieRecommendationView(APIView):
             )
 
         return Response(ai_resp.json(), status=200)
+    
+
+# Classes for the page views
+
+class RecommendationPageView(TemplateView):
+    template_name = "recommendation.html"
+
+class MoviePageView(TemplateView):
+    template_name = "movie.html"
 
 

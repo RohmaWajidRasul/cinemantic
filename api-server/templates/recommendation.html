@@ -8,7 +8,6 @@
 
 <body>
     <div class="film-border top"></div>
-    <!-- TODO: fix padding and marging (make it smaller)-->
     <main>
         <div class="main-container">
             <h1>Recommendations</h1>
@@ -17,26 +16,18 @@
                     <h2>11/12/2025 - 3:25 AM </h2>
                     <div class="button-container flex">
                         <button id="recommendation-button" class="black-button">
-                            <img src="{% static 'thumb-up.png' %}" alt="Thumbs up"></button>
+                            <img src="{% static 'thumb_up.png' %}" alt="Thumbs up"></button>
                         <button id="recommendation-button" class="black-button">
-                            <img src="{% static 'thumb-down.png' %}" alt="Thumbs up"></button>
+                            <img src="{% static 'thumb_down.png' %}" alt="Thumbs up"></button>
                     </div>
                 </div>
                 <div class="movies flex">
                     <div class="movie">
-                        <img src="{% static 'test.jpg' %}" alt="Test, movie image">
-                    </div>
-                    <div class="movie">
-                        <img src="{% static 'test.jpg' %}" alt="Test, movie image">
-                    </div>
-                    <div class="movie">
-                        <img src="{% static 'test.jpg' %}" alt="Test, movie image">
-                    </div>
-                    <div class="movie">
-                        <img src="{% static 'test.jpg' %}" alt="Test, movie image">
-                    </div>
-                    <div class="movie">
-                        <img src="{% static 'test.jpg' %}" alt="Test, movie image">
+                        <button id="poster-button">
+                            <a href="{% url 'movie-page' %}">
+                                <img src="{% static 'test.jpg' %}" alt="Movie poster">
+                            </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -92,6 +83,10 @@
     #recommendation-button {
         padding: 0.7em;
         border-radius: 15px;
+    }
+
+    #poster-button {
+        border: none;
     }
 
     .movies {
