@@ -10,3 +10,5 @@ POSTGRES = {
     'HOST': os.getenv('POSTGRES_HOST'),
     'PORT': os.getenv('POSTGRES_PORT'),
 }
+
+AI_SERVICE_URL = os.getenv('AI_SERVICE_URL')

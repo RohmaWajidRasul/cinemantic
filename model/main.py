@@ -1,11 +1,12 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
-from .settings import POSTGRES
-from movie_recommender import MovieRecommender
+from .settings import POSTGRES, AI_SERVICE_URL
+from movie_recommender import MovieRecommender, encodeNewMovie
 import asyncio
 import pandas as pd
 from pydantic import BaseModel
-from dataHandler import validateCSV, insertCSV
+from dataHandler import validateCSV, addMovies, getRecommended, updateEmb, addGenres, updateRecsTable, getVersion
+import requests
 
 class FineTuneParameter(BaseModel):
     model_name: str
@@ -15,11 +16,22 @@ class FineTuneParameter(BaseModel):
 async def run_fine_tuning(df, params):
     recommender = MovieRecommender(
         df=df,
-        model_name=params["model_name"],
-        batch_size=params["batch_size"],
-        epochs=params["epochs"]
+        batch_size=params.get("batch_size", 128),
+        epochs=params.get("epochs", 2)  
     )
     recommender.setup_recommender(True)
+
+    ### TODO:
+    addMovies(df)
+    addGenres(df)
+    updateEmb(recommender)
+    updateRecsTable()
+
+    v = getVersion()
+
+    ai_url = AI_SERVICE_URL + "/api/v1/admin/model-versions/{v}", 
+    payload = {"status": "ready"}
+    backend_resp = requests.post(ai_url, payload)
 
 app = FastAPI()
 
@@ -43,8 +55,6 @@ async def train(params: FineTuneParameter, file: UploadFile = File(...)):
         file_bytes = await file.read()
         df = pd.read_csv(file_bytes)
         df = validateCSV(df)
-        ### TODO:
-        insertCSV(df)
 
     except Exception as e:
         raise HTTPException(
@@ -53,8 +63,9 @@ async def train(params: FineTuneParameter, file: UploadFile = File(...)):
         )
 
     try:
-        ## Fine-tuning
+        ## Fine-tuning + inserting into db
         asyncio.create_task(run_fine_tuning(df, params_dict))
+
         return JSONResponse(
             status_code=200,
             content={"detail": "Training started."}
@@ -65,7 +76,7 @@ async def train(params: FineTuneParameter, file: UploadFile = File(...)):
             detail=f"Training failed due to an internal error: {e}"
         )
 
-@app.post("/api/v1/movies/")
+@app.get("/api/v1/movies/")
 async def recommend(payload: dict):
     title = payload.get("title", "")
     genres = payload.get("genres", "")
@@ -78,7 +89,10 @@ async def recommend(payload: dict):
         )
 
     try:
-        #results = 
+        recommender = MovieRecommender()
+        ids = []
+        emb = recommender.encodeNewMovie(ids, title, genres)
+        results = getRecommended(emb)
         return JSONResponse(
             status_code=200,
             content={"detail": "Training completed successfully.", **results}

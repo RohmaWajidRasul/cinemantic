@@ -23,7 +23,7 @@ class Movie(models.Model):
     budget = models.FloatField(null=True, blank=True)
     revenue = models.FloatField(null=True, blank=True)
     country = models.CharField(null=True, blank=True)
-    embeddings = VectorField(dimensions=384, null=True, blank=True)
+    embedding = VectorField(dimensions=384, null=True, blank=True)
     poster_url = models.CharField(null=True, blank=True)
 
     genres = models.ManyToManyField(Genre, related_name="movies", blank=False)

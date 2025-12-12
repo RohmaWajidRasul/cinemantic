@@ -14,7 +14,7 @@ class MovieRecommender:
     """
 
     def __init__(self, df, genre_scale=0.5, model_name="all-MiniLM-L6-v2",
-                 output_path="./fine_tuned_model", batch_size=64, epochs=2):
+                 output_path="./fine_tuned_model", batch_size=128, epochs=2):
         
         if genre_scale <= 0 or batch_size < 1 or epochs < 1:
             raise Exception("Integer params must be greater than 0")
@@ -30,7 +30,6 @@ class MovieRecommender:
         self.desc_embs = None
         self.genre_embs = None
         self.combined_vectors = None
-        self.nn_index = None
 
     def _load_movies_from_dataframe(self):
         """Get data from dataframe"""
@@ -94,7 +93,7 @@ class MovieRecommender:
         )
         self.model = SentenceTransformer(self.output_path)
 
-    def _compute_embeddings(self, texts):
+    def _compute_embeddings(self, ids, texts):
         """Helper to turn strings into vector embeddings"""
 
         embeddings_map = {}
@@ -137,59 +136,10 @@ class MovieRecommender:
         combined_map = {}
         for movie_id in self.desc_embs:
             desc_emb = self.desc_embs[movie_id]
-            genre_emb = self.genre_embs.get(movie_id, 0)  # default 0 if missing
+            genre_emb = self.genre_embs.get(movie_id)  # default 0 if missing
             combined_map[movie_id] = desc_emb + self.genre_scale * genre_emb
 
-        # Convert to NumPy array (rows in same order as movie IDs)
-        self.combined_vectors = normalize(np.vstack(list(combined_map.values())))
-        self.combined_ids = list(combined_map.keys())  # keep IDs aligned
-        
-    ###TODO:REPLACE for PGvectors
-    def _fit_n_neighbours(self, n_neighbors=20):
-        """Uses cosine similarity to find nearest neighbours (aka similar movies)"""
-
-        if self.combined_vectors is None:
-            raise ValueError("Combined vectors not built.")
-
-        self.nn_index = NearestNeighbors(n_neighbors=n_neighbors, metric="cosine", n_jobs=-1)
-        self.nn_index.fit(self.combined_vectors)
-
-    ###TODO:ALTER
-    def recommend_by_title(self, movie, top_k=5):
-        """Get recommendations for a given movie title"""
-
-        if self.df is None or self.combined_vectors is None or self.nn_index is None:
-            raise ValueError("Recommender not set up. Call load_movies, compute embeddings, and fit_n_neighbours first.")
-
-        matches = self.df[self.df["names"].str.lower() == movie.lower()]
-        if matches.empty:
-            raise ValueError(f"Movie with name '{movie}' not found.")
-        
-        movie_idx = matches.index[0]
-        query_vector = self.combined_vectors[movie_idx].reshape(1, -1)
-
-        distances, indices = self.nn_index.kneighbors(query_vector, n_neighbors=top_k + 1)
-        distances = distances[0]
-        indices = indices[0]
-
-        results = []
-        for i in range(len(distances)):
-            dist = distances[i]
-            idx = indices[i]
-            if idx == movie_idx:
-                continue
-
-            row = self.df.iloc[idx]
-            similarity = 1 - dist
-            results.append({
-                "id": int(row["id"]),
-                "names": row["names"],
-                "genre": row["genres_list"],
-                "similarity": float(similarity)
-            })
-            if len(results) >= top_k:
-                break
-        return results
+        self.combined_vectors = combined_map
 
     def setup_recommender(self, fine_tune=False):
         """Loads all data and prepares the recommender"""
@@ -212,4 +162,13 @@ class MovieRecommender:
         self._compute_text_embeddings()
         self._compute_genre_embeddings()
         self._build_combined_vectors()
-        self._fit_n_neighbours()
+
+    def encodeNewMovie(self, ids, overview, genres):
+        overview_emb = self.model.encode(overview, show_progress_bar=False)
+        if isinstance(genres, list):
+            genre_text = " ".join(genres)
+        else:
+            genre_text = genres 
+        genre_emb = self.model.encode(genre_text, show_progress_bar=False)
+        final_emb = overview_emb + self.genre_scale * genre_emb
+        return final_emb
