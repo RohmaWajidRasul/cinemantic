@@ -42,6 +42,7 @@ def validateCSV(df):
 ###TODO: GENRES BULLSHIT
 def addMovies(df):
 
+    df = df.drop(columns=["genres"])
     tempcsv = "./tempCSV.csv"
     df.to_csv(tempcsv, index=False, header=False)  # no header
 
@@ -57,16 +58,40 @@ def addGenres(df):
 
     df = df[["id", "genres"]]
 
-    tempcsv = "./tempCSV.csv"
-    df.to_csv(tempcsv, index=False, header=False)  # no header
-
     engine = create_engine(DATABASE_URL, echo=False, future=True)
-    with engine.begin() as conn:
-        conn.execute(
-            f"COPY movies_genres FROM '{os.path.abspath(tempcsv)}' WITH CSV"
-        )
-    if os.path.exists(tempcsv):
-        os.remove(tempcsv)
+
+    with engine.connect() as conn:
+        result = conn.execute("SELECT * FROM movies_genre")
+        row = result.fetchall()
+        genreIds = row.id
+        genreNames = row.name
+        genreTable = {genreIds, genreNames}
+
+    allDfGenres = df["genre"].apply(lambda s: [g.strip() for g in s.split(",")])
+    for gn in allDfGenres:
+        if (gn not in genreNames):
+            with engine.begin() as conn:
+                conn.execute(
+                    text("INSERT INTO movies_genre (name) VALUES (:gn)"),
+                    {"gn": gn}
+                    )
+
+    for movie, genre in df:
+        for g in genre:
+            with engine.connect() as conn:
+                result = conn.execute(
+                    text("SELECT id FROM movies_genre WHERE name = :genre"),
+                    {"genre": genre}
+                    )
+                row = result.fetchall()
+                gid= row.id
+            with engine.begin() as conn:
+                        conn.execute(
+                            text("INSERT INTO movies_movie_genre (movie_id, genre_id) VALUES (:mid, :gid) "),
+                            {"mid": movie, "gid": gid}
+                            )            
+    
+    
 
 def updateEmb(recommender):
 
