@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="{% static 'global.css' %}">
+</head>
+<html>
+
+<body>
+    <div class="film-border top"></div>
+    <main>
+        <div class="main-container">
+            <h1>Recommendations</h1>
+            <div class="recommendation-card">
+                <div class="recommendation-info flex">
+                    <h2>11/12/2025 - 3:25 AM </h2>
+                    <div class="button-container flex">
+                        <button id="recommendation-button" class="black-button">
+                            <img src="{% static 'thumb_up.png' %}" alt="Thumbs up"></button>
+                        <button id="recommendation-button" class="black-button">
+                            <img src="{% static 'thumb_down.png' %}" alt="Thumbs up"></button>
+                    </div>
+                </div>
+                <div class="movies flex">
+                    <div class="movie">
+                        <button id="poster-button">
+                            <a href="{% url 'movie-page' %}">
+                                <img src="{% static 'test.jpg' %}" alt="Movie poster">
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="film-border bottom"></div>
+</body>
+
+</html>
+
+<style scoped>
+    .main-container {
+        padding: 5px 40px;
+    }
+
+    h1 {
+        text-align: left;
+        font-size: 2rem;
+    }
+
+    .flex {
+        display: flex;
+    }
+
+    .recommendation-card {
+        background-color: #0d0d0d;
+        box-shadow: 0 0 10px rgba(129, 128, 128, 0.3);
+        color: #f0f0f0;
+        padding: 10px 30px;
+        margin: 20px 0;
+        border-radius: 4px;
+        text-align: left;
+        gap: 10px;
+        flex-direction: column;
+    }
+
+    .recommendation-info {
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    h2 {
+        flex: 8;
+    }
+
+    .button-container {
+        flex: 2;
+        gap: 30px;
+        justify-content: end;
+    }
+
+    #recommendation-button {
+        padding: 0.7em;
+        border-radius: 15px;
+    }
+
+    #poster-button {
+        border: none;
+    }
+
+    .movies {
+        flex-direction: row;
+        margin-top: 20px;
+        gap: 15px
+    }
+
+    .movie,
+    .recommendation-button {
+        flex: 1;
+    }
+
+    .movie img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+</style>

@@ -28,8 +28,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('users.api_urls')),   # API routes to users
     path('api/movies/', include('movies.api_urls')), # API routes to movies
-    path('', home),                                  # Homepage
-    path('users/', include('users.urls')),           # Routes to user pages  
-    path('movies/', include('movies.urls'))          # Routes to movie pages
 ]
 
