@@ -28,11 +28,13 @@
 </html>
 
 <script>
+    const API_ENDPOINT = 'http://127.0.0.1:5000/api/users/token/';
+
     async function handleLogin(event) {
         event.preventDefault();
 
         const form = document.getElementById('login-form');
-        const apiEndpoint = "{% url 'api-token_obtain_pair' %}";
+        const apiEndpoint = API_ENDPOINT;
         const loginData = {
             username: form.username.value,
             password: form.password.value,
@@ -42,6 +44,7 @@
         try {
             const response = await fetch(apiEndpoint, {
                 method: 'POST',
+                credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginData)
             });
@@ -61,7 +64,7 @@
 
             // Todo: change to pop up with button
             window.location.href = targetPage;
-        
+
         } catch (error) {
             console.log("Error:", error.message);
 

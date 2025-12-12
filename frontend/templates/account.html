@@ -8,7 +8,6 @@
 
 <body>
     <div class="film-border top"></div>
-    <!--TODO: might have to change, check with Rohma -->
     <main>
         <div class="main-container">
             <div class="form">
@@ -43,14 +42,15 @@
 </html>
 
 <script>
+    const API_ENDPOINT = 'http://127.0.0.1:5000/api/users/me/';
+
     // Event listener to fetch user data
     document.addEventListener('DOMContentLoaded', () => {
-        const apiEndpoint = "{% url 'api-get-user-profile' %}"
-        loadUserProfile(apiEndpoint);
+        loadUserProfile();
     });
 
     // Function to fetch user data
-    async function loadUserProfile(apiEndpoint) {
+    async function loadUserProfile() {
 
         const token = localStorage.getItem('access_token');
         const usernameInputId = 'current_username';
@@ -71,12 +71,13 @@
 
         // Fetch user data
         try {
-            const response = await fetch(apiEndpoint, {
+            const response = await fetch(API_ENDPOINT, {
                 method: 'GET',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                }
+                },
             });
 
             if (!response.ok) {
@@ -119,28 +120,21 @@
             if (bioInput) {
                 bioInput.value = 'Failed to load the bio'
             }
-
-            if (error.message.includes('401')) {
-                console.log('Token might be expired or invalid. Redirecting to login.');
-
-                // Todo: change to pop up with button
-                window.location.href = loginPageUrl;
-            }
         }
     }
 
     async function changeUser() {
         const bioInputId = 'bio';
         const bioInput = document.getElementById(bioInputId);
-        const apiEndpoint = "{% url 'api-get-user-profile' %}";
         const token = localStorage.getItem('access_token');
         const userData = {
             bio: bioInput.value,
         }
 
         try {
-            const response = await fetch(apiEndpoint, {
+            const response = await fetch(API_ENDPOINT, {
                 method: 'PATCH',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
@@ -158,7 +152,7 @@
             //TODO: fix the transition between old and new values
             bioInput.value = '';
             console.log(responseData);
-            loadUserProfile(apiEndpoint);
+            loadUserProfile();
 
 
         } catch (error) {

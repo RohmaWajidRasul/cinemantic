@@ -31,11 +31,12 @@
 </html>
 
 <script>
+    const API_ENDPOINT = 'http://127.0.0.1:5000/api/users/';
+
     async function handleRegistration(event) {
         event.preventDefault();
 
         const form = document.getElementById('registration-form');
-        const apiEndpoint = "{% url 'api-register' %}"
         const registerData = {
             username: form.username.value,
             email: form.email.value,
@@ -44,8 +45,9 @@
         const targetPage = "{% url 'login-page' %}"
 
         try {
-            const response = await fetch(apiEndpoint, {
+            const response = await fetch(API_ENDPOINT, {
                 method: 'POST',
+                credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(registerData)
             })

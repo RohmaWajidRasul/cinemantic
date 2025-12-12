@@ -16,17 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponse
-from django.shortcuts import render
-
-
-def home(request):
-    return render(request, 'homepage.html')
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/users/', include('users.api_urls')),   # API routes to users
-    path('api/movies/', include('movies.api_urls')), # API routes to movies
+    path('api/users/', include('users.urls')),   # API routes to users
+    path('api/movies/', include('movies.urls')), # API routes to movies
 ]
 
