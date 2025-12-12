@@ -60,3 +60,6 @@ class RegisterPageView(TemplateView):
 
 class AccountPageView(TemplateView):
     template_name = "account.html"
+
+class ChatPageView(TemplateView):
+    template_name = "chat.html"
