@@ -100,7 +100,7 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_DB'),
         'USER': os.getenv('POSTGRES_USER'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('POSTGRES_HOST'),
+        'HOST': f"/cloudsql/{os.getenv('INSTANCE_CONNECTION_NAME')}",
         'PORT': os.getenv('POSTGRES_PORT'),
     }
 }
@@ -108,6 +108,8 @@ DATABASES = {
 AI_SERVICE_URL = os.getenv('AI_SERVICE_URL')
 OMDB_API_KEY = os.getenv('OMDB_API_KEY')
 OMDB_API_URL = os.getenv('OMDB_API_URL')
+MODEL_UPDATE_SECRET = os.getenv("AI_WEBHOOK_SECRET")
+
 
 
 

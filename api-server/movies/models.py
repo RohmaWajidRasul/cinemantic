@@ -7,9 +7,6 @@ from django.contrib.postgres.fields import ArrayField
 class Genre(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, unique=True)
-
-    def __str__(self):
-        return self.name
     
 class Movie(models.Model):
     title = models.CharField()
@@ -23,26 +20,21 @@ class Movie(models.Model):
     budget = models.FloatField(null=True, blank=True)
     revenue = models.FloatField(null=True, blank=True)
     country = models.CharField(null=True, blank=True)
+
     embedding = VectorField(dimensions=384, null=True, blank=True)
     poster_url = models.CharField(null=True, blank=True)
 
     genres = models.ManyToManyField(Genre, related_name="movies", blank=False)
 
-    def __str__(self):
-        return self.title
 
 class Recommendation(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='recommendations')
     recommended_movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='recommended_from')
-    rank = models.PositiveSmallIntegerField()
     similarity = models.FloatField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    model_version = models.CharField(max_length=100, default="v1.0")
 
     class Meta:
         unique_together = ('movie', 'recommended_movie')
-        ordering = ['movie_id', 'rank']
+        ordering = ['movie_id', '-similarity']
 
 class RecommendationHistory(models.Model):
     user = models.ForeignKey(
@@ -63,11 +55,20 @@ class RecommendationHistory(models.Model):
         max_length=10,
         null=True,
         blank=True,
+
         choices=[
             ("positive", "Positive"),
             ("negative", "Negative"),
-        ]
+        ],
     )
 
-    def __str__(self):
-        return f"Session {self.id} for {self.user.username}"
+class ModelVersion(models.Model):
+    STATUS_CHOICES = [
+        ("fine-tuning", "Fine-tuning"),
+        ("ready", "Ready"),
+        ("failed", "Failed"),
+    ]
+
+    version = models.CharField(max_length=100, unique=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)

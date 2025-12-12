@@ -3,13 +3,13 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
 from django.http import Http404
 
-from .models import Movie, Recommendation, RecommendationHistory
+from .models import Movie, Recommendation, RecommendationHistory, ModelVersion
 from .serializers import MovieSerializer, RecommendationSerializer, RecommendationHistorySerializer
 
 
@@ -65,12 +65,19 @@ class MovieRecommendationsView(ListAPIView):
         if request.user and request.user.is_authenticated and top5_qs:
             recommended_ids = [rec.recommended_movie_id for rec in top5_qs]
 
-            RecommendationHistory.objects.create(
-                user=request.user,
-                model_version=Recommendation.objects.values_list("model_version", flat=True).first() or "unknown",
-                movie_ids=recommended_ids
+            latest_ready_version = (
+                ModelVersion.objects
+                .filter(status="ready")
+                .order_by("-created_at")
+                .values_list("version", flat=True)
+                .first()
             )
 
+            RecommendationHistory.objects.create(
+                user=request.user,
+                model_version=latest_ready_version or "unknown",
+                movie_ids=recommended_ids
+            )
         return Response(data, status=status.HTTP_200_OK)
 
 
@@ -162,11 +169,21 @@ class CombinedRecommendationsView(APIView):
         # Persist session for authenticated users
         # ------------------------------------------
         if request.user and request.user.is_authenticated and top5:
+
+            latest_ready_version = (
+                ModelVersion.objects
+                .filter(status="ready")
+                .order_by("-created_at")
+                .values_list("version", flat=True)
+                .first()
+            )
+
             RecommendationHistory.objects.create(
                 user=request.user,
-                model_version=Recommendation.objects.values_list("model_version", flat=True).first() or "unknown",
+                model_version=latest_ready_version or "unknown",
                 movie_ids=[mid for mid, _ in top5]
             )
+
 
         return Response(response, status=status.HTTP_200_OK)
 
