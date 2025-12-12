@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
-from .settings import POSTGRES, AI_SERVICE_URL
-from movie_recommender import MovieRecommender, encodeNewMovie
+from settings import POSTGRES, AI_SERVICE_URL
+from movie_recommender import MovieRecommender
 import asyncio
 import pandas as pd
 from pydantic import BaseModel
@@ -39,7 +39,7 @@ app = FastAPI()
 def health():
     return {"db": POSTGRES}
 
-@app.post("/api/v1/movies/fine-tune/")
+@app.post("/api/v1/admin/fine-tune/")
 async def train(params: FineTuneParameter, file: UploadFile = File(...)):
     
     params_dict = params.model_dump()

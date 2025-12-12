@@ -17,7 +17,7 @@ class AdminRetrainView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        ai_url = settings.AI_SERVICE_URL + "/api/v1/fine-tune/"
+        ai_url = settings.AI_SERVICE_URL + "/api/v1/admin/fine-tune/"
 
         files = {
             "file": (file.name, file.read(), file.content_type)

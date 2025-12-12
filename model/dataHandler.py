@@ -1,7 +1,6 @@
 import pandas as pd
-import io
 from sqlalchemy import create_engine, text
-from .settings import POSTGRES
+from settings import POSTGRES
 import os
 import numpy as np
 import json
