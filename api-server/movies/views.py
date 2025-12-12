@@ -257,14 +257,5 @@ class ExternalMovieRecommendationView(APIView):
             )
 
         return Response(ai_resp.json(), status=200)
-    
-
-# Classes for the page views
-
-class RecommendationPageView(TemplateView):
-    template_name = "recommendation.html"
-
-class MoviePageView(TemplateView):
-    template_name = "movie.html"
 
 
