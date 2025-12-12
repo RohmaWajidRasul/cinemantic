@@ -16,7 +16,7 @@ h1 {
     text-align: center;
     font-size: 3.5rem;
     color: black;
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.377);
+    text-shadow: 0 0 3px rgba(194, 193, 193, 0.377);
 }
 
 /* ==========================================================================*/
@@ -96,7 +96,7 @@ main {
 
 .main-container h1 {
     color: rgb(209, 179, 12);
-    text-shadow: 0 0 5px rgba(255, 166, 0, 0.733);
+    text-shadow: 0 0 5px rgba(209, 140, 13, 0.733);
     margin-bottom: 20px;
 }
 

@@ -84,13 +84,13 @@
                 throw errorData;
             }
 
-            const data = await response.json();
-            console.log('Profile data successfully retrieved:', data);
+            const responseData = await response.json();
+            console.log('Profile data successfully retrieved:', responseData);
 
             // Update the username
             if (usernameInput) {
-                if (data.profile?.user?.username) {
-                    usernameInput.value = data.profile.user.username;
+                if (responseData.profile?.user?.username) {
+                    usernameInput.value = responseData.profile.user.username;
                 } else {
                     console.log('Warning: Username field is missing in response.');
                     usernameInput.value = 'Username not found in data.';
@@ -102,8 +102,8 @@
             // Update Bio
             const bioInput = document.getElementById(bioInputId);
             if (bioInput) {
-                if (data.profile?.bio) {
-                    bioInput.value = data.profile.bio;
+                if (responseData.profile?.bio) {
+                    bioInput.value = responseData.profile.bio;
                 }
             } else {
                 console.log(`Error: Bio input element with ID '${bioInputId}' not found.`);

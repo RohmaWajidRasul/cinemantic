@@ -10,26 +10,29 @@
     <main class="flex">
         <div class="sidebar flex">
             <div class="searchbar flex">
-                <input type="text" name="movie-name" id="movie_name" placeholder="Movie name">
-                <button class="search_button">
+                <input type="text" name="movie-name" id="movie-name" placeholder="Movie name">
+                <button class="search-button">
                     <img src="{% static 'search.png' %}" alt="Search icon">
                 </button>
             </div>
-            <div class="searched_movies flex">
+            <div class="searched-movies flex">
                 <div class="movie flex">
-                    <h4 class="movie_title">Movie 1</h4>
+                    <h4 class="movie-title">Movie 1</h4>
                     <button class="black-button" id="pick-button">Pick</button>
                 </div>
             </div>
         </div>
         <div class="container">
-            <div class="profile flex">
-                <button id="profile_button">
-                    <img src="{% static 'account_circle.png' %}" alt="Profile icon">
-                </button>
-            </div>
             <div class="chat container flex">
-                <p class="typing"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed bibendum mauris.
+                <p class="typing"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nulla vestibulum fringilla purus vitae cursus. Sed sodales tortor sed mollis
+                    molestie. Ut ut fringilla ipsum. Mauris urna metus, tincidunt at nunc nec,
+                    elementum imperdiet ex. Sed fringilla sem risus, at volutpat eros aliquet ut.
+                    uis non sem eu elit pellentesque euismod vitae ac enim. Pellentesque congue
+                    blandit ligula posuere ultricies. Integer euismod felis in velit luctus fringilla.
+                    Maecenas viverra nisi a lectus porta, a tristique ligula ultricies. Vivamus blandit,
+                    nisi in semper dictum, ex justo consectetur nunc, at auctor magna nisl a lacus. Nunc non nisi a mi
+                    pellentesque mollis.
                 </p>
             </div>
 
@@ -50,7 +53,7 @@
     }
 
     .sidebar,
-    .searched_movies,
+    .searched-movies,
     .chat {
         flex-direction: column;
     }
@@ -60,8 +63,8 @@
         flex: 2;
     }
 
-    .searched_movies,
-    .movie_title,
+    .searched-movies,
+    .movie-title,
     .container {
         flex: 8;
     }
@@ -93,20 +96,21 @@
         outline: none;
     }
 
-    .search_button {
+    .search-button {
         background-color: transparent;
         padding: 0;
         width: 25px;
         height: 25px;
         object-fit: contain;
+        border: none;
     }
 
-    .search_button img {
+    .search-button img {
         width: 100%;
         height: auto;
     }
 
-    .searched_movies {
+    .searched-movies {
         margin-top: 15px;
         overflow-y: scroll;
     }
@@ -128,9 +132,10 @@
 
     /* Main styling */
 
-    .main-container {
-        width: 100%;
-        margin: auto 30px;
+    .container {
+        width: 70%;
+        height: 80%;
+        align-self: center;
     }
 
     .profile {
@@ -152,12 +157,12 @@
     }
 
     /* Scrolling styling */
-    .searched_movies::-webkit-scrollbar,
+    .searched-movies::-webkit-scrollbar,
     .chat::-webkit-scrollbar {
         display: none;
     }
 
-    .searched_movies,
+    .searched-movies,
     .chat {
         -ms-overflow-style: none;
         scrollbar-width: none;
