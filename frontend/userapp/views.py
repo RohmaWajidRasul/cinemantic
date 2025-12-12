@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 # All page views 
-
 class HomePageView(TemplateView):
     template_name = "homepage.html"
 
