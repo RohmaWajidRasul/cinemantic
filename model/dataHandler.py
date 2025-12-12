@@ -24,7 +24,7 @@ def validateCSV(df):
         # Remove movies without genre
         df = df.dropna(subset=['genres'])
         # Clean white spaces
-        df['date_x'] = df['date_x'].str.strip()
+        df['release_date'] = df['release_date'].str.strip()
         # Remove duplicate rows (overview column is supposed to be unique)
         df = df.drop_duplicates(subset=['overview'])
         # Remove duplicate rows (id column is supposed to be unique)
@@ -55,42 +55,43 @@ def addMovies(df):
         os.remove(tempcsv)
 
 def addGenres(df):
-
-    df = df[["id", "genres"]]
-
     engine = create_engine(DATABASE_URL, echo=False, future=True)
 
+    df = df[["id", "genres"]].copy()
+    # parse genres lists
+    df['genre_list'] = df['genres'].apply(lambda s: [g.strip() for g in str(s).split(",")])
+
+    # gather unique genres
+    unique_genres = set(g for lst in df['genre_list'] for g in lst)
+
     with engine.connect() as conn:
-        result = conn.execute("SELECT * FROM movies_genre")
-        row = result.fetchall()
-        genreIds = row.id
-        genreNames = row.name
-        genreTable = {genreIds, genreNames}
+        existing = conn.execute(text("SELECT id, name FROM movies_genre")).fetchall()
+    existing_map = {r.name: r.id for r in existing}
 
-    allDfGenres = df["genre"].apply(lambda s: [g.strip() for g in s.split(",")])
-    for gn in allDfGenres:
-        if (gn not in genreNames):
-            with engine.begin() as conn:
-                conn.execute(
-                    text("INSERT INTO movies_genre (name) VALUES (:gn)"),
-                    {"gn": gn}
-                    )
+    # insert missing genres and update map
+    missing = [g for g in unique_genres if g not in existing_map]
+    if missing:
+        with engine.begin() as conn:
+            for g in missing:
+                res = conn.execute(text("INSERT INTO movies_genre (name) VALUES (:name) RETURNING id"), {"name": g})
+                new_id = res.fetchone().id
+                existing_map[g] = new_id
 
-    for movie, genre in df:
-        for g in genre:
-            with engine.connect() as conn:
-                result = conn.execute(
-                    text("SELECT id FROM movies_genre WHERE name = :genre"),
-                    {"genre": genre}
-                    )
-                row = result.fetchall()
-                gid= row.id
-            with engine.begin() as conn:
-                        conn.execute(
-                            text("INSERT INTO movies_movie_genre (movie_id, genre_id) VALUES (:mid, :gid) "),
-                            {"mid": movie, "gid": gid}
-                            )            
-    
+    # prepare rows for junction table
+    junction_rows = []
+    for _, row in df.iterrows():
+        movie_id = row['id']
+        for g in row['genre_list']:
+            gid = existing_map[g]
+            junction_rows.append({"movie_id": movie_id, "genre_id": gid})
+
+    # batch insert into junction table (use ON CONFLICT to avoid duplicates if desired)
+    with engine.begin() as conn:
+        conn.execute(
+            text("INSERT INTO movies_movie_genre (movie_id, genre_id) VALUES (:movie_id, :genre_id) ON CONFLICT DO NOTHING"),
+            junction_rows
+        )
+
     
 
 def updateEmb(recommender):
@@ -98,9 +99,10 @@ def updateEmb(recommender):
     newEmb = recommender.combined_vectors
 
     engine = create_engine(DATABASE_URL, echo=False, future=True)
+
     with engine.connect() as conn:
         result = conn.execute(
-            "SELECT id, overview, genres FROM movies"
+            text("SELECT id, overview, genres FROM movies")
         )
 
         rows = result.fetchall()  # returns a list of Row objects
@@ -114,7 +116,7 @@ def updateEmb(recommender):
         updatedOldEmb = {}
         for movie_id in updatedOverviewsEmb:
             OvEmb = updatedOverviewsEmb[movie_id]
-            GEmb = updatedGenresEmb.get(movie_id, 0)  
+            GEmb = updatedGenresEmb.get(movie_id)  
             updatedOldEmb[movie_id] = OvEmb + recommender.genre_scale * GEmb
 
     newEmb.update(updatedOldEmb)
@@ -140,31 +142,33 @@ def updateRecsTable():
     engine = create_engine(DATABASE_URL, echo=False, future=True)
 
     with engine.connect() as conn:
-        result = conn.execute(
-            "SELECT id, embedding FROM movies"
+        rows = conn.execute(text("SELECT id, embedding FROM movies")).fetchall()
+
+    # truncate table
+    with engine.begin() as conn:
+        conn.execute(text("TRUNCATE TABLE movies_recommendation"))
+
+    insert_rows = []
+    for row in rows:
+        origin_id = row.id
+        recs = getRecommended(row.embedding)
+        for rec in recs:
+            insert_rows.append({
+                "movie_id": origin_id,
+                "recommended_movie": rec["id"],
+                "similarity": rec["similarity"]
+            })
+
+    # batch insert
+    with engine.begin() as conn:
+        conn.execute(
+            text("""
+            INSERT INTO movies_recommendation (movie_id, recommended_movie, similarity)
+            VALUES (:movie_id, :recommended_movie, :similarity)
+            """),
+            insert_rows
         )
 
-        # Fetch all returned rows (at most top_k)
-        rows = result.fetchall()
-
-    with engine.begin() as conn:
-        conn.execute("TRUNCATE TABLE movies_recommendation")
-
-    # Build the list of recommendations from returned rows
-    with engine.begin() as conn:  # begin transaction
-        for row in rows:
-            origin_id = row.id
-            recs = getRecommended(row.embedding)
-            for rec in recs:
-                rec_id = rec.id
-                similarity = rec.similarity
-
-                conn.execute(
-                    text("UPDATE movies_recommendation " \
-                    "SET recommended_movie = :recommended, similarity = :similarity" \
-                    "WHERE id = :id"),
-                    {"recommended": rec_id, "similarity": similarity,"id": origin_id}
-                )
 
 ###TODO: CHANGE GENRES BULLSHIT TABLE SHIT
 def getRecommended(movie_emb):
@@ -177,7 +181,7 @@ def getRecommended(movie_emb):
         movie_emb = movie_emb.tolist()
     
     sql = text("""
-            SELECT *, embedding <=> :vec AS distance
+            SELECT id, title, release_date, score, genres, overview, crew, original_language, embedding <=> :vec AS distance
             FROM movies
             ORDER BY embedding <=> :vec
             LIMIT 5;
@@ -197,13 +201,6 @@ def getRecommended(movie_emb):
 
             recs.append({
                 "id": int(row.id),
-                "title": row.title,
-                "release_date": row.release_date,
-                "score": row.score,
-                "genres": row.genres.split(",") if isinstance(row.genres, str) else row.genres,
-                "overview": row.overview,
-                "crew": row.crew,
-                "original_language": row.original_language,
                 "similarity": similarity
             })
 
@@ -212,6 +209,7 @@ def getRecommended(movie_emb):
 def getVersion():
 
     engine = create_engine(DATABASE_URL, echo=False, future=True)
+
     sql = text("""
         SELECT version
         FROM movies_modelversion
@@ -219,9 +217,8 @@ def getVersion():
         ORDER BY created_at DESC
         LIMIT 1;
     """)
-    with engine.connect() as conn:
-        result = conn.execute(sql)
-        row = result.fetchone()
-        version = row.version
 
-    return version
+    with engine.connect() as conn:
+        row = conn.execute(sql).fetchone()
+        
+    return row.version if row else None
