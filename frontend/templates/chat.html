@@ -22,20 +22,15 @@
                 </div>
             </div>
         </div>
-        <div class="container">
-            <div class="chat container flex">
-                <p class="typing"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nulla vestibulum fringilla purus vitae cursus. Sed sodales tortor sed mollis
-                    molestie. Ut ut fringilla ipsum. Mauris urna metus, tincidunt at nunc nec,
-                    elementum imperdiet ex. Sed fringilla sem risus, at volutpat eros aliquet ut.
-                    uis non sem eu elit pellentesque euismod vitae ac enim. Pellentesque congue
-                    blandit ligula posuere ultricies. Integer euismod felis in velit luctus fringilla.
-                    Maecenas viverra nisi a lectus porta, a tristique ligula ultricies. Vivamus blandit,
-                    nisi in semper dictum, ex justo consectetur nunc, at auctor magna nisl a lacus. Nunc non nisi a mi
-                    pellentesque mollis.
-                </p>
+        <div class="chat-container">
+            <div class="profile">
+                <a href="{% url 'user-page' %}">
+                    <button id="profile_button">
+                        <img src="{% static 'profile.png' %}" alt="User Profile">
+                    </button>
+                </a>
             </div>
-
+            <div class="white-container"></div>
         </div>
 
     </main>
@@ -44,6 +39,8 @@
 </html>
 
 <style scoped>
+    /* ==================================================================== */
+
     .flex {
         display: flex;
     }
@@ -53,30 +50,31 @@
     }
 
     .sidebar,
-    .searched-movies,
-    .chat {
+    .searched-movies {
         flex-direction: column;
     }
 
     .sidebar,
-    .pick_button {
+    .pick-button {
         flex: 2;
     }
 
     .searched-movies,
     .movie-title,
-    .container {
+    .chat-container {
         flex: 8;
     }
 
-    /* Sidebar styling */
+    /* ==================================================================== */
     .sidebar {
         background-color: #F2F2F7;
         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
         padding: 0.6rem 0.8rem;
         border-radius: 6px;
-        height: 100vh;
+        height: 97vh;
     }
+
+    /* ==================================================================== */
 
     .searchbar {
         background: #f4f4f4;
@@ -110,6 +108,8 @@
         height: auto;
     }
 
+    /* ==================================================================== */
+
     .searched-movies {
         margin-top: 15px;
         overflow-y: scroll;
@@ -130,33 +130,8 @@
         height: max-content;
     }
 
-    /* Main styling */
+    /* ==================================================================== */
 
-    .container {
-        width: 70%;
-        height: 80%;
-        align-self: center;
-    }
-
-    .profile {
-        flex: 1.5;
-        align-items: center;
-        justify-content: flex-end;
-        padding-right: 20px;
-    }
-
-    .chat {
-        flex: 8.5;
-        padding: 1rem 1.8rem;
-        width: 80%;
-        margin: 0 auto 15px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        background-color: #F2F2F7;
-        overflow: scroll;
-    }
-
-    /* Scrolling styling */
     .searched-movies::-webkit-scrollbar,
     .chat::-webkit-scrollbar {
         display: none;
@@ -168,23 +143,24 @@
         scrollbar-width: none;
     }
 
-    .typing {
-        width: 0;
-        overflow: hidden;
-        white-space: nowrap;
-        border-right: 2px solid black;
-        /* cursor */
-        animation: typing 4s steps(40, end), blink .75s step-end infinite;
-        font-family: monospace;
+    /* ==================================================================== */
+
+    .chat-container {
+        flex: 8;
+        display: flex;
+        flex-direction: column;
+        padding: 20px 0;
+        align-items: center;
+        justify-content: center;
+        position: relative;
     }
 
-    @keyframes typing {
-        from {
-            width: 0;
-        }
-
-        to {
-            width: 100%;
-        }
+    .white-container {
+        height: 500px;
+        width: 90%;
+        padding: 15px;
+        box-sizing: border-box;
+        overflow-y: auto;
+        margin-top: 70px;
     }
 </style>
