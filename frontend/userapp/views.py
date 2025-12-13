@@ -53,4 +53,7 @@ class MoviePageView(TemplateView):
 
         return context
 
+class AdminPageView(TemplateView):
+    template_name = "admin.html"
+
 

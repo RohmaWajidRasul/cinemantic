@@ -8,5 +8,6 @@ urlpatterns = [
     path('account', AccountPageView.as_view(), name="account-page"),
     path('chat', ChatPageView.as_view(), name="chat-page"),
     path('movies/', MoviePageView.as_view(), name='movie-page'),    
-    path('recommendations', RecommendationPageView.as_view(), name='recommendation-page' )
+    path('recommendations', RecommendationPageView.as_view(), name='recommendation-page'),
+    path('admin', AdminPageView.as_view(), name="admin-page"),
 ]

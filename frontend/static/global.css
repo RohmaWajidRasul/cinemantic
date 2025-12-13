@@ -21,6 +21,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 10px;
 }
 
 .header h1 {
@@ -190,13 +191,17 @@ main {
 /* ==========================================================================*/
 /* Profile icon */
 
-.profile, .rec-history, .chat{
+.profile,
+.rec-history,
+.chat {
     position: absolute;
     z-index: 10;
     right: 50px;
 }
 
-#profile-button, #rec-button, #chat-button {
+#profile-button,
+#rec-button,
+#chat-button {
     background-color: #F2F2F7;
     border-radius: 100%;
     object-fit: contain;
@@ -206,7 +211,9 @@ main {
     border: none;
 }
 
-#profile-button img, #rec-button img, #chat-button img {
+#profile-button img,
+#rec-button img,
+#chat-button img {
     width: 100%;
     height: auto;
 }
