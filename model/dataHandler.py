@@ -1,15 +1,11 @@
 import io
 import pandas as pd
-from sqlalchemy import create_engine, text
-from settings import POSTGRES
+from sqlalchemy import text
+from database import engine
 import os
 import numpy as np
 
 
-DATABASE_URL = (
-    f"postgresql://{POSTGRES['USER']}:{POSTGRES['PASSWORD']}"
-    f"@{POSTGRES['HOST']}:{POSTGRES['PORT']}/{POSTGRES['NAME']}"
-)
 
 #load csv
 def validateCSV(df):
@@ -42,7 +38,6 @@ def validateCSV(df):
 def addMovies(df):
  
     df = df.drop(columns=["genres", "genres_list"])
-    engine = create_engine(DATABASE_URL, echo=False, future=True)
 
     csv_buffer = io.StringIO()
     df.to_csv(csv_buffer, index=False, header=False)
@@ -61,8 +56,6 @@ def addMovies(df):
         raw_conn.close()
 
 def addGenres(df):
-    engine = create_engine(DATABASE_URL, echo=False, future=True)
-
     df = df[["id", "genres"]].copy()
     # parse genres lists
     df['genre_list'] = df['genres'].apply(lambda s: [g.strip() for g in str(s).split(",")])
@@ -103,8 +96,6 @@ def addGenres(df):
 def updateEmb(recommender):
 
     newEmb = recommender.combined_vectors
-
-    engine = create_engine(DATABASE_URL, echo=False, future=True)
 
     with engine.connect() as conn:
         result = conn.execute(
@@ -159,7 +150,6 @@ def updateEmb(recommender):
 
 
 def updateRecsTable():
-    engine = create_engine(DATABASE_URL, echo=False, future=True)
 
     with engine.begin() as conn:
         rows = conn.execute(text("SELECT id, embedding FROM movies_movie")).fetchall()
@@ -230,7 +220,6 @@ def getRecommended(movie_emb, conn, movie_id=None):
 
 def getVersion():
 
-    engine = create_engine(DATABASE_URL, echo=False, future=True)
 
     sql = text("""
         SELECT version

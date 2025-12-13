@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Form, UploadFile, File, HTTPException
+from fastapi import FastAPI, Form, UploadFile, File, HTTPException, BackgroundTasks
 from fastapi.responses import JSONResponse
 from settings import POSTGRES, API_SERVICE_URL, MODEL_UPDATE_SECRET
 from movie_recommender import MovieRecommender
@@ -7,36 +7,38 @@ import pandas as pd
 from pydantic import BaseModel
 from dataHandler import validateCSV, addMovies, getRecommended, updateEmb, addGenres, updateRecsTable, getVersion
 import requests
-from sqlalchemy import create_engine
+from database import engine
 from settings import POSTGRES
 
-DATABASE_URL = (
-    f"postgresql://{POSTGRES['USER']}:{POSTGRES['PASSWORD']}"
-    f"@{POSTGRES['HOST']}:{POSTGRES['PORT']}/{POSTGRES['NAME']}"
-)
 
 class FineTuneParameter(BaseModel):
     model_name: str
     batch_size: int
     epochs: int
 
-async def run_fine_tuning(df, params):
-    recommender = MovieRecommender(
-        df=df,
-        batch_size=params.get("batch_size", 128),
-        epochs=params.get("epochs", 2)  
-    )
-    recommender.setup_recommender(True)
+def run_fine_tuning(df, params):
 
-    ### TODO:
+    v = getVersion()
+    api_url = f"{API_SERVICE_URL}/api/v1/admin/model-versions/{v}/"
+
+    try:
+        recommender = MovieRecommender(
+            df=df,
+            batch_size=params.get("batch_size", 128),
+            epochs=params.get("epochs", 2)  
+        )
+        recommender.setup_recommender(True)
+    except:
+        payload={"status": "failed"}
+        requests.patch(api_url, json=payload)
+        return
+    
     addMovies(df)
     addGenres(df)
     updateEmb(recommender)
     updateRecsTable()
 
-    v = getVersion()
 
-    api_url = f"{API_SERVICE_URL}/api/v1/admin/model-versions/{v}/"
     print(api_url)
     payload = {"status": "ready"}
     requests.patch(api_url, json=payload, headers={"X-MODEL-SECRET": MODEL_UPDATE_SECRET},)
@@ -45,10 +47,10 @@ app = FastAPI()
 
 @app.get("/health")
 def health():
-    return {"db": POSTGRES}
+    return {"status": "healthy"}
 
 @app.post("/api/v1/admin/fine-tune/")
-async def train(model_name: str = Form(...), batch_size: int = Form(...), epochs: int = Form(...), file: UploadFile = File(...)):
+def train(background_tasks: BackgroundTasks, model_name: str = Form(...), batch_size: int = Form(...), epochs: int = Form(...), file: UploadFile = File(...)):
 
     params_dict = {
         "model_name": model_name,
@@ -75,7 +77,7 @@ async def train(model_name: str = Form(...), batch_size: int = Form(...), epochs
 
     try:
         ## Fine-tuning + inserting into db
-        asyncio.create_task(run_fine_tuning(df, params_dict))
+        background_tasks.add_task(run_fine_tuning, df, params_dict)
 
         return JSONResponse(
             status_code=200,
@@ -105,7 +107,6 @@ async def recommend(payload: dict):
         ids = []
         emb = recommender.encodeNewMovie(ids, title, genres)
 
-        engine = create_engine(DATABASE_URL, echo=False, future=True)
         with engine.begin() as conn:
 
             results = getRecommended(emb, conn)
