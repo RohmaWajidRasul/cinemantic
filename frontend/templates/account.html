@@ -11,26 +11,26 @@
     <main>
         <div class="main-container">
             <div class="form">
-                <label for="current_username">Username</label>
-                <input type="text" name="current_username" id="current_username" placeholder="Loading username..."
+                <label for="current-username">Username</label>
+                <input type="text" name="current-username" id="current-username" placeholder="Loading username..."
                     disabled>
 
                 <label for="bio">Bio</label>
                 <input type="text" name="bio" id="bio" placeholder="Bio" required>
 
-                <div class="button_container">
+                <div class="button-container">
                     <button onclick="changeUser()" class="blue-button">Change bio</button>
                 </div>
 
             </div>
             <form class="form">
                 <label for="new_password">New password</label>
-                <input type="password" name="password" id="new_password" placeholder="New password" required>
+                <input type="password" name="new-password" id="new-password" placeholder="New password" required>
 
                 <label for="new_password">Repeat password</label>
-                <input type="password" name="repeat_password" id="repeat_password" placeholder="Repeat password"
+                <input type="password" name="repeat-password" id="repeat-password" placeholder="Repeat password"
                     required>
-                <div class="button_container">
+                <div class="button-container">
                     <button class="blue-button">Change password</button>
                 </div>
             </form>
@@ -53,11 +53,10 @@
     async function loadUserProfile() {
 
         const token = localStorage.getItem('access_token');
-        const usernameInputId = 'current_username';
-        const bioInputId = 'bio';
         const loginPageUrl = "{% url 'login-page' %}";
-        const usernameInput = document.getElementById(usernameInputId);
-        const bioInput = document.getElementById(bioInputId);
+
+        const usernameInput = document.getElementById('current-username');
+        const bioInput = document.getElementById('bio');
 
         // Check authentication (tokens)
         if (!token) {
@@ -90,42 +89,32 @@
 
             // Update the username
             if (usernameInput) {
-                if (responseData.profile?.user?.username) {
-                    usernameInput.value = responseData.profile.user.username;
-                } else {
-                    console.log('Warning: Username field is missing in response.');
-                    usernameInput.value = 'Username not found in data.';
-                }
+
+                const username = responseData.profile?.user?.username;
+                usernameInput.value = username || 'Username not found.';
+
             } else {
-                console.log(`Error: Username input element with ID '${usernameInputId}' not found.`);
+                console.log(`Error: Username input element not found.`);
             }
 
             // Update Bio
-            const bioInput = document.getElementById(bioInputId);
             if (bioInput) {
-                if (responseData.profile?.bio) {
-                    bioInput.value = responseData.profile.bio;
-                }
+
+                const bio = responseData.profile?.bio;
+                bioInput.value = bio || 'Bio not found';
+
             } else {
-                console.log(`Error: Bio input element with ID '${bioInputId}' not found.`);
+                console.log(`Error: Bio input element not found.`);
             }
 
         } catch (error) {
             console.error('Error:', error.message);
-
-            if (usernameInput) {
-                usernameInput.value = 'Failed to load the username';
-            }
-
-            if (bioInput) {
-                bioInput.value = 'Failed to load the bio'
-            }
         }
     }
 
     async function changeUser() {
-        const bioInputId = 'bio';
-        const bioInput = document.getElementById(bioInputId);
+
+        const bioInput = document.getElementById('bio');
         const token = localStorage.getItem('access_token');
         const userData = {
             bio: bioInput.value,
@@ -153,7 +142,6 @@
             bioInput.value = '';
             console.log(responseData);
             loadUserProfile();
-
 
         } catch (error) {
             console.log("Error:", error.message);
@@ -209,7 +197,7 @@
             0 0 8px rgba(255, 215, 0, 0.7);
     }
 
-    .button_container {
+    .button-container {
         display: grid;
         justify-items: center;
     }
