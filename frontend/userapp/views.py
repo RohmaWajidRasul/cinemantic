@@ -26,32 +26,17 @@ class MoviePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        request_params = self.request.GET
-        
-        title = request_params.get('title', '')
-        limit = request_params.get('limit', 50)  
-        offset = request_params.get('offset', 0)
-
-        api_params = {
-            'limit': limit,
-            'offset': offset,
-        }
-
-        if(title):
-            api_params['title'] = title
+        movie_id = kwargs.get('movie_id')
         
         api_base_url = 'http://127.0.0.1:8000/api/v1/movies/'
 
-        query_string = urlencode(api_params)
+        if movie_id is not None:
+            api_base_url = f'http://127.0.0.1:8000/api/v1/movies/{movie_id}/'
         
-        # Construct the API endpoint URL with the received parameters
-        api_endpoint_with_params = f"{api_base_url}?{query_string}"
-        
-        # Pass the full to the template
-        context['api_movie_list_url'] = api_endpoint_with_params
+        context['api_movie_url'] = api_base_url
 
         return context
+
 
 class AdminPageView(TemplateView):
     template_name = "admin.html"

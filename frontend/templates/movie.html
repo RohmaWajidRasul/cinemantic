@@ -19,14 +19,14 @@
         </div>
         <div class="history">
             <a href="{% url 'history-page' %}">
-                <button id="rec-button">
+                <button id="history-button">
                     <img src="{% static 'movie.png' %}" alt="User Profile">
                 </button>
             </a>
         </div>
-        <div class="chat">
-            <a href="{% url 'chat-page' %}">
-                <button id="chat-button">
+        <div class="recommendation">
+            <a href="{% url 'recommendation-page' %}">
+                <button id="rec-button">
                     <img src="{% static 'chat.png' %}" alt="User Profile">
                 </button>
             </a>
@@ -37,13 +37,13 @@
             </div>
             <div class="movie_content">
                 <div class="overview">
-                    <h3 id="name">{{movie.title}}</h3>
-                    <h4 id="date">{{movie.date}}</h4>
+                    <h3 id="name"></h3>
+                    <h4 id="release_date"></h4>
                 </div>
                 <div class="description">
-                    <p id="text"> {{movie.description}}</p>
-                    <p id="genre">Genres: {{movie.genre}}</p>
-                    <p id="cast">Cast: {{movie.crew}}</p>
+                    <p id="overview"></p>
+                    <p id="genres">Genres:</p>
+                    <p id="cast">Cast:</p>
                 </div>
             </div>
 
@@ -55,7 +55,7 @@
 </html>
 
 <script>
-    const API_ENDPOINT = "{{ api_movie_list_url }}";
+    const API_ENDPOINT = "{{ api_movie_url }}";
 
     // Event listener to fetch movie data
     document.addEventListener('DOMContentLoaded', () => {
@@ -66,9 +66,9 @@
     async function loadMovie() {
 
         const nameElement = document.getElementById('name');
-        const dateElement = document.getElementById('date');
-        const textElement = document.getElementById('text');
-        const genreElement = document.getElementById('genre');
+        const dateElement = document.getElementById('release_date');
+        const overviewElement = document.getElementById('overview');
+        const genresElement = document.getElementById('genres');
         const castElement = document.getElementById('cast');
         const posterImage = document.querySelector('.poster img');
 
@@ -90,9 +90,9 @@
 
             if (responseData) {
                 nameElement.textContent = responseData.title || 'Movie Title Not Found';
-                dateElement.textContent = responseData.date || 'Release Date Not Found';
-                textElement.textContent = responseData.description || 'Description Not Found';
-                genreElement.textContent = `Genres: ${responseData.genre || 'N/A'}`;
+                dateElement.textContent = responseData.release_date || 'Release Date Not Found';
+                overviewElement.textContent = responseData.overview || 'Description Not Found';
+                genresElement.textContent = `Genres: ${responseData.genres || 'N/A'}`;
                 castElement.textContent = `Cast: ${responseData.crew || 'N/A'}`;
 
             } else {
@@ -160,7 +160,6 @@
 
     #genre,
     #cast {
-        font-weight: bold;
         color: white;
     }
 </style>
