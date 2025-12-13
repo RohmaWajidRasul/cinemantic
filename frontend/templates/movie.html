@@ -10,24 +10,26 @@
 <body>
     <div class="film-border top"></div>
     <main>
+        <div class="profile">
+            <a href="{% url 'user-page' %}">
+                <button id="profile_button">
+                    <img src="{% static 'profile.png' %}" alt="User Profile">
+                </button>
+            </a>
+        </div>
         <div class="main-container">
             <div class="poster">
                 <img src="{% static 'test.jpg' %}" alt="Test, movie image">
             </div>
             <div class="movie_content">
                 <div class="overview">
-                    <h3 id="name">Movie title test {{movie.title}}</h3>
-                    <h4 id="date">Movie date test {{movie.date}}</h4>
+                    <h3 id="name">{{movie.title}}</h3>
+                    <h4 id="date">{{movie.date}}</h4>
                 </div>
                 <div class="description">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce blandit molestie leo, nec
-                        viverra lacus luctus et. Etiam condimentum nulla ac malesuada porta. Quisque sapien lorem,
-                        dignissim auctor dolor eu, ultrices gravida nulla. Quisque eu lacus eu odio feugiat
-                        elementum. In sed porta magna, eu molestie dui. Nam sagittis fringilla mi hendrerit
-                        vehicula. Donec mattis, lacus tempus volutpat facilisis, tellus leo tempor eros, non iaculis
-                        quam ante eget ipsum. {{movie.description}}</p>
-                    <p class="genre">Genres: {{movie.genre}}</p>
-                    <p class="cast">Cast: {{movie.crew}}</p>
+                    <p id="text"> {{movie.description}}</p>
+                    <p id="genre">Genres: {{movie.genre}}</p>
+                    <p id="cast">Cast: {{movie.crew}}</p>
                 </div>
             </div>
 
@@ -39,16 +41,25 @@
 </html>
 
 <script>
-     // Event listener to fetch movie data
+    const API_ENDPOINT = "{{ api_movie_list_url }}";
+
+    // Event listener to fetch movie data
     document.addEventListener('DOMContentLoaded', () => {
-        const apiEndpoint = "{% url 'api-movie-list' %}"
-        loadMovie(apiEndpoint);
+        loadMovie();
     });
 
     // Function to fetch movie data
-    async function loadMovie(apiEndpoint) {
+    async function loadMovie() {
+
+        const nameElement = document.getElementById('name');
+        const dateElement = document.getElementById('date');
+        const textElement = document.getElementById('text');
+        const genreElement = document.getElementById('genre');
+        const castElement = document.getElementById('cast');
+        const posterImage = document.querySelector('.poster img');
+
         try {
-            const response = await fetch(apiEndpoint, {
+            const response = await fetch(API_ENDPOINT, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,52 +72,32 @@
             }
 
             const responseData = await response.json();
-            console.log('Profile data successfully retrieved:', data);
+            console.log('Movie data:', responseData);
 
-            // Update the username
-            if (usernameInput) {
-                if (data.profile?.user?.username) {
-                    usernameInput.value = data.profile.user.username;
-                } else {
-                    console.log('Warning: Username field is missing in response.');
-                    usernameInput.value = 'Username not found in data.';
-                }
+            if (responseData) {
+                nameElement.textContent = responseData.title || 'Movie Title Not Found';
+                dateElement.textContent = responseData.date || 'Release Date Not Found';
+                textElement.textContent = responseData.description || 'Description Not Found';
+                genreElement.textContent = `Genres: ${responseData.genre || 'N/A'}`;
+                castElement.textContent = `Cast: ${responseData.crew || 'N/A'}`;
+           
             } else {
-                console.log(`Error: Username input element with ID '${usernameInputId}' not found.`);
-            }
-
-            // Update Bio
-            const bioInput = document.getElementById(bioInputId);
-            if (bioInput) {
-                if (data.profile?.bio) {
-                    bioInput.value = data.profile.bio;
-                }
-            } else {
-                console.log(`Error: Bio input element with ID '${bioInputId}' not found.`);
+                
+                console.log("Movie data wasn't retrieved");
+                nameElement.textContent = 'Error Loading Movie Data';
             }
 
         } catch (error) {
             console.error('Error:', error.message);
-
-            if (usernameInput) {
-                usernameInput.value = 'Failed to load the username';
-            }
-
-            if (bioInput) {
-                bioInput.value = 'Failed to load the bio'
-            }
-
-            if (error.message.includes('401')) {
-                console.log('Token might be expired or invalid. Redirecting to login.');
-
-                // Todo: change to pop up with button
-                window.location.href = loginPageUrl;
-            }
         }
     }
 </script>
 
 <style scoped>
+    main {
+        flex-direction: column;
+    }
+
     .main-container {
         width: 80%;
         padding: 1rem 2rem;
@@ -134,17 +125,16 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        color: gold;
-
+        color: white;
     }
 
     p {
         text-align: justify;
     }
 
-    .genre,
-    .cast {
+    #genre,
+    #cast {
         font-weight: bold;
-        color: gold;
+        color: white;
     }
 </style>
