@@ -9,16 +9,16 @@
 <body>
     <div class="film-border top"></div>
     <main>
-        <div class="chat">
-            <a href="{% url 'chat-page' %}">
-                <button id="chat-button">
+        <div class="recommendation">
+            <a href="{% url 'recommendation-page' %}">
+                <button id="rec-button">
                     <img src="{% static 'chat.png' %}" alt="User Profile">
                 </button>
             </a>
         </div>
-        <div class="rec-history">
-            <a href="{% url 'recommendation-page' %}">
-                <button id="rec-button">
+        <div class="history">
+            <a href="{% url 'history-page' %}">
+                <button id="history-button">
                     <img src="{% static 'movie.png' %}" alt="User Profile">
                 </button>
             </a>
@@ -171,11 +171,11 @@
         width: 60%;
     }
 
-    .chat {
+    .recommendation {
         top: 0px;
     }
 
-    .rec-history {
+    .history {
         top: 60px;
     }
 

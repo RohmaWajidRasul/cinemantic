@@ -5,9 +5,9 @@ urlpatterns = [
     path('', HomePageView.as_view(), name='homepage'),
     path('login', LoginPageView.as_view(), name='login-page'),                
     path('register', RegisterPageView.as_view(), name='register-page'),
-    path('account', AccountPageView.as_view(), name="account-page"),
-    path('chat', ChatPageView.as_view(), name="chat-page"),
+    path('profile', ProfilePageView.as_view(), name="profile-page"),
+    path('recommendation', RecommendationPageView.as_view(), name="recommendation-page"),
     path('movies/', MoviePageView.as_view(), name='movie-page'),    
-    path('recommendations', RecommendationPageView.as_view(), name='recommendation-page'),
+    path('history', HistoryPageView.as_view(), name='history-page'),
     path('admin', AdminPageView.as_view(), name="admin-page"),
 ]

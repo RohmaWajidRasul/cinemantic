@@ -39,7 +39,7 @@
             username: form.username.value,
             password: form.password.value,
         };
-        const targetPage = "{% url 'chat-page' %}"
+        const targetPage = "{% url 'recommendation-page' %}"
 
         try {
             const response = await fetch(apiEndpoint, {

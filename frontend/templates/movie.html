@@ -11,14 +11,14 @@
     <div class="film-border top"></div>
     <main>
         <div class="profile">
-            <a href="{% url 'account-page' %}">
+            <a href="{% url 'profile-page' %}">
                 <button id="profile-button">
                     <img src="{% static 'profile.png' %}" alt="User Profile">
                 </button>
             </a>
         </div>
-        <div class="rec-history">
-            <a href="{% url 'recommendation-page' %}">
+        <div class="history">
+            <a href="{% url 'history-page' %}">
                 <button id="rec-button">
                     <img src="{% static 'movie.png' %}" alt="User Profile">
                 </button>
@@ -116,11 +116,11 @@
         top: 0px;
     }
 
-    .chat{
+    .recommendation{
         top: 60px;
     }
 
-    .rec-history {
+    .history {
         top: 120px;
     }
 

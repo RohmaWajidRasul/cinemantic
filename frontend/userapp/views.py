@@ -12,14 +12,14 @@ class LoginPageView(TemplateView):
 class RegisterPageView(TemplateView):
     template_name = "register.html"
 
-class AccountPageView(TemplateView):
+class ProfilePageView(TemplateView):
     template_name = "account.html"
-
-class ChatPageView(TemplateView):
-    template_name = "chat.html"
 
 class RecommendationPageView(TemplateView):
     template_name = "recommendation.html"
+
+class HistoryPageView(TemplateView):
+    template_name = "history.html"
 
 class MoviePageView(TemplateView):
     template_name = "movie.html"
