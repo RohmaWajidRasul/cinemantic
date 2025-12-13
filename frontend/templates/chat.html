@@ -7,7 +7,7 @@
 <html>
 
 <body>
-    <main class="flex">
+    <main>
         <div class="sidebar flex">
             <div class="searchbar flex">
                 <input type="text" name="movie-name" id="movie-name" placeholder="Movie name">
@@ -153,6 +153,15 @@
         align-items: center;
         justify-content: center;
         position: relative;
+    }
+
+    .profile {
+        position: absolute;
+        top: 0;
+        right: 20px;
+        z-index: 10;
+        display: flex;
+        justify-content: flex-end;
     }
 
     .white-container {
