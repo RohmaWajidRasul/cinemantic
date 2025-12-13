@@ -72,15 +72,7 @@
             if (responseData) {
 
                 const moviesHtmlArray = responseData.map(movie => {
-
-                    console.log("DEBUG: Processing movie:", movie);
-
-                    // Ensure movie.title and movie.id exist and are not null
-                    const title = movie.title || 'Untitled Movie';
-                    const id = movie.id || 'unknown';
-
-                    console.log(title, id);
-
+                    
                     return `
                     <div class="movie flex">
                         <h4 class="movie-title">${movie.title}</h4>
