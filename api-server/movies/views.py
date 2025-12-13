@@ -256,7 +256,7 @@ class ExternalMovieRecommendationView(APIView):
         }
 
         try:
-            ai_resp = requests.post(ai_url, json=payload)
+            ai_resp = requests.get(ai_url, json=payload)
         except Exception as e:
             return Response(
                 {"error": f"Could not reach AI service: {e}"},

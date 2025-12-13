@@ -16,15 +16,25 @@ class AdminRetrainView(APIView):
                 {"error": "CSV file is required."},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        
+        model_name = request.POST.get("model_name")
+        batch_size = request.POST.get("batch_size")
+        epochs = request.POST.get("epochs")
 
         ai_url = settings.AI_SERVICE_URL + "/api/v1/admin/fine-tune/"
+
+        data = {
+        "model_name": model_name,
+        "batch_size": batch_size,
+        "epochs": epochs
+    }
 
         files = {
             "file": (file.name, file.read(), file.content_type)
         }
 
         try:
-            ai_resp = requests.post(ai_url, files=files)
+            ai_resp = requests.post(ai_url, data=data, files=files)
         except Exception as e:
             return Response(
                 {"error": f"Could not reach AI service: {e}"},

@@ -13,7 +13,7 @@ class MovieRecommender:
     and provides movie recommendations based on textual descriptions and genres.
     """
 
-    def __init__(self, df, genre_scale=0.5, model_name="all-MiniLM-L6-v2",
+    def __init__(self, df=None, genre_scale=0.5, model_name="all-MiniLM-L6-v2",
                  output_path="./fine_tuned_model", batch_size=128, epochs=2):
         
         if genre_scale <= 0 or batch_size < 1 or epochs < 1:
@@ -25,22 +25,27 @@ class MovieRecommender:
         self.batch_size = batch_size
         self.epochs = epochs
         self.df = df
-
         self.model = None
         self.desc_embs = None
         self.genre_embs = None
         self.combined_vectors = None
 
+        if self.df is None:
+            try:
+                self.model = SentenceTransformer(self.output_path)
+            except Exception:
+                self.model = SentenceTransformer(self.model_name)
+
     def _load_movies_from_dataframe(self):
         """Get data from dataframe"""
 
         self.df["id"] = self.df["id"].astype(int)
-        self.df["names"] = self.df["names"].astype(str)
-        self.df["genre"] = self.df["genre"].astype(str)
+        self.df["title"] = self.df["title"].astype(str)
+        self.df["genres"] = self.df["genres"].astype(str)
         self.df["overview"] = self.df["overview"].astype(str)
 
         # Filter genres
-        self.df["genres_list"] = self.df["genre"].apply(lambda s: [g.strip() for g in s.split(",")])
+        self.df["genres_list"] = self.df["genres"].apply(lambda s: [g.strip() for g in s.split(",")])
 
     def _build_training_pairs(self, num_pairs_per_movie=2):
         """
@@ -113,7 +118,7 @@ class MovieRecommender:
         """Responsible for encoding the movies' overviews"""
 
         print("Computing text embeddings...")
-        ids = self.df["movie_id"].tolist()  # get the IDs
+        ids = self.df["id"].tolist()  # get the IDs
         descriptions = self.df["overview"].tolist()
         self.desc_embs = self._compute_embeddings(ids, descriptions)
         
@@ -122,7 +127,7 @@ class MovieRecommender:
         """Responsible for encoding the movies' genres"""
 
         print("Computing genre embeddings...")
-        ids = self.df["movie_id"].tolist()  # same IDs as above
+        ids = self.df["id"].tolist()  # same IDs as above
         genre_texts = [" ".join(genres) for genres in self.df["genres_list"]]
         self.genre_embs = self._compute_embeddings(ids, genre_texts)
 

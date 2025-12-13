@@ -1,12 +1,19 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, Form, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
-from settings import POSTGRES, AI_SERVICE_URL
+from settings import POSTGRES, API_SERVICE_URL, MODEL_UPDATE_SECRET
 from movie_recommender import MovieRecommender
 import asyncio
 import pandas as pd
 from pydantic import BaseModel
 from dataHandler import validateCSV, addMovies, getRecommended, updateEmb, addGenres, updateRecsTable, getVersion
 import requests
+from sqlalchemy import create_engine
+from settings import POSTGRES
+
+DATABASE_URL = (
+    f"postgresql://{POSTGRES['USER']}:{POSTGRES['PASSWORD']}"
+    f"@{POSTGRES['HOST']}:{POSTGRES['PORT']}/{POSTGRES['NAME']}"
+)
 
 class FineTuneParameter(BaseModel):
     model_name: str
@@ -29,9 +36,10 @@ async def run_fine_tuning(df, params):
 
     v = getVersion()
 
-    ai_url = AI_SERVICE_URL + "/api/v1/admin/model-versions/{v}", 
+    api_url = f"{API_SERVICE_URL}/api/v1/admin/model-versions/{v}/"
+    print(api_url)
     payload = {"status": "ready"}
-    backend_resp = requests.post(ai_url, payload)
+    requests.patch(api_url, json=payload, headers={"X-MODEL-SECRET": MODEL_UPDATE_SECRET},)
 
 app = FastAPI()
 
@@ -40,9 +48,13 @@ def health():
     return {"db": POSTGRES}
 
 @app.post("/api/v1/admin/fine-tune/")
-async def train(params: FineTuneParameter, file: UploadFile = File(...)):
-    
-    params_dict = params.model_dump()
+async def train(model_name: str = Form(...), batch_size: int = Form(...), epochs: int = Form(...), file: UploadFile = File(...)):
+
+    params_dict = {
+        "model_name": model_name,
+        "batch_size": batch_size,
+        "epochs": epochs
+    }
 
     if not file:
         raise HTTPException(
@@ -52,8 +64,7 @@ async def train(params: FineTuneParameter, file: UploadFile = File(...)):
 
     try:
         # Validation
-        file_bytes = await file.read()
-        df = pd.read_csv(file_bytes)
+        df = pd.read_csv(file.file)
         df = validateCSV(df)
 
     except Exception as e:
@@ -78,6 +89,7 @@ async def train(params: FineTuneParameter, file: UploadFile = File(...)):
 
 @app.get("/api/v1/movies/")
 async def recommend(payload: dict):
+    print(payload)
     title = payload.get("title", "")
     genres = payload.get("genres", "")
     overview = payload.get("overview", "")
@@ -92,10 +104,18 @@ async def recommend(payload: dict):
         recommender = MovieRecommender()
         ids = []
         emb = recommender.encodeNewMovie(ids, title, genres)
-        results = getRecommended(emb)
+
+        engine = create_engine(DATABASE_URL, echo=False, future=True)
+        with engine.begin() as conn:
+
+            results = getRecommended(emb, conn)
+
         return JSONResponse(
             status_code=200,
-            content={"detail": "Training completed successfully.", **results}
+            content={
+            "detail": "Recommendations fetched successfully.",
+            "results": results
+        }
         )
     except Exception as e:
         raise HTTPException(

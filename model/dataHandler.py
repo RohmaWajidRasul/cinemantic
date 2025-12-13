@@ -1,9 +1,9 @@
+import io
 import pandas as pd
 from sqlalchemy import create_engine, text
 from settings import POSTGRES
 import os
 import numpy as np
-import json
 
 
 DATABASE_URL = (
@@ -40,18 +40,25 @@ def validateCSV(df):
 
 ###TODO: GENRES BULLSHIT
 def addMovies(df):
-
-    df = df.drop(columns=["genres"])
-    tempcsv = "./tempCSV.csv"
-    df.to_csv(tempcsv, index=False, header=False)  # no header
-
+ 
+    df = df.drop(columns=["genres", "genres_list"])
     engine = create_engine(DATABASE_URL, echo=False, future=True)
-    with engine.begin() as conn:
-        conn.execute(
-            f"COPY movies FROM '{os.path.abspath(tempcsv)}' WITH CSV"
+
+    csv_buffer = io.StringIO()
+    df.to_csv(csv_buffer, index=False, header=False)
+    csv_buffer.seek(0)
+
+    raw_conn = engine.raw_connection()
+    try:
+        cursor = raw_conn.cursor()
+        cursor.copy_expert(
+            "COPY movies_movie FROM STDIN WITH CSV",
+            csv_buffer
         )
-    if os.path.exists(tempcsv):
-        os.remove(tempcsv)
+        raw_conn.commit()
+        cursor.close()
+    finally:
+        raw_conn.close()
 
 def addGenres(df):
     engine = create_engine(DATABASE_URL, echo=False, future=True)
@@ -87,7 +94,7 @@ def addGenres(df):
     # batch insert into junction table (use ON CONFLICT to avoid duplicates if desired)
     with engine.begin() as conn:
         conn.execute(
-            text("INSERT INTO movies_movie_genre (movie_id, genre_id) VALUES (:movie_id, :genre_id) ON CONFLICT DO NOTHING"),
+            text("INSERT INTO movies_movie_genres (movie_id, genre_id) VALUES (:movie_id, :genre_id) ON CONFLICT DO NOTHING"),
             junction_rows
         )
 
@@ -101,16 +108,32 @@ def updateEmb(recommender):
 
     with engine.connect() as conn:
         result = conn.execute(
-            text("SELECT id, overview, genres FROM movies")
+            text("""
+                SELECT 
+                    m.id,
+                    m.overview,
+                    array_agg(g.name) FILTER (WHERE g.name IS NOT NULL) AS genres
+                FROM movies_movie m
+                LEFT JOIN movies_movie_genres mg ON m.id = mg.movie_id
+                LEFT JOIN movies_genre g ON mg.genre_id = g.id
+                GROUP BY m.id, m.overview;
+            """)
+
         )
 
-        rows = result.fetchall()  # returns a list of Row objects
+        rows = result.fetchall()  
         ids = [row.id for row in rows]
         overviews = [row.overview for row in rows]
-        genres = [row.genres for row in rows]
+        genres_lists = []
+        for row in rows:
+            if row.genres is None:
+                genres_lists.append([])
+            else:
+                genres_lists.append(row.genres)
 
+        genre_texts = [", ".join(g) for g in genres_lists]
         updatedOverviewsEmb = recommender._compute_embeddings(ids, overviews)
-        updatedGenresEmb = recommender._compute_embeddings(ids, genres)
+        updatedGenresEmb = recommender._compute_embeddings(ids, genre_texts)
 
         updatedOldEmb = {}
         for movie_id in updatedOverviewsEmb:
@@ -123,87 +146,87 @@ def updateEmb(recommender):
     # --- Step 1: Prepare data for SQL ---
     emb_updates = []
     for movie_id, emb in newEmb.items():
-        emb_json = json.dumps(emb.tolist())  # convert numpy array to JSON string
-        emb_updates.append({"id": movie_id, "embedding": emb_json})
+        emb_updates.append({"id": movie_id, "embedding": emb.tolist()})
 
     # --- Step 2: Execute batch update ---
     with engine.begin() as conn:  # begin transaction
         for row in emb_updates:
             conn.execute(
-                text("UPDATE movies SET embedding = :embedding WHERE id = :id"),
+                text("UPDATE movies_movie SET embedding = :embedding WHERE id = :id"),
                 {"embedding": row["embedding"], "id": row["id"]}
             )
 
 
 
 def updateRecsTable():
-
     engine = create_engine(DATABASE_URL, echo=False, future=True)
 
-    with engine.connect() as conn:
-        rows = conn.execute(text("SELECT id, embedding FROM movies")).fetchall()
-
-    # truncate table
     with engine.begin() as conn:
+        rows = conn.execute(text("SELECT id, embedding FROM movies_movie")).fetchall()
+
         conn.execute(text("TRUNCATE TABLE movies_recommendation"))
 
-    insert_rows = []
-    for row in rows:
-        origin_id = row.id
-        recs = getRecommended(row.embedding)
-        for rec in recs:
-            insert_rows.append({
-                "movie_id": origin_id,
-                "recommended_movie": rec["id"],
-                "similarity": rec["similarity"]
-            })
+        insert_rows = []
 
-    # batch insert
-    with engine.begin() as conn:
+        for row in rows:
+            recs = getRecommended(row.embedding, conn, movie_id=None)  # reuse SAME connection
+            for rec in recs:
+                insert_rows.append({
+                    "movie_id": row.id,
+                    "recommended_movie_id": rec["id"],
+                    "similarity": rec["similarity"]
+                })
+
         conn.execute(
             text("""
-            INSERT INTO movies_recommendation (movie_id, recommended_movie, similarity)
-            VALUES (:movie_id, :recommended_movie, :similarity)
+                INSERT INTO movies_recommendation (movie_id, recommended_movie_id, similarity)
+                VALUES (:movie_id, :recommended_movie_id, :similarity)
             """),
             insert_rows
         )
 
 
+
 ###TODO: CHANGE GENRES BULLSHIT TABLE SHIT
-def getRecommended(movie_emb):
-
+def getRecommended(movie_emb, conn, movie_id=None):
     recs = []
-    engine = create_engine(DATABASE_URL, echo=False, future=True)
 
-    # Important: PGVector expects Python list, not numpy array
     if isinstance(movie_emb, np.ndarray):
         movie_emb = movie_emb.tolist()
-    
-    sql = text("""
-            SELECT id, title, release_date, score, genres, overview, crew, original_language, embedding <=> :vec AS distance
-            FROM movies
-            ORDER BY embedding <=> :vec
+
+    if movie_id is not None:
+        sql = text("""
+            SELECT id, embedding <=> (:vec)::vector AS distance
+            FROM movies_movie
+            WHERE embedding IS NOT NULL
+              AND id != :id
+            ORDER BY embedding <=> (:vec)::vector
             LIMIT 5;
         """)
+        params = {"vec": movie_emb, "id": movie_id}
 
-    with engine.connect() as conn:
-        result = conn.execute(sql, {"vec": movie_emb})
+    else:
+        sql = text("""
+            SELECT id, embedding <=> (:vec)::vector AS distance
+            FROM movies_movie
+            WHERE embedding IS NOT NULL
+            ORDER BY embedding <=> (:vec)::vector
+            LIMIT 5;
+        """)
+        params = {"vec": movie_emb}
 
-        # Fetch all returned rows (at most top_k)
-        rows = result.fetchall()
+    result = conn.execute(sql, params)
+    rows = result.fetchall()
 
-        # Build the list of recommendations from returned rows
-        for row in rows:
-            # `row` supports name-based access (row['distance'] or row.distance)
-            dist = row.distance               # PGVector returns a distance (lower = more similar)
-            similarity = 1.0 - float(dist)    # convert distance -> similarity (0..1 approx)
-
-            recs.append({
-                "id": int(row.id),
-                "similarity": similarity
-            })
+    for row in rows:
+        similarity = 1.0 - float(row.distance)
+        recs.append({
+            "id": int(row.id),
+            "similarity": similarity
+        })
 
     return recs
+
 
 def getVersion():
 
@@ -212,7 +235,7 @@ def getVersion():
     sql = text("""
         SELECT version
         FROM movies_modelversion
-        WHERE status = 'fine-tuning'
+        WHERE status = 'fine_tuning'
         ORDER BY created_at DESC
         LIMIT 1;
     """)
