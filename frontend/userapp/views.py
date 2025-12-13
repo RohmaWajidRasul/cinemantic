@@ -41,7 +41,7 @@ class MoviePageView(TemplateView):
         if(title):
             api_params['title'] = title
         
-        api_base_url = 'http://127.0.0.1:5000/api/movies/'
+        api_base_url = 'http://127.0.0.1:8000/api/v1/movies/'
 
         query_string = urlencode(api_params)
         
