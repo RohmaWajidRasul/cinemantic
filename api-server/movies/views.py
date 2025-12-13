@@ -3,16 +3,22 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, IsAdminUser
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
 from django.http import Http404
 
-from .models import Movie, Recommendation, RecommendationHistory
+from .models import Movie, Recommendation, RecommendationHistory, ModelVersion
 from .serializers import MovieSerializer, RecommendationSerializer, RecommendationHistorySerializer
 
+class MovieDetailView(RetrieveAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    lookup_field = "id"
+    lookup_url_kwarg = "movie_id"
 
 # ============================================
 #   MOVIE LIST + SEARCH + PAGINATION
@@ -50,29 +56,70 @@ class MovieRecommendationsView(ListAPIView):
         if not Movie.objects.filter(id=movie_id).exists():
             raise Http404("Movie not found")
 
-        # return all recommendations for that movie ordered by rank
-        return Recommendation.objects.filter(movie_id=movie_id).order_by("rank")
+        # return all recommendations for that movie ordered by similarity
+        return Recommendation.objects.filter(movie_id=movie_id).order_by("-similarity")
 
     def list(self, request, *args, **kwargs):
+        movie_id = self.kwargs["movie_id"]
+
+        try:
+            movie = Movie.objects.get(id=movie_id)
+        except Movie.DoesNotExist:
+            return Response(
+                {"error": "Movie not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        movie_data = {
+            "id": movie.id,
+            "title": movie.title,
+            "release_date": movie.release_date,
+            "score": movie.score,
+            "overview": movie.overview,
+        }
+
         queryset = self.filter_queryset(self.get_queryset())
 
-        # take top 5 (queryset is ordered by rank)
-        top5_qs = queryset[:5]
+        recommendations = []
+        recommended_ids = []
 
-        serializer = self.get_serializer(top5_qs, many=True)
-        data = serializer.data
+        for rec in queryset:
+            rm = rec.recommended_movie
 
-        # store session only for authenticated users and only if there are recs
-        if request.user and request.user.is_authenticated and top5_qs:
-            recommended_ids = [rec.recommended_movie_id for rec in top5_qs]
+            recommendations.append({
+                "id": rm.id,
+                "title": rm.title,
+                "overview": rm.overview,
+                "similarity": rec.similarity,
+            })
+
+            recommended_ids.append(rm.id)
+
+
+        if request.user and request.user.is_authenticated and recommendations:
+
+            latest_ready_version = (
+                ModelVersion.objects
+                .filter(status="ready")
+                .order_by("-created_at")
+                .values_list("version", flat=True)
+                .first()
+            )
 
             RecommendationHistory.objects.create(
                 user=request.user,
-                model_version=Recommendation.objects.values_list("model_version", flat=True).first() or "unknown",
-                movie_ids=recommended_ids
+                model_version=latest_ready_version or "unknown",
+                movie_ids=recommended_ids,
             )
 
-        return Response(data, status=status.HTTP_200_OK)
+        return Response(
+            {
+                "movie": movie_data,
+                "recommendations": recommendations
+            },
+            status=status.HTTP_200_OK
+        )
+
 
 
 # ============================================
@@ -163,11 +210,21 @@ class CombinedRecommendationsView(APIView):
         # Persist session for authenticated users
         # ------------------------------------------
         if request.user and request.user.is_authenticated and top5:
+
+            latest_ready_version = (
+                ModelVersion.objects
+                .filter(status="ready")
+                .order_by("-created_at")
+                .values_list("version", flat=True)
+                .first()
+            )
+
             RecommendationHistory.objects.create(
                 user=request.user,
-                model_version=Recommendation.objects.values_list("model_version", flat=True).first() or "unknown",
+                model_version=latest_ready_version or "unknown",
                 movie_ids=[mid for mid, _ in top5]
             )
+
 
         return Response(response, status=status.HTTP_200_OK)
 
@@ -231,7 +288,7 @@ class ExternalMovieRecommendationView(APIView):
         genres = omdb_data.get("Genre", "")
         overview = omdb_data.get("Plot", "")
 
-        ai_url = settings.AI_SERVICE_URL + "/api/v1/movies/:movieId/"
+        ai_url = settings.AI_SERVICE_URL + "/api/v1/movies/"
 
         payload = {
             "title": title,
@@ -240,7 +297,7 @@ class ExternalMovieRecommendationView(APIView):
         }
 
         try:
-            ai_resp = requests.post(ai_url, json=payload)
+            ai_resp = requests.get(ai_url, json=payload)
         except Exception as e:
             return Response(
                 {"error": f"Could not reach AI service: {e}"},

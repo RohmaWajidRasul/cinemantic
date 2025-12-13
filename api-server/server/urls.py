@@ -19,7 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/users/', include('users.urls')),   # API routes to users
-    path('api/movies/', include('movies.urls')), # API routes to movies
+    path('api/v1/users/', include('users.urls')),
+    path('api/v1/', include('movies.urls')),
+    path('', home),
 ]
 

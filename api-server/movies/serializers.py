@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Movie, Recommendation, RecommendationHistory
+from .models import Movie, Recommendation, RecommendationHistory, ModelVersion
 
 class MovieSerializer(serializers.ModelSerializer):
     genres = serializers.StringRelatedField(many=True)
@@ -20,8 +20,6 @@ class RecommendationSerializer(serializers.ModelSerializer):
             'recommended_movie',
             'recommended_movie_detail',
             'similarity',
-            'rank',
-            'created_at'
         ]
 
     def get_recommended_movie_detail(self, obj):
@@ -40,7 +38,7 @@ class MovieMiniSerializer(serializers.ModelSerializer):
 
 
 class RecommendationHistorySerializer(serializers.ModelSerializer):
-    movies = MovieMiniSerializer(many=True, read_only=True)
+    movies = serializers.SerializerMethodField()
 
     class Meta:
         model = RecommendationHistory
@@ -52,8 +50,20 @@ class RecommendationHistorySerializer(serializers.ModelSerializer):
             "movies",
         ]
 
+    def get_movies(self, obj):
+        movies = Movie.objects.filter(id__in=obj.movie_ids)
+        movie_map = {m.id: m for m in movies}
+        ordered = [movie_map[mid] for mid in obj.movie_ids if mid in movie_map]
+
+        return MovieMiniSerializer(ordered, many=True).data
+
 
 class RecommendationFeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecommendationHistory
         fields = ["feedback"]
+
+class ModelVersionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ModelVersion
+        fields = ["id", "version", "status", "created_at"]
