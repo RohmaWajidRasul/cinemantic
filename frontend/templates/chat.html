@@ -24,9 +24,16 @@
         </div>
         <div class="chat-container">
             <div class="profile">
-                <a href="{% url 'user-page' %}">
-                    <button id="profile_button">
+                <a href="{% url 'account-page' %}">
+                    <button id="profile-button">
                         <img src="{% static 'profile.png' %}" alt="User Profile">
+                    </button>
+                </a>
+            </div>
+            <div class="rec-history">
+                <a href="{% url 'recommendation-page' %}">
+                    <button id="rec-button">
+                        <img src="{% static 'movie.png' %}" alt="User Profile">
                     </button>
                 </a>
             </div>
@@ -156,12 +163,13 @@
     }
 
     .profile {
-        position: absolute;
         top: 0;
         right: 20px;
-        z-index: 10;
-        display: flex;
-        justify-content: flex-end;
+    }
+
+    .rec-history{
+        top: 0;
+        right: 80px;
     }
 
     .white-container {

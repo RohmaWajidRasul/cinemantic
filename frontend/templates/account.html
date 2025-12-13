@@ -9,6 +9,20 @@
 <body>
     <div class="film-border top"></div>
     <main>
+        <div class="chat">
+            <a href="{% url 'chat-page' %}">
+                <button id="chat-button">
+                    <img src="{% static 'chat.png' %}" alt="User Profile">
+                </button>
+            </a>
+        </div>
+        <div class="rec-history">
+            <a href="{% url 'recommendation-page' %}">
+                <button id="rec-button">
+                    <img src="{% static 'movie.png' %}" alt="User Profile">
+                </button>
+            </a>
+        </div>
         <div class="main-container">
             <div class="form">
                 <label for="current-username">Username</label>
@@ -24,10 +38,10 @@
 
             </div>
             <form class="form">
-                <label for="new_password">New password</label>
+                <label for="new-password">New password</label>
                 <input type="password" name="new-password" id="new-password" placeholder="New password" required>
 
-                <label for="new_password">Repeat password</label>
+                <label for="repeate-password">Repeat password</label>
                 <input type="password" name="repeat-password" id="repeat-password" placeholder="Repeat password"
                     required>
                 <div class="button-container">
@@ -151,11 +165,18 @@
 </script>
 
 <style scoped>
-
     .main-container {
         display: flex;
         padding: 5px 0px;
         width: 60%;
+    }
+
+    .chat {
+        top: 0px;
+    }
+
+    .rec-history {
+        top: 60px;
     }
 
     .form {

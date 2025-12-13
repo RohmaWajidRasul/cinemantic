@@ -190,23 +190,23 @@ main {
 /* ==========================================================================*/
 /* Profile icon */
 
-.profile {
+.profile, .rec-history, .chat{
     position: absolute;
-    top: 0px;
-    right: 50px;
     z-index: 10;
+    right: 50px;
 }
 
-#profile_button {
+#profile-button, #rec-button, #chat-button {
     background-color: #F2F2F7;
     border-radius: 100%;
     object-fit: contain;
-    width: 60px;
-    height: 60px;
-    padding: 5px;
+    width: 50px;
+    height: 50px;
+    padding: 8px;
+    border: none;
 }
 
-#profile_button img {
+#profile-button img, #rec-button img, #chat-button img {
     width: 100%;
     height: auto;
 }

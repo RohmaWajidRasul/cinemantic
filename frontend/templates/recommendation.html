@@ -10,9 +10,16 @@
     <div class="film-border top"></div>
     <main>
         <div class="profile">
-            <a href="{% url 'user-page' %}">
-                <button id="profile_button">
+            <a href="{% url 'account-page' %}">
+                <button id="profile-button">
                     <img src="{% static 'profile.png' %}" alt="User Profile">
+                </button>
+            </a>
+        </div>
+        <div class="chat">
+            <a href="{% url 'chat-page' %}">
+                <button id="chat-button">
+                    <img src="{% static 'chat.png' %}" alt="User Profile">
                 </button>
             </a>
         </div>
@@ -47,8 +54,16 @@
 
 <style scoped>
     .main-container {
-        max-width: 900px;
+        width: 75%;
         padding: 5px 40px;
+    }
+
+    .profile {
+        top: 0px;
+    }
+
+    .chat {
+        top: 60px;
     }
 
     h1 {

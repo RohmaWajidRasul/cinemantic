@@ -11,9 +11,23 @@
     <div class="film-border top"></div>
     <main>
         <div class="profile">
-            <a href="{% url 'user-page' %}">
-                <button id="profile_button">
+            <a href="{% url 'account-page' %}">
+                <button id="profile-button">
                     <img src="{% static 'profile.png' %}" alt="User Profile">
+                </button>
+            </a>
+        </div>
+        <div class="rec-history">
+            <a href="{% url 'recommendation-page' %}">
+                <button id="rec-button">
+                    <img src="{% static 'movie.png' %}" alt="User Profile">
+                </button>
+            </a>
+        </div>
+        <div class="chat">
+            <a href="{% url 'chat-page' %}">
+                <button id="chat-button">
+                    <img src="{% static 'chat.png' %}" alt="User Profile">
                 </button>
             </a>
         </div>
@@ -80,9 +94,9 @@
                 textElement.textContent = responseData.description || 'Description Not Found';
                 genreElement.textContent = `Genres: ${responseData.genre || 'N/A'}`;
                 castElement.textContent = `Cast: ${responseData.crew || 'N/A'}`;
-           
+
             } else {
-                
+
                 console.log("Movie data wasn't retrieved");
                 nameElement.textContent = 'Error Loading Movie Data';
             }
@@ -98,8 +112,20 @@
         flex-direction: column;
     }
 
+    .profile {
+        top: 0px;
+    }
+
+    .chat{
+        top: 60px;
+    }
+
+    .rec-history {
+        top: 120px;
+    }
+
     .main-container {
-        width: 80%;
+        width: 75%;
         padding: 1rem 2rem;
         display: flex;
         gap: 30px;
