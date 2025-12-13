@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
 
 load_dotenv()
 
@@ -61,6 +62,14 @@ REST_FRAMEWORK = {
     )
 }
 
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),   
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),  
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+}
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -108,6 +117,8 @@ DATABASES = {
 AI_SERVICE_URL = os.getenv('AI_SERVICE_URL')
 OMDB_API_KEY = os.getenv('OMDB_API_KEY')
 OMDB_API_URL = os.getenv('OMDB_API_URL')
+MODEL_UPDATE_SECRET = os.getenv("MODEL_UPDATE_SECRET")
+
 
 
 
