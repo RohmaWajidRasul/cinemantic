@@ -150,31 +150,35 @@ def updateEmb(recommender):
 
 
 def updateRecsTable():
+    
+    with engine.connect() as conn:
+        # 1. Calculate recommendations into a temporary table using a single query.
+        # This uses a LATERAL JOIN to find top 5 neighbors for every movie efficiently in the DB.
+        conn.execute(text("""
+            CREATE TEMP TABLE temp_recs AS
+            SELECT
+                m.id AS movie_id,
+                r.id AS recommended_movie_id,
+                1 - (m.embedding <=> r.embedding) AS similarity
+            FROM movies_movie m
+            CROSS JOIN LATERAL (
+                SELECT id, embedding
+                FROM movies_movie m2
+                WHERE m2.id != m.id
+                ORDER BY m.embedding <=> m2.embedding
+                LIMIT 5
+            ) r
+        """))
+        conn.commit()
 
-    with engine.begin() as conn:
-        rows = conn.execute(text("SELECT id, embedding FROM movies_movie")).fetchall()
-
-        conn.execute(text("TRUNCATE TABLE movies_recommendation"))
-
-        insert_rows = []
-
-        for row in rows:
-            recs = getRecommended(row.embedding, conn, movie_id=None)  # reuse SAME connection
-            for rec in recs:
-                insert_rows.append({
-                    "movie_id": row.id,
-                    "recommended_movie_id": rec["id"],
-                    "similarity": rec["similarity"]
-                })
-
-        conn.execute(
-            text("""
+        # 2. Atomic swap: Truncate and Insert from Temp
+        with conn.begin():
+            conn.execute(text("TRUNCATE TABLE movies_recommendation"))
+            conn.execute(text("""
                 INSERT INTO movies_recommendation (movie_id, recommended_movie_id, similarity)
-                VALUES (:movie_id, :recommended_movie_id, :similarity)
-            """),
-            insert_rows
-        )
-
+                SELECT movie_id, recommended_movie_id, similarity FROM temp_recs
+            """))
+            conn.execute(text("DROP TABLE temp_recs"))
 
 
 ###TODO: CHANGE GENRES BULLSHIT TABLE SHIT
@@ -205,8 +209,7 @@ def getRecommended(movie_emb, conn, movie_id=None):
         """)
         params = {"vec": movie_emb}
 
-    result = conn.execute(sql, params)
-    rows = result.fetchall()
+    rows = conn.execute(sql, params).fetchall()
 
     for row in rows:
         similarity = 1.0 - float(row.distance)

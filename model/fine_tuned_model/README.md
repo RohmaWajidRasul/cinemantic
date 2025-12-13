@@ -9,79 +9,78 @@ tags:
 - loss:MultipleNegativesRankingLoss
 base_model: sentence-transformers/all-MiniLM-L6-v2
 widget:
-- source_sentence: After escaping a Michigan prison, a charming career criminal assumes
-    a new identity in Canada and goes on to rob a record 59 banks and jewellery stores
-    while being hunted by a rogue task force. Based on the story of The Flying Bandit.
+- source_sentence: Siblings Lucy, Edmund, Susan and Peter step through a magical wardrobe
+    and find the land of Narnia. There, they discover a charming, once peaceful kingdom
+    that has been plunged into eternal winter by the evil White Witch, Jadis. Aided
+    by the wise and magnificent lion, Aslan, the children lead Narnia into a spectacular,
+    climactic battle to be free of the Witch's glacial powers forever.
   sentences:
-  - Reporters Loretta McLaughlin and Jean Cole bravely pursue the story of the Boston
-    Strangler at great personal risk, putting their own lives on the line in their
-    quest to uncover the truth.
-  - When Princess Peach is kidnapped by the monster King Koopa, Mario and his brother
-    Luigi journey to the Mushroom Kingdom to rescue her.
-  - Valeria's joy at becoming a first-time mother is quickly taken away when she's
-    cursed by a sinister entity. As danger closes in, she's forced deeper into a chilling
-    world of dark magic that threatens to consume her.
-- source_sentence: After dominating the boxing world, Adonis Creed has been thriving
-    in both his career and family life. When a childhood friend and former boxing
-    prodigy, Damien Anderson, resurfaces after serving a long sentence in prison,
-    he is eager to prove that he deserves his shot in the ring. The face-off between
-    former friends is more than just a fight. To settle the score, Adonis must put
-    his future on the line to battle Damien — a fighter who has nothing to lose.
-  sentences:
-  - A graphic portrayal of the last twelve hours of Jesus of Nazareth's life.
-  - Billy Batson and his foster siblings, who transform into superheroes by saying
-    "Shazam!", are forced to get back into action and fight the Daughters of Atlas,
-    who they must stop from using a weapon that could destroy the world.
+  - A young street-smart, Nathan Drake and his wisecracking partner Victor “Sully”
+    Sullivan embark on a dangerous pursuit of “the greatest treasure never found”
+    while also tracking clues that may lead to Nathan’s long-lost brother.
   - After dominating the boxing world, Adonis Creed has been thriving in both his
     career and family life. When a childhood friend and former boxing prodigy, Damien
     Anderson, resurfaces after serving a long sentence in prison, he is eager to prove
     that he deserves his shot in the ring. The face-off between former friends is
     more than just a fight. To settle the score, Adonis must put his future on the
     line to battle Damien — a fighter who has nothing to lose.
-- source_sentence: When Sheriff Roy Pulsipher finds himself in the afterlife, he joins
-    a special police force and returns to Earth to save humanity from the undead.
+  - After his grandfather's death, a man travels with his wife and kids to his hometown,
+    where chaos ensues with his relatives over the inheritance.
+- source_sentence: The story of 14th century Czech icon and warlord Jan Zizka who
+    defeated armies of the Teutonic Order and the Holy Roman Empire.
   sentences:
-  - A man is imprisoned for a crime he didn't commit. When his wife is murdered and
-    his son kidnapped and taken to Mexico, he devises an elaborate and dangerous plan
-    to rescue his son and avenge the murder.
-  - Special agent Orson Fortune and his team of operatives recruit one of Hollywood's
-    biggest movie stars to help them on an undercover mission when the sale of a deadly
-    new weapons technology threatens to disrupt the world order.
-  - The Elric brothers’ long and winding journey comes to a close in this epic finale,
-    where they must face off against an unworldly, nationwide threat.
-- source_sentence: Tanjiro Kamado, joined with Inosuke Hashibira, a boy raised by
-    boars who wears a boar's head, and Zenitsu Agatsuma, a scared boy who reveals
-    his true power when he sleeps, boards the Infinity Train on a new mission with
-    the Fire Hashira, Kyojuro Rengoku, to defeat a demon who has been tormenting the
-    people and killing the demon slayers who oppose it!
+  - A 17 year old finds out that his girlfriend is dying, so he sets out to give her
+    an entire life, in the last year she has left.
+  - A young street-smart, Nathan Drake and his wisecracking partner Victor “Sully”
+    Sullivan embark on a dangerous pursuit of “the greatest treasure never found”
+    while also tracking clues that may lead to Nathan’s long-lost brother.
+  - Yeon-du asks her best friend Bora to collect all the information she can about
+    Baek Hyun-jin while she is away in the U.S. for heart surgery. Bora decides to
+    get close to Baek's best friend, Pung Woon-ho first. However, Bora's clumsy plan
+    unfolds in an unexpected direction. In 1999, a year before the new century, Bora,
+    who turns seventeen, falls into the fever of first love.
+- source_sentence: A young street-smart, Nathan Drake and his wisecracking partner
+    Victor “Sully” Sullivan embark on a dangerous pursuit of “the greatest treasure
+    never found” while also tracking clues that may lead to Nathan’s long-lost brother.
   sentences:
-  - A young girl discovers an idealized parallel universe behind a secret door in
-    her new home, unaware that it contains a sinister secret.
-  - Tanjiro finds his family slaughtered and the lone survivor, his sister Nezuko
-    Kamado, turned into a Demon. To his surprise, however, Nezuko still shows signs
-    of human emotion and thought. Thus begins Tanjiro's journey to seek out the Demon
-    who killed their family and turn his sister human again. A recap film of Kimetsu
-    no Yaiba, covering episodes 1-5 with extra footage.
-  - In the midst of the pandemic, college student Parker and her best friend Miri
-    decide to self-quarantine at her family's lake house, where they will be alone
-    — or so they think.
-- source_sentence: When Superman and the rest of the Justice League are kidnapped,
-    Krypto the Super-Dog must convince a rag-tag shelter pack - Ace the hound, PB
-    the potbellied pig, Merton the turtle and Chip the squirrel - to master their
-    own newfound powers and help him rescue the superheroes.
+  - Twenty-five years after a streak of brutal murders shocked the quiet town of Woodsboro,
+    a new killer has donned the Ghostface mask and begins targeting a group of teenagers
+    to resurrect secrets from the town’s deadly past.
+  - A winter night. An isolated house in a small town. Two warring sides must join
+    forces to survive an evil tied to one of the field's oldest legends.
+  - A 17 year old finds out that his girlfriend is dying, so he sets out to give her
+    an entire life, in the last year she has left.
+- source_sentence: With the price on his head ever increasing, John Wick uncovers
+    a path to defeating The High Table. But before he can earn his freedom, Wick must
+    face off against a new enemy with powerful alliances across the globe and forces
+    that turn old friends into foes.
   sentences:
-  - When the Primm family moves to New York City, their young son Josh struggles to
-    adapt to his new school and new friends. All of that changes when he discovers
-    Lyle — a singing crocodile who loves baths, caviar and great music — living in
-    the attic of his new home. But when Lyle’s existence is threatened by evil neighbor
-    Mr. Grumps, the Primms must band together to show the world that family can come
-    from the most unexpected places.
-  - After old enemies kill his family, a former mafia enforcer and his feisty daughter
-    flee to Milan, where they hide out while plotting their revenge.
-  - When Jason Dyson refuses to make his prized fighter throw an MMA match, a notorious
-    gangster collects his debt by killing the fighter and kidnapping Jason's daughter.
-    Now he must train a prisoner to endure five consecutive underground fights to
-    save her.
+  - As viable water is depleted on Earth, a mission is sent to Saturn's moon Titan
+    to retrieve sustainable H2O reserves from its alien inhabitants. But just as the
+    humans acquire the precious resource, they are attacked by Titan rebels, who don't
+    trust that the Earthlings will leave in peace.
+  - Darcy and Tom gather their families for the ultimate destination wedding but when
+    the entire party is taken hostage, “’Til Death Do Us Part” takes on a whole new
+    meaning in this hilarious, adrenaline-fueled adventure as Darcy and Tom must save
+    their loved ones—if they don’t kill each other first.
+  - A winter night. An isolated house in a small town. Two warring sides must join
+    forces to survive an evil tied to one of the field's oldest legends.
+- source_sentence: A winter night. An isolated house in a small town. Two warring
+    sides must join forces to survive an evil tied to one of the field's oldest legends.
+  sentences:
+  - After his retirement is interrupted by Gorr the God Butcher, a galactic killer
+    who seeks the extinction of the gods, Thor Odinson enlists the help of King Valkyrie,
+    Korg, and ex-girlfriend Jane Foster, who now wields Mjolnir as the Mighty Thor.
+    Together they embark upon a harrowing cosmic adventure to uncover the mystery
+    of the God Butcher’s vengeance and stop him before it’s too late.
+  - Shanghai, 1934. In an insect world parallel to that of humans, veteran Inspector
+    Sun, a lone spider, leads his last mission against his archenemy the Red Locust,
+    before embarking on a well-deserved retirement. His vacation aboard a Pan Am clipper
+    between Shanghai and San Francisco comes to an abrupt end when millionaire Dr.
+    Spindelthorp is found murdered. What begins as a routine case for Sun will ultimately
+    decide the fate of humanity.
+  - Decades ago, the USSR developed unkillable sharks and launched them to the moon.
+    Today, a team of American astronauts will endure the fight of their lives.
 pipeline_tag: sentence-similarity
 library_name: sentence-transformers
 ---
@@ -136,9 +135,9 @@ from sentence_transformers import SentenceTransformer
 model = SentenceTransformer("sentence_transformers_model_id")
 # Run inference
 sentences = [
-    'When Superman and the rest of the Justice League are kidnapped, Krypto the Super-Dog must convince a rag-tag shelter pack - Ace the hound, PB the potbellied pig, Merton the turtle and Chip the squirrel - to master their own newfound powers and help him rescue the superheroes.',
-    'After old enemies kill his family, a former mafia enforcer and his feisty daughter flee to Milan, where they hide out while plotting their revenge.',
-    'When the Primm family moves to New York City, their young son Josh struggles to adapt to his new school and new friends. All of that changes when he discovers Lyle — a singing crocodile who loves baths, caviar and great music — living in the attic of his new home. But when Lyle’s existence is threatened by evil neighbor Mr. Grumps, the Primms must band together to show the world that family can come from the most unexpected places.',
+    "A winter night. An isolated house in a small town. Two warring sides must join forces to survive an evil tied to one of the field's oldest legends.",
+    'Shanghai, 1934. In an insect world parallel to that of humans, veteran Inspector Sun, a lone spider, leads his last mission against his archenemy the Red Locust, before embarking on a well-deserved retirement. His vacation aboard a Pan Am clipper between Shanghai and San Francisco comes to an abrupt end when millionaire Dr. Spindelthorp is found murdered. What begins as a routine case for Sun will ultimately decide the fate of humanity.',
+    'After his retirement is interrupted by Gorr the God Butcher, a galactic killer who seeks the extinction of the gods, Thor Odinson enlists the help of King Valkyrie, Korg, and ex-girlfriend Jane Foster, who now wields Mjolnir as the Mighty Thor. Together they embark upon a harrowing cosmic adventure to uncover the mystery of the God Butcher’s vengeance and stop him before it’s too late.',
 ]
 embeddings = model.encode(sentences)
 print(embeddings.shape)
@@ -147,9 +146,9 @@ print(embeddings.shape)
 # Get the similarity scores for the embeddings
 similarities = model.similarity(embeddings, embeddings)
 print(similarities)
-# tensor([[1.0000, 0.2538, 0.2276],
-#         [0.2538, 1.0000, 0.3039],
-#         [0.2276, 0.3039, 1.0000]])
+# tensor([[1.0000, 0.3092, 0.2253],
+#         [0.3092, 1.0000, 0.2267],
+#         [0.2253, 0.2267, 1.0000]])
 ```
 
 <!--
@@ -197,16 +196,16 @@ You can finetune this model on your own dataset.
 * Size: 396 training samples
 * Columns: <code>sentence_0</code> and <code>sentence_1</code>
 * Approximate statistics based on the first 396 samples:
-  |         | sentence_0                                                                          | sentence_1                                                                          |
-  |:--------|:------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------|
-  | type    | string                                                                              | string                                                                              |
-  | details | <ul><li>min: 18 tokens</li><li>mean: 58.38 tokens</li><li>max: 129 tokens</li></ul> | <ul><li>min: 18 tokens</li><li>mean: 56.06 tokens</li><li>max: 129 tokens</li></ul> |
+  |         | sentence_0                                                                          | sentence_1                                                                         |
+  |:--------|:------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------|
+  | type    | string                                                                              | string                                                                             |
+  | details | <ul><li>min: 18 tokens</li><li>mean: 58.38 tokens</li><li>max: 129 tokens</li></ul> | <ul><li>min: 18 tokens</li><li>mean: 56.2 tokens</li><li>max: 129 tokens</li></ul> |
 * Samples:
-  | sentence_0                                                                                                                                                                                                                                                                                                                                                                                                | sentence_1                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-  |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-  | <code>It ain't easy bein' green -- especially if you're a likable (albeit smelly) ogre named Shrek. On a mission to retrieve a gorgeous princess from the clutches of a fire-breathing dragon, Shrek teams up with an unlikely compatriot -- a wisecracking donkey.</code>                                                                                                                                | <code>Kara, devastated by the loss of Krypton, struggles to adjust to her new life on Earth. Her cousin, Superman, mentors her and suggests she leave their space-time to attend the Legion Academy in the 31st century, where she makes new friends and a new enemy: Brainiac 5. Meanwhile, she must contend with a mysterious group called the Dark Circle as it searches for a powerful weapon held in the Academy’s vault.</code>                  |
-  | <code>Doctor Strange, with the help of mystical allies both old and new, traverses the mind-bending and dangerous alternate realities of the Multiverse to confront a mysterious new adversary.</code>                                                                                                                                                                                                    | <code>Yuta Okkotsu is a nervous high school student who is suffering from a serious problem—his childhood friend Rika has turned into a curse and won't leave him alone. Since Rika is no ordinary curse, his plight is noticed by Satoru Gojo, a teacher at Jujutsu High, a school where fledgling exorcists learn how to combat curses. Gojo convinces Yuta to enroll, but can he learn enough in time to confront the curse that haunts him?</code> |
-  | <code>Mathieu, a member of the French institute in Irkutsk, is arrested overnight by the Russian authorities.  Imprisoned and accused of sexual abuse on his own daughter, he realises he is a victim of a Kompromat. With the help of the FSB, someone has built up a case to frame him. Isolated, he has no one to turn to. Proving his innocence is impossible: the only solution is to escape.</code> | <code>In response to a global rise in demonic possessions, the Catholic Church reopens exorcism schools to train priests in the Rite of Exorcism. On this spiritual battlefield, an unlikely warrior rises: a young nun, Sister Ann. Thrust onto the spiritual frontline with fellow student Father Dante, Sister Ann finds herself in a battle for the soul of a young girl and soon realizes the Devil has her right where he wants her.</code>      |
+  | sentence_0                                                                                                                                                                                                                                                                                                                                                                               | sentence_1                                                                                                                                                                                                                                                                                                                                                                                       |
+  |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | <code>Doctor Strange, with the help of mystical allies both old and new, traverses the mind-bending and dangerous alternate realities of the Multiverse to confront a mysterious new adversary.</code>                                                                                                                                                                                   | <code>When the power mysteriously fails, and almost everyone vanishes from a small tourist vessel in the Arctic, fear becomes the master for the three who remain. Forced ashore, the men deteriorate in body and mind until a dark truth emerges that compels them to ally or perish.</code>                                                                                                    |
+  | <code>Nearly 5,000 years after he was bestowed with the almighty powers of the Egyptian gods—and imprisoned just as quickly—Black Adam is freed from his earthly tomb, ready to unleash his unique form of justice on the modern world.</code>                                                                                                                                           | <code>The story of 14th century Czech icon and warlord Jan Zizka who defeated armies of the Teutonic Order and the Holy Roman Empire.</code>                                                                                                                                                                                                                                                     |
+  | <code>Remy, a seemingly naive and devout young woman, finds herself cast out from her religious cult. With no place to turn, she immerses herself into the underground world of truck stop sex workers. Under the watchful eye of their matriarch and an enigmatic local lawman, Remy navigates between her strained belief system and the code to find her true calling in life.</code> | <code>Peter is searching for his long-lost sister when he crosses paths with a fortune teller in the market square. His one one question is: is his sister still alive? The answer, that he must find a mysterious elephant and the magician who will conjure it, sets Peter off on a journey to complete three seemingly impossible tasks that will change the face of his town forever.</code> |
 * Loss: [<code>MultipleNegativesRankingLoss</code>](https://sbert.net/docs/package_reference/sentence_transformer/losses.html#multiplenegativesrankingloss) with these parameters:
   ```json
   {
