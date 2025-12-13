@@ -9,6 +9,13 @@
 <body>
     <div class="film-border top"></div>
     <main>
+        <div class="profile">
+            <a href="{% url 'user-page' %}">
+                <button id="profile_button">
+                    <img src="{% static 'profile.png' %}" alt="User Profile">
+                </button>
+            </a>
+        </div>
         <div class="main-container">
             <h1>Recommendations</h1>
             <div class="recommendation-card">
@@ -40,6 +47,7 @@
 
 <style scoped>
     .main-container {
+        max-width: 900px;
         padding: 5px 40px;
     }
 
