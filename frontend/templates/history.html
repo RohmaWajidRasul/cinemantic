@@ -46,11 +46,9 @@
                 <div class="movies flex">
                     <div class="movie">
                         <button id="poster-button">
-                            {% for movie in movies %}
-                            <a href="{% url 'movie-page' movie.id %}">
+                            <a href="{% url 'movie-page' 1 %}">
                                 <img src="{% static 'test.jpg' %}" alt="Movie poster">
                              </a>
-                            {% endfor %}
                         </button>
                     </div>
                 </div>
