@@ -33,17 +33,17 @@
         </div>
         <div class="main-container">
             <div class="poster">
-                <img src={{api_data.poster_url}} alt="Test, movie image">
+                <img src={{movie.poster_url}} alt="Test, movie image">
             </div>
             <div class="movie_content">
                 <div class="overview">
-                    <h3 id="name">{{api_data.title}}</h3>
-                    <h4 id="release_date">{{api_data.release_date}}</h4>
+                    <h3 id="name">{{movie.title}}</h3>
+                    <h4 id="release_date">{{movie.release_date}}</h4>
                 </div>
                 <div class="description">
-                    <p id="overview">{{api_data.overview}}</p>
-                    <p id="genres">Genres: {{api_data.genres|join:", "}}</p>
-                    <p id="cast">Cast: {{api_data.crew}}</p>
+                    <p id="overview">{{movie.overview}}</p>
+                    <p id="genres">Genres: {{movie.genres|join:", "}}</p>
+                    <p id="cast">Cast: {{movie.crew}}</p>
                 </div>
             </div>
 

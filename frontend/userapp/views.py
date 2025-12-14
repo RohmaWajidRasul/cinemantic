@@ -77,7 +77,7 @@ class MoviePageView(TemplateView):
         except requests.exceptions.RequestException as e:
             print(f"Error fetching external data: {e}")
         
-        context['api_data'] = fetched_data
+        context['movie'] = fetched_data
         
         return context
 
