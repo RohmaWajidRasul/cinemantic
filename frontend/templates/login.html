@@ -35,15 +35,13 @@
         event.preventDefault();
 
         const form = document.getElementById('login-form');
-        const apiEndpoint = API_ENDPOINT;
         const loginData = {
             username: form.username.value,
             password: form.password.value,
         };
-        const targetPage = "{% url 'recommendation-page' %}"
 
         try {
-            const response = await fetch(apiEndpoint, {
+            const response = await fetch(API_ENDPOINT, {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -58,17 +56,25 @@
             const responseData = await response.json();
             localStorage.setItem('access_token', responseData.access);
             localStorage.setItem('refresh_token', responseData.refresh);
+            localStorage.setItem('user', JSON.stringify(responseData.user));
+
             form.reset();
 
+            const user = JSON.parse(localStorage.getItem("user"));
+            console.log('Login successful:', user.is_superuser);
 
-            console.log('Login successful:', responseData);
+            if (user.is_superuser) {
+                window.location.href = "{% url 'admin-page' %}";
+            } else {
+                window.location.href = "{% url 'recommendation-page' %}";
+            }
 
-            // Todo: change to pop up with button
-            window.location.href = targetPage;
 
         } catch (error) {
             console.log("Error:", error.message);
 
         }
     }
+
+
 </script>

@@ -46,7 +46,11 @@ class RecommendationHistory(models.Model):
         related_name="recommendation_sessions"
     )
 
-    movie_ids = ArrayField(
+    is_external = models.BooleanField(default=False)
+    
+    input_movies = models.JSONField()
+
+    recommended_ids = ArrayField(
         base_field=models.IntegerField(),
         size=5
     )

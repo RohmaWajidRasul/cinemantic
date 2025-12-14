@@ -38,17 +38,20 @@
                 </div>
 
             </div>
-            <form class="form">
+            <div class="form">
                 <label for="new-password">New password</label>
                 <input type="password" name="new-password" id="new-password" placeholder="New password" required>
 
                 <label for="repeate-password">Repeat password</label>
-                <input type="password" name="repeat-password" id="repeat-password" placeholder="Repeat password" required>
-                
+                <input type="password" name="repeat-password" id="repeat-password" placeholder="Repeat password"
+                    required>
+                <p id="password-error" hidden>
+                    Both passwords must match
+                </p>
                 <div class="button-container">
-                    <button class="blue-button">Change password</button>
+                    <button onclick="changePassword()" class="blue-button">Change password</button>
                 </div>
-            </form>
+            </div>
         </div>
 
     </main>
@@ -58,8 +61,9 @@
 </html>
 
 <script>
-    // Todo: move logic to views 
-    const API_ENDPOINT = 'http://127.0.0.1:8000/api/v1/users/me/';
+    const BIO_API_ENDPOINT = 'http://127.0.0.1:8000/api/v1/users/me/';
+
+    const errorMsg = document.getElementById("password-error");
 
     // Event listener to fetch user data
     document.addEventListener('DOMContentLoaded', () => {
@@ -87,7 +91,7 @@
 
         // Fetch user data
         try {
-            const response = await fetch(API_ENDPOINT, {
+            const response = await fetch(BIO_API_ENDPOINT, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -139,7 +143,7 @@
         }
 
         try {
-            const response = await fetch(API_ENDPOINT, {
+            const response = await fetch(BIO_API_ENDPOINT, {
                 method: 'PATCH',
                 credentials: 'include',
                 headers: {
@@ -163,7 +167,50 @@
         } catch (error) {
             console.log("Error:", error.message);
         }
+    }
 
+    //TODO: FINISH ERROR HANDLING
+    async function changePassword() {
+
+        const newPassInput = document.getElementById('new-password');
+        const repeatPassInput = document.getElementById('repeat-password');
+        const token = localStorage.getItem('access_token');
+
+        if (newPassInput.value === repeatPassInput.value){
+            errorMsg.hidden = true;
+
+            const userData = {
+                password: newPassInput.value
+            }
+
+            try {
+                const response = await fetch(BIO_API_ENDPOINT, {
+                    method: 'PATCH',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(userData),
+                })
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw errorData;
+                }
+
+                const responseData = await response.json();
+
+                console.log(responseData);
+                newPassInput.value = ""
+                repeatPassInput.value = ""
+
+            } catch (error) {
+                console.log("Error:", error.message);
+            }
+        } else {
+            errorMsg.hidden = false;
+        }
     }
 </script>
 
@@ -214,5 +261,10 @@
     .button-container {
         display: grid;
         justify-items: center;
+    }
+
+    #password-error {
+        align-self: center;
+        font-size: 0.7rem;
     }
 </style>
