@@ -108,7 +108,8 @@ class MovieRecommendationsView(ListAPIView):
             RecommendationHistory.objects.create(
                 user=request.user,
                 model_version=latest_ready_version or "unknown",
-                movie_ids=recommended_ids,
+                input_movies=[movie.id],
+                recommended_ids=recommended_ids,
             )
 
         return Response(
@@ -221,20 +222,21 @@ class CombinedRecommendationsView(APIView):
             RecommendationHistory.objects.create(
                 user=request.user,
                 model_version=latest_ready_version or "unknown",
-                movie_ids=[mid for mid, _ in top5]
+                input_movies = movie_ids,
+                recommended_ids=[mid for mid, _ in top5],
             )
 
 
         return Response(response, status=status.HTTP_200_OK)
 
 
-class RecommendationFeedbackView(APIView):
+class RecommendationHistoryDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def patch(self, request, session_id):
+    def patch(self, request, history_id):
         session = get_object_or_404(
             RecommendationHistory,
-            id=session_id,
+            id=history_id,
             user=request.user
         )
 
@@ -242,6 +244,17 @@ class RecommendationFeedbackView(APIView):
         session.save()
 
         return Response({"detail": "Feedback saved."}, status=200)
+    
+    def get(self, request, history_id):
+        session = get_object_or_404(
+            RecommendationHistory,
+            id=history_id,
+            user=request.user
+        )
+
+        serializer = RecommendationHistorySerializer(session)
+
+        return Response(serializer.data, status=200)
 
 
 class RecommendationHistoryView(ListAPIView):
@@ -284,13 +297,16 @@ class ExternalMovieRecommendationView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
 
+        movie_title = omdb_data.get("Title", title)
         genres = omdb_data.get("Genre", "")
         overview = omdb_data.get("Plot", "")
+        year = omdb_data.get("Year", "")
+
 
         ai_url = settings.AI_SERVICE_URL + "/api/v1/movies/"
 
         payload = {
-            "title": title,
+            "title": movie_title,
             "genres": genres,
             "overview": overview,
         }
@@ -310,6 +326,31 @@ class ExternalMovieRecommendationView(APIView):
                     "details": ai_resp.text
                 },
                 status=500
+            )
+        
+        recs = ai_resp.json()
+        print(recs)
+        
+        if request.user.is_authenticated and recs:
+
+            input_movie_str = f"{movie_title} ({year})"
+
+            latest_ready_version = (
+                ModelVersion.objects
+                .filter(status="ready")
+                .order_by("-created_at")
+                .values_list("version", flat=True)
+                .first()
+            )
+
+            recommended_ids = [item["id"] for item in recs.get("results", [])]
+
+            RecommendationHistory.objects.create(
+                user=request.user,
+                model_version=latest_ready_version or "unknown",
+                is_external=True,
+                input_movies=[input_movie_str],
+                recommended_ids=recommended_ids
             )
 
         return Response(ai_resp.json(), status=200)
