@@ -39,6 +39,7 @@
             username: form.username.value,
             password: form.password.value,
         };
+        const targetPage = "{% url 'search-page' %}"
 
         try {
             const response = await fetch(API_ENDPOINT, {
@@ -66,7 +67,7 @@
             if (user.is_superuser) {
                 window.location.href = "{% url 'admin-page' %}";
             } else {
-                window.location.href = "{% url 'recommendation-page' %}";
+                window.location.href = "{% url 'search-page' %}";
             }
 
 

@@ -16,15 +16,14 @@ class RegisterPageView(TemplateView):
 class ProfilePageView(TemplateView):
     template_name = "profile.html"
 
-class RecommendationPageView(TemplateView):
-    template_name = "recommendation.html"
+class SearchPageView(TemplateView):
+    template_name = "search.html"
 
     def get_context_data(self, **kwargs):
        
         context = super().get_context_data(**kwargs)
         movie_name = self.request.GET.get('movie-name') 
-        movie_id = self.request.GET.get('id')
-        
+
         if movie_name:
             
             api_url = f'http://127.0.0.1:8000/api/v1/movies/?title={movie_name}'
@@ -38,21 +37,30 @@ class RecommendationPageView(TemplateView):
 
             except requests.exceptions.RequestException as e:
                 print(f"Error fetching external data: {e}")
-    
-        elif movie_id: 
 
+        return context
+
+class RecommendationPageView(TemplateView):
+    template_name = "recommendation.html"
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        movie_id = kwargs.get('movie_id')
+
+        if movie_id is not None:
             api_url = f'http://127.0.0.1:8000/api/v1/movies/{movie_id}/recommendations/'
 
-            try:
-
-                response = requests.get(api_url, timeout=10) 
-                response.raise_for_status() 
-                fetched_data = response.json()
-                context['recs'] = fetched_data
-            
-            except requests.exceptions.RequestException as e:
-                print(f"Error fetching external data: {e}")
-
+        try:
+            response = requests.get(api_url, timeout=10) 
+            response.raise_for_status() 
+            fetched_data = response.json()
+        
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching external data: {e}")
+        
+        context['recs'] = fetched_data
+        
         return context
     
 class HistoryPageView(TemplateView):

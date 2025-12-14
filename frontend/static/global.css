@@ -138,7 +138,6 @@ main {
     background-color: grey;
 }
 
-
 .blue-button {
     padding: 10px 20px;
     margin-top: 30px;
@@ -184,15 +183,15 @@ main {
 
 .profile,
 .history,
-.recommendation {
+.search {
     position: absolute;
     z-index: 10;
     right: 50px;
 }
 
 #profile-button,
-#rec-button,
-#history-button {
+#history-button,
+#search-button {
     background-color: #F2F2F7;
     border-radius: 100%;
     object-fit: contain;
@@ -203,8 +202,14 @@ main {
 }
 
 #profile-button img,
-#rec-button img,
-#history-button img {
+#history-button img,
+#search-button img {
     width: 100%;
     height: auto;
+}
+
+a:link {
+  color: white;
+  background-color: transparent;
+  text-decoration: none;
 }

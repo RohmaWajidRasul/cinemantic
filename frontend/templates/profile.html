@@ -10,10 +10,10 @@
     <div class="film-border top"></div>
     <main>
 
-        <div class="recommendation">
-            <a href="{% url 'recommendation-page' %}">
-                <button id="rec-button">
-                    <img src="{% static 'chat.png' %}" alt="User Profile">
+        <div class="search">
+            <a href="{% url 'search-page' %}">
+                <button id="search-button">
+                    <img src="{% static 'search.png' %}" alt="User Profile">
                 </button>
             </a>
         </div>
@@ -221,7 +221,7 @@
         width: 60%;
     }
 
-    .recommendation {
+    .search {
         top: 0px;
     }
 
