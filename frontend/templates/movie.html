@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{% static 'global.css' %}">
+</head>
+
+
+<body>
+    <div class="film-border top"></div>
+    <main>
+
+        <div class="profile">
+            <a href="{% url 'profile-page' %}">
+                <button id="profile-button">
+                    <img src="{% static 'profile.png' %}" alt="User Profile">
+                </button>
+            </a>
+        </div>
+        <div class="history">
+            <a href="{% url 'history-page' %}">
+                <button id="history-button">
+                    <img src="{% static 'movie.png' %}" alt="User Profile">
+                </button>
+            </a>
+        </div>
+        <div class="search">
+            <a href="{% url 'search-page' %}">
+                <button id="search-button">
+                    <img src="{% static 'search.png' %}" alt="User Profile">
+                </button>
+            </a>
+        </div>
+
+        <div class="main-container">
+            <div class="poster">
+                <img src={{movie.poster_url}} alt="Test, movie image">
+            </div>
+            <div class="movie_content">
+                <div class="overview">
+                    <h3 id="name">{{movie.title}}</h3>
+                    <h4 id="release_date">{{movie.release_date}}</h4>
+                </div>
+                <div class="description">
+                    <p id="overview">{{movie.overview}}</p>
+                    <p id="genres">Genres: {{movie.genres|join:", "}}</p>
+                    <p id="cast">Cast: {{movie.crew}}</p>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+    <div class="film-border bottom"></div>
+</body>
+
+</html>
+
+<style scoped>
+    main {
+        flex-direction: column;
+    }
+
+    .profile {
+        top: 0px;
+    }
+
+    .search {
+        top: 60px;
+    }
+
+    .history {
+        top: 120px;
+    }
+
+    .main-container {
+        width: 75%;
+        padding: 1rem 2rem;
+        display: flex;
+        gap: 30px;
+        text-align: left;
+    }
+
+    .poster {
+        flex: 0.7;
+    }
+
+    .movie_content {
+        flex: 2.3;
+    }
+
+    .poster img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .overview {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #F4F4F4
+    }
+
+    p {
+        text-align: justify;
+        color: #F4F4F4;
+    }
+
+    #genres,
+    #cast {
+        color: #F4F4F4;
+    }
+</style>
