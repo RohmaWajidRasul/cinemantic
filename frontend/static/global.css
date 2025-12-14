@@ -1,5 +1,4 @@
 /* ==========================================================================*/
-/* General styling */
 
 body {
     margin: 0;
@@ -14,7 +13,6 @@ body {
 }
 
 /* ==========================================================================*/
-/* Header styling */
 
 .header {
     gap: 10px;
@@ -32,7 +30,6 @@ body {
 }
 
 /* ==========================================================================*/
-/* Film Strip Border */
 
 .film-border {
     width: 100%;
@@ -74,14 +71,12 @@ body {
 }
 
 /* ==========================================================================*/
-/* Scrooling */
 
 body::-webkit-scrollbar {
     display: none;
 }
 
 /* ==========================================================================*/
-/* Main content */
 
 main {
     flex-grow: 1;
@@ -125,7 +120,6 @@ main {
 }
 
 /* ==========================================================================*/
-/* Buttons styling */
 
 .black-button {
     font-size: 1rem;
@@ -162,7 +156,6 @@ main {
 }
 
 /* ==========================================================================*/
-/* Forms */
 
 .form {
     display: flex;
@@ -188,15 +181,18 @@ main {
 }
 
 /* ==========================================================================*/
-/* Profile icon */
 
-.profile, .history, .recommendation{
+.profile,
+.history,
+.recommendation {
     position: absolute;
     z-index: 10;
     right: 50px;
 }
 
-#profile-button, #rec-button, #history-button {
+#profile-button,
+#rec-button,
+#history-button {
     background-color: #F2F2F7;
     border-radius: 100%;
     object-fit: contain;
@@ -206,7 +202,9 @@ main {
     border: none;
 }
 
-#profile-button img, #rec-button img, #history-button img {
+#profile-button img,
+#rec-button img,
+#history-button img {
     width: 100%;
     height: auto;
 }

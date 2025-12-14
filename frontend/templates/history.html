@@ -9,6 +9,7 @@
 <body>
     <div class="film-border top"></div>
     <main>
+
         <div class="profile">
             <a href="{% url 'profile-page' %}">
                 <button id="profile-button">
@@ -23,18 +24,25 @@
                 </button>
             </a>
         </div>
+
         <div class="main-container">
             <h1>Recommendation history</h1>
             <div class="recommendation-card">
+
                 <div class="recommendation-info flex">
                     <h2>11/12/2025 - 3:25 AM </h2>
+
                     <div class="button-container flex">
                         <button id="recommendation-button" class="black-button">
-                            <img src="{% static 'thumb_up.png' %}" alt="Thumbs up"></button>
+                            <img src="{% static 'thumb_up.png' %}" alt="Thumbs up">
+                        </button>
                         <button id="recommendation-button" class="black-button">
-                            <img src="{% static 'thumb_down.png' %}" alt="Thumbs up"></button>
+                            <img src="{% static 'thumb_down.png' %}" alt="Thumbs up">
+                        </button>
                     </div>
+
                 </div>
+
                 <div class="movies flex">
                     <div class="movie">
                         <button id="poster-button">
@@ -44,6 +52,7 @@
                         </button>
                     </div>
                 </div>
+                
             </div>
         </div>
     </main>

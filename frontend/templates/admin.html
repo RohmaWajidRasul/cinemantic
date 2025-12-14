@@ -12,6 +12,7 @@
         <h1>Training model</h1>
     </div>
     <div class="white-container">
+
         <form class="form" id="retrain-form" onsubmit="handleRetraining(event)">
 
             <label for="csv">CSV file:</label>
@@ -25,6 +26,7 @@
 
             <button type="submit" id="retrain-button" class="black-button">Retrain</button>
         </form>
+
     </div>
     <div class="film-border bottom"></div>
 </body>
@@ -32,6 +34,7 @@
 </html>
 
 <script>
+    // Todo: change to Django forms logic
     const API_ENDPOINT = 'http://127.0.0.1:5000/api/v1/fine-tune/';
 
     async function handleRetraining(event) {
@@ -56,10 +59,8 @@
             localStorage.setItem('refresh_token', responseData.refresh);
             form.reset();
 
-
             console.log('Login successful:', responseData);
 
-            // Todo: change to pop up with button
             window.location.href = targetPage;
 
         } catch (error) {
