@@ -23,6 +23,7 @@ class RecommendationPageView(TemplateView):
        
         context = super().get_context_data(**kwargs)
         movie_name = self.request.GET.get('movie-name') 
+        movie_id = self.request.GET.get('id')
         
         if movie_name:
             
@@ -33,12 +34,25 @@ class RecommendationPageView(TemplateView):
                 response = requests.get(api_url, timeout=10) 
                 response.raise_for_status() 
                 fetched_data = response.json()
+                context['movies'] = fetched_data
 
             except requests.exceptions.RequestException as e:
                 print(f"Error fetching external data: {e}")
+    
+        elif movie_id: 
 
-            context['movies'] = fetched_data
-                
+            api_url = f'http://127.0.0.1:8000/api/v1/movies/{movie_id}/recommendations/'
+
+            try:
+
+                response = requests.get(api_url, timeout=10) 
+                response.raise_for_status() 
+                fetched_data = response.json()
+                context['recs'] = fetched_data
+            
+            except requests.exceptions.RequestException as e:
+                print(f"Error fetching external data: {e}")
+
         return context
     
 class HistoryPageView(TemplateView):

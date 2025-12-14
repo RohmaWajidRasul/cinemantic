@@ -20,8 +20,10 @@
             <div class="searched-movies flex">
                 {% for movie in movies %}
                 <div class="movie flex">
-                    <h4 class="movie-title" id="{{movie.id}}">{{movie.title}}</h4>
-                    <button class="black-button">Pick</button>
+                    <h4 class="movie-title">{{movie.title}}</h4>
+                    <a href="{% url 'recommendation-page' %}?id={{ movie.id }}">
+                        <button class="black-button" type="button">Pick</button>
+                    </a>
                 </div>
                 {% endfor %}
             </div>
@@ -44,7 +46,12 @@
                 </a>
             </div>
 
-            <div class="white-container"></div>
+            <div class="white-container">
+                {% for rec in recs.recommendations %}
+                    <p>{{rec.title}}</p>
+                {% endfor %}
+
+            </div>
         </div>
 
     </main>
