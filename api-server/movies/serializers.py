@@ -38,7 +38,8 @@ class MovieMiniSerializer(serializers.ModelSerializer):
 
 
 class RecommendationHistorySerializer(serializers.ModelSerializer):
-    movies = serializers.SerializerMethodField()
+    recommendations = serializers.SerializerMethodField()
+    input_movies = serializers.SerializerMethodField()
 
     class Meta:
         model = RecommendationHistory
@@ -46,14 +47,43 @@ class RecommendationHistorySerializer(serializers.ModelSerializer):
             "id",
             "created_at",
             "model_version",
+            "is_external",
             "feedback",
-            "movies",
+            "input_movies",
+            "recommendations",
         ]
 
-    def get_movies(self, obj):
-        movies = Movie.objects.filter(id__in=obj.movie_ids)
+    def get_input_movies(self, obj):
+        value = obj.input_movies
+
+        if obj.is_external:
+            return [{
+                "title": value[0]
+            }]
+        else:
+            movies = Movie.objects.filter(id__in=value)
+            movie_map = {m.id: m for m in movies}
+
+            ordered = []
+            for mid in value:
+                if mid in movie_map:
+                    movie = movie_map[mid]
+                    ordered.append({
+                        "id": movie.id,
+                        "title": movie.title,
+                        "overview": movie.overview,
+                        "poster_url": movie.poster_url,
+                        "genres": [g.name for g in movie.genres.all()],
+                    })
+                else:
+                    ordered.append({"id": mid, "title": "Unknown"})
+
+            return ordered           
+
+    def get_recommendations(self, obj):
+        movies = Movie.objects.filter(id__in=obj.recommended_ids)
         movie_map = {m.id: m for m in movies}
-        ordered = [movie_map[mid] for mid in obj.movie_ids if mid in movie_map]
+        ordered = [movie_map[mid] for mid in obj.recommended_ids if mid in movie_map]
 
         return MovieMiniSerializer(ordered, many=True).data
 

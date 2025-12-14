@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import MovieRecommendationsView, MovieListView, MovieDetailView, CombinedRecommendationsView, RecommendationHistoryView, RecommendationFeedbackView, ExternalMovieRecommendationView
+from .views import MovieRecommendationsView, MovieListView, MovieDetailView, CombinedRecommendationsView, RecommendationHistoryView, RecommendationHistoryDetailView, ExternalMovieRecommendationView
 from .admin_views import AdminRetrainView
 from .model_service_views import ModelVersionUpdateView, ModelVersionListView
 
@@ -15,7 +15,7 @@ urlpatterns = [
 
 
     path("movies/recommendationhistory/", RecommendationHistoryView.as_view()),
-    path("movies/recommendationhistory/<int:history_id>/", RecommendationFeedbackView.as_view()),
+    path("movies/recommendationhistory/<int:history_id>/", RecommendationHistoryDetailView.as_view()),
 
     path("admin/fine-tune/", AdminRetrainView.as_view()),
     path("admin/model-versions/", ModelVersionListView.as_view()),
