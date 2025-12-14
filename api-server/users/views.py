@@ -83,29 +83,29 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
         return response
     
-    class CookieTokenRefreshView(TokenRefreshView):
-        def post(self, request, *args, **kwargs):
-            refresh = request.COOKIES.get("refresh")
+class CookieTokenRefreshView(TokenRefreshView):
+    def post(self, request, *args, **kwargs):
+        refresh = request.COOKIES.get("refresh")
 
-            if refresh is None:
-                return Response({"detail": "No refresh token"}, status=401)
+        if refresh is None:
+            return Response({"detail": "No refresh token"}, status=401)
 
-            serializer = self.get_serializer(data={"refresh": refresh})
-            serializer.is_valid(raise_exception=True)
+        serializer = self.get_serializer(data={"refresh": refresh})
+        serializer.is_valid(raise_exception=True)
 
-            access = serializer.validated_data["access"]
+        access = serializer.validated_data["access"]
 
-            response = Response(status=200)
-            response.set_cookie(
-                key="access",
-                value=access,
-                httponly=True,
-                samesite="Lax",
-                secure=False
-            )
+        response = Response(status=200)
+        response.set_cookie(
+            key="access",
+            value=access,
+            httponly=True,
+            samesite="Lax",
+            secure=False
+        )
 
-            return response
-        
+        return response
+    
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 

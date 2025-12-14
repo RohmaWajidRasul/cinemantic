@@ -8,7 +8,7 @@
 
 <body>
     <div class="film-border top"></div>
-        <main>
+        <main class="admin-layout">
             <div class="admin-form">
                 <div class="header">
                     <h1>Training model</h1>
@@ -32,13 +32,38 @@
                 </div>
             </div>
             <div class="model-info">
-                <div class="header">
-                    <h1>Model version status</h1>
-                </div>
-                <div class="white-container">
-                    <h1>{{response}}</h1>
-                </div>
-            </div>
+    <div class="header">
+        <h1>Model version status</h1>
+    </div>
+
+    <div class="white-container">
+        <table class="model-table">
+            <thead>
+                <tr>
+                    <th>Version</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for model in model_versions %}
+                <tr>
+                    <td>{{ model.version }}</td>
+                    <td class="status {{ model.status }}">
+                        {{ model.status|cut:"_"|capfirst }}
+                    </td>
+                    <td>{{ model.created_at|date:"d/m/Y H:i" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No model versions found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
         </div>
 
         </main>
@@ -47,77 +72,35 @@
 
 </html>
 
-<script>
-    // Todo: change to Django forms logic
-    const API_ENDPOINT = 'http://127.0.0.1:8000/api/v1/fine-tune/';
-    const model_Endpoint = 'http://127.0.0.1:8000/api/v1/admin/model-versions/'
-
-    document.addEventListener('DOMContentLoaded', () => {
-        loadModelVersionStatus();
-    });
-
-    async function loadModelVersionStatus() {
-        try {
-
-            const response = await fetch(model_Endpoint, {
-                method: 'GET',
-                credentials: 'include',
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw errorData;
-            }
-
-            
-            
-        } catch (error) {
-            console.log("Error:", error.message);
-
-        }
-    }
-
-    async function handleRetraining(event) {
-        event.preventDefault();
-
-        const file = document.getElementById('csvFileInput');
-        const batch = document.getElementById('batchInput');
-        const epoch = document.getElementById('epochInput');
-
-        const formData = new FormData();
-        formData.append('csvfile', fileInput.files[0]); // key must match API
-        formData.append('batch_size', batchInput.value);
-        formData.append('epochs', epochInput.value);
-
-        try {
-            const response = await fetch(API_ENDPOINT, {
-                method: 'POST',
-                credentials: 'include',
-                body: formData
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw errorData;
-            }
-
-            const responseData = await response.json();
-            localStorage.setItem('access_token', responseData.access);
-            localStorage.setItem('refresh_token', responseData.refresh);
-            form.reset();
-
-            console.log('Login successful:', responseData);
-
-            window.location.href = targetPage;
-
-        } catch (error) {
-            console.log("Error:", error.message);
-
-        }
-    }
-</script>
 
 <style>
+
+    main.admin-layout {
+        padding-top: calc(var(--film-border-height) + 20px);
+    }
+
+    .model-info .white-container {
+        max-height: 400px;   /* adjust as you like */
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        scrollbar-width: none;        /* Firefox */
+        -ms-overflow-style: none;     /* IE / Edge */
+    }
+
+    .model-info .white-container::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+
+
+    .model-table thead th {
+        position: sticky;
+        top: 0;
+        background-color: #F2F2F7;
+        z-index: 1;
+    }
+
 
     .main{
         display: flex;
@@ -132,5 +115,66 @@
     .header {
         margin-bottom: 10px;
     }
+
+    .admin-layout {
+        display: flex;
+        gap: 40px;
+        padding: 20px 40px;
+    }
+
+    .admin-form,
+    .model-info {
+        flex: 1;
+    }
+
+    .model-table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #0d0d0d;
+    }
+
+    .model-table th,
+    .model-table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .model-table th {
+        font-weight: bold;
+    }
+
+    .status.current {
+        background-color: rgba(39, 174, 96, 0.15); /* green */
+        padding: 4px 8px;
+        border-radius: 6px;
+        color: #27ae60;
+        font-weight: bold;
+    }
+
+    .status.ready {
+        background-color: rgba(41, 128, 185, 0.15); /* blue */
+        color: #2980b9;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-weight: normal;
+    }
+
+    .status.fine_tuning {
+        background-color: rgba(243, 156, 18, 0.15); /* orange */
+        color: #f39c12;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+    .status.fail {
+        background-color: rgba(231, 76, 60, 0.15); /* red */
+        padding: 4px 8px;
+        border-radius: 6px;
+        color: #e74c3c;
+        font-weight: bold;
+    }
+
 
 </style>

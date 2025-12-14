@@ -1,12 +1,20 @@
 /* ==========================================================================*/
+:root {
+    --film-border-height: 40px;
+}
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 
 body {
     margin: 0;
-    padding: 0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
     background: linear-gradient(to bottom, #292e48, #404968);
     line-height: 1.6;
     font-family: Ubuntu;
@@ -32,8 +40,11 @@ body {
 /* ==========================================================================*/
 
 .film-border {
-    width: 100%;
-    height: 40px;
+    position: fixed;
+    left: 0;
+    width: 100vw;
+    height: var(--film-border-height);
+    z-index: 5;
     background-color: #111;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
     flex-shrink: 0;
@@ -52,9 +63,11 @@ body {
 .film-border.top {
     margin-bottom: 20px;
     border-bottom: 3px solid #000;
+    top: 0;
 }
 
 .film-border.bottom {
+    bottom: 0;
     margin-top: 20px;
     border-top: 3px solid #000;
     animation: pulseGlow 5s infinite alternate;
@@ -79,13 +92,17 @@ body::-webkit-scrollbar {
 /* ==========================================================================*/
 
 main {
-    flex-grow: 1;
+
+    padding-bottom: calc(var(--film-border-height) + 20px);
+    padding-top: calc(var(--film-border-height) + 20px);
+    overflow-y: auto;
+
+    flex: 1;
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 20px;
-    position: relative;
+    align-items: flex-start;
+    box-sizing: border-box;
 }
 
 .main-container {
