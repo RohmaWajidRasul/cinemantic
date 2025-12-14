@@ -9,18 +9,26 @@
 <body>
     <main>
         <div class="sidebar flex">
-            <div class="searchbar flex">
+
+            <form class="searchbar flex" method="GET" action="{% url 'recommendation-page' %}">
                 <input type="text" name="movie-name" id="movie-name" placeholder="Movie name">
-                <button onclick="loadMovies()" class="search-button">
+                <button type="submit" class="search-button">
                     <img src="{% static 'search.png' %}" alt="Search icon">
                 </button>
-            </div>
+            </form>
+
             <div class="searched-movies flex">
-                <div class="movies-container flex" id="movies-container">
+                {% for movie in movies %}
+                <div class="movie flex">
+                    <h4 class="movie-title" id="{{movie.id}}">{{movie.title}}</h4>
+                    <button class="black-button">Pick</button>
                 </div>
+                {% endfor %}
             </div>
+
         </div>
         <div class="chat-container">
+
             <div class="profile">
                 <a href="{% url 'profile-page' %}">
                     <button id="profile-button">
@@ -35,6 +43,7 @@
                     </button>
                 </a>
             </div>
+
             <div class="white-container"></div>
         </div>
 
@@ -42,59 +51,6 @@
 </body>
 
 </html>
-
-<script>
-    const API_ENDPOINT = 'http://127.0.0.1:8000/api/v1/movies/?title=';
-
-    async function loadMovies() {
-        const nameElement = document.getElementById('movie-name');
-        const title = nameElement.value;
-        const moviesContainer = document.getElementById('movies-container');
-
-        MOVIE_ENDPOINT = API_ENDPOINT.concat(title);
-
-        try {
-            const response = await fetch(MOVIE_ENDPOINT, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw errorData;
-            }
-
-            const responseData = await response.json();
-            console.log('Movie data:', responseData);
-
-            if (responseData) {
-
-                const moviesHtmlArray = responseData.map(movie => {
-                    
-                    return `
-                    <div class="movie flex">
-                        <h4 class="movie-title">${movie.title}</h4>
-                        <button class="black-button" id="pick-button">Pick</button>
-                    </div>
-                    `;
-                });
-
-                const finalHtml = moviesHtmlArray.join('');
-                moviesContainer.innerHTML = finalHtml;
-
-            } else {
-
-                console.log("Movie data wasn't retrieved");
-                nameElement.textContent = 'Error Loading Movie Data';
-            }
-
-        } catch (error) {
-            console.error('Error:', error.message);
-        }
-    }
-</script>
 
 <style scoped>
     /* ==================================================================== */
@@ -176,13 +132,13 @@
 
     .movie {
         height: fit-content;
-        padding: 0.2rem 0.1rem;
+        padding: 0.2rem 0rem;
         align-items: center;
         border-bottom: 1px solid #D9D9D9;
         flex-direction: row;
     }
 
-    #pick-button {
+    .black-button {
         font-weight: normal;
         font-size: 12px;
         padding: 10px;
