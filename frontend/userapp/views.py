@@ -1,6 +1,7 @@
 from urllib.parse import urlencode
 from django.shortcuts import render
 from django.views.generic import TemplateView
+import requests
 
 # All page views 
 class HomePageView(TemplateView):
@@ -13,7 +14,7 @@ class RegisterPageView(TemplateView):
     template_name = "register.html"
 
 class ProfilePageView(TemplateView):
-    template_name = "account.html"
+    template_name = "profile.html"
 
 class RecommendationPageView(TemplateView):
     template_name = "recommendation.html"
@@ -32,9 +33,18 @@ class MoviePageView(TemplateView):
 
         if movie_id is not None:
             api_base_url = f'http://127.0.0.1:8000/api/v1/movies/{movie_id}/'
-        
-        context['api_movie_url'] = api_base_url
 
+        try:
+            response = requests.get(api_base_url, timeout=10) 
+            response.raise_for_status() 
+
+            fetched_data = response.json()
+        
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching external data: {e}")
+        
+        context['api_data'] = fetched_data
+        
         return context
 
 

@@ -37,13 +37,13 @@
             </div>
             <div class="movie_content">
                 <div class="overview">
-                    <h3 id="name"></h3>
-                    <h4 id="release_date"></h4>
+                    <h3 id="name">{{api_data.title}}</h3>
+                    <h4 id="release_date">{{api_data.release_date}}</h4>
                 </div>
                 <div class="description">
-                    <p id="overview"></p>
-                    <p id="genres">Genres:</p>
-                    <p id="cast">Cast:</p>
+                    <p id="overview">{{api_data.overview}}</p>
+                    <p id="genres">Genres: {{api_data.genres|join:", "}}</p>
+                    <p id="cast">Cast: {{api_data.crew}}</p>
                 </div>
             </div>
 
@@ -54,59 +54,6 @@
 
 </html>
 
-<script>
-    const API_ENDPOINT = "{{ api_movie_url }}";
-
-    // Event listener to fetch movie data
-    document.addEventListener('DOMContentLoaded', () => {
-        loadMovie();
-    });
-
-    // Function to fetch movie data
-    async function loadMovie() {
-
-        const nameElement = document.getElementById('name');
-        const dateElement = document.getElementById('release_date');
-        const overviewElement = document.getElementById('overview');
-        const genresElement = document.getElementById('genres');
-        const castElement = document.getElementById('cast');
-        const posterImage = document.querySelector('.poster img');
-
-        try {
-            const response = await fetch(API_ENDPOINT, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw errorData;
-            }
-
-            const responseData = await response.json();
-            console.log('Movie data:', responseData);
-
-            if (responseData) {
-                nameElement.textContent = responseData.title || 'Movie Title Not Found';
-                dateElement.textContent = responseData.release_date || 'Release Date Not Found';
-                overviewElement.textContent = responseData.overview || 'Description Not Found';
-                genresElement.textContent = `Genres: ${responseData.genres || 'N/A'}`;
-                castElement.textContent = `Cast: ${responseData.crew || 'N/A'}`;
-
-            } else {
-
-                console.log("Movie data wasn't retrieved");
-                nameElement.textContent = 'Error Loading Movie Data';
-            }
-
-        } catch (error) {
-            console.error('Error:', error.message);
-        }
-    }
-</script>
-
 <style scoped>
     main {
         flex-direction: column;
@@ -116,7 +63,7 @@
         top: 0px;
     }
 
-    .recommendation{
+    .recommendation {
         top: 60px;
     }
 
