@@ -8,6 +8,13 @@
 
 <body>
     <div class="film-border top"></div>
+    <div class="recommendation">
+        <a href="{% url 'recommendation-page' %}">
+            <button id="rec-button">
+                <img src="{% static 'chat.png' %}" alt="User Profile">
+            </button>
+        </a>
+    </div>
     <main>
         <div class="main-container">
             <h1>Welcome to Cinemantic!</h1>
@@ -35,6 +42,11 @@
     .main-container {
         width: 40%;
         padding: 20px 10px;
+    }
+
+    .recommendation {
+        right: 30px;
+        top: 60px;
     }
 
     p {
