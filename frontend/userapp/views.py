@@ -1,8 +1,11 @@
 from datetime import datetime
-from urllib.parse import urlencode
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
+from django.conf import settings
+
 import requests
+
+host = settings.API_SERVICE_URL
 
 def api_get_token(request, url):
     headers = {}
@@ -35,7 +38,7 @@ class LoginPageView(TemplateView):
         username = request.POST.get("username")
         password = request.POST.get("password")
 
-        api_url = "http://127.0.0.1:8000/api/v1/users/token/"
+        api_url = f"{host}/api/v1/users/token/"
 
         response = requests.post(
             api_url,
@@ -78,14 +81,13 @@ class ProfilePageView(TemplateView):
     template_name = "profile.html"
 
     def dispatch(self, request, *args, **kwargs):
-        # Guard the page (JWT-based)
         if not request.COOKIES.get("access"):
             return redirect("login-page")
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        api_url = "http://127.0.0.1:8000/api/v1/users/me/"
+        api_url = f"{host}/api/v1/users/me/"
 
         try:
             response = api_get_token(self.request, api_url)
@@ -98,7 +100,7 @@ class ProfilePageView(TemplateView):
         return context
 
     def post(self, request):
-        api_url = "http://127.0.0.1:8000/api/v1/users/me/"
+        api_url = f"{host}/api/v1/users/me/"
         data = {}
 
         # Profile fields (only send what changed)
@@ -136,9 +138,6 @@ class ProfilePageView(TemplateView):
 
         return redirect("profile-page")
 
-
-
-
 class SearchPageView(TemplateView):
     template_name = "search.html"
 
@@ -149,7 +148,7 @@ class SearchPageView(TemplateView):
 
         if movie_name:
             
-            api_url = f'http://127.0.0.1:8000/api/v1/movies/?title={movie_name}'
+            api_url = f"{host}/api/v1/movies/?title={movie_name}"
 
             try:
 
@@ -168,22 +167,48 @@ class RecommendationPageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        movie_id = kwargs.get('movie_id')
+        movie_id = kwargs.get("movie_id")
 
-        if movie_id is not None:
-            api_url = f'http://127.0.0.1:8000/api/v1/movies/{movie_id}/recommendations/'
+        if movie_id is None:
+            return context
+
+        recs_url = f"{host}/api/v1/movies/{movie_id}/recommendations/"
 
         try:
-            response = api_get_token(self.request, api_url)
-            response.raise_for_status() 
+            response = api_get_token(self.request, recs_url)
+            response.raise_for_status()
             fetched_data = response.json()
-        
-        except requests.exceptions.RequestException as e:
-            print(f"Error fetching external data: {e}")
-        
-        context['recs'] = fetched_data
-        
+
+            poster_recs = []
+
+            for rec in fetched_data.get("recommendations", []):
+                rec_id = rec.get("id")
+                if not rec_id:
+                    continue
+
+                try:
+                    movie_url = f"{host}/api/v1/movies/{rec_id}/"
+                    movie_resp = requests.get(movie_url, timeout=10)
+                    movie_resp.raise_for_status()
+                    movie_data = movie_resp.json()
+
+                    rec["poster_url"] = movie_data.get("poster_url")
+
+                except requests.RequestException as e:
+                    print(f"Poster fetch failed for movie {rec_id}: {e}")
+                    rec["poster_url"] = None
+
+                poster_recs.append(rec)
+
+            fetched_data["recommendations"] = poster_recs
+            context["recs"] = fetched_data
+
+        except requests.RequestException as e:
+            print(f"Error fetching recommendations: {e}")
+            context["recs"] = {"recommendations": []}
+
         return context
+
 
 class HistoryPageView(TemplateView):
     template_name = "history.html"
@@ -191,7 +216,7 @@ class HistoryPageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        api_url = "http://127.0.0.1:8000/api/v1/movies/recommendationhistory/"
+        api_url = f"{host}/api/v1/movies/recommendationhistory/"
 
         try:
             response = api_get_token(self.request, api_url)
@@ -221,7 +246,7 @@ class MoviePageView(TemplateView):
         movie_id = kwargs.get('movie_id')
 
         if movie_id is not None:
-            api_url = f'http://127.0.0.1:8000/api/v1/movies/{movie_id}/'
+            api_url = f"{host}/api/v1/movies/{movie_id}/"
 
         try:
             response = requests.get(api_url, timeout=10) 
@@ -242,7 +267,7 @@ class AdminPageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        api_url = "http://127.0.0.1:8000/api/v1/admin/model-versions/"
+        api_url = f"{host}/api/v1/admin/model-versions/"
 
         try:
             response = api_get_token(self.request, api_url)

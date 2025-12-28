@@ -28,46 +28,49 @@
 
     <div class="main-container">
         <h1>Recommendation history</h1>
+        <div class="history-scroll">
+            {% for entry in history %}
+            <div class="recommendation-card">
 
-        {% for entry in history %}
-        <div class="recommendation-card">
+                <div class="recommendation-info flex">
+                    <h2>{{ entry.created_at|date:"d/m/Y - H:i" }}</h2>
 
-            <div class="recommendation-info flex">
-                <h2>{{ entry.created_at|date:"d/m/Y - H:i" }}</h2>
-
-                <div class="button-container flex">
-                    <button class="black-button">
-                        <img src="{% static 'thumb_up.png' %}">
-                    </button>
-                    <button class="black-button">
-                        <img src="{% static 'thumb_down.png' %}">
-                    </button>
+                    <div class="button-container flex">
+                        <button class="black-button">
+                            <img src="{% static 'thumb_up.png' %}">
+                        </button>
+                        <button class="black-button">
+                            <img src="{% static 'thumb_down.png' %}">
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <p>
-                Based on:
-                {% for m in entry.input_movies %}
-                    {{ m.title }}{% if not forloop.last %}, {% endif %}
-                {% endfor %}
-            </p>
+                <p>
+                    Based on:
+                    {% for m in entry.input_movies %}
+                        {{ m.title }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
 
-            <div class="movies flex">
-                {% for movie in entry.recommendations %}
-                <div class="movie">
-                    <a href="{% url 'movie-page' movie.id %}">
-                        <img
-                            src="{{ movie.poster_url }}"
-                            alt="{{ movie.title }} poster"
-                            loading="lazy"
-                        >
-                    </a>
+                <div class="movies flex">
+                    {% for movie in entry.recommendations %}
+                    <div class="movie">
+                        <a href="{% url 'movie-page' movie.id %}">
+                            <img
+                                src="{{ movie.poster_url }}"
+                                alt="{{ movie.title }} poster"
+                                loading="lazy"
+                            >
+                        </a>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
 
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+
+        
 
     </div>
 </main>
@@ -78,10 +81,35 @@
 
 
 <style scoped>
+
+    main {
+        height: calc(100vh - 120px);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        margin-bottom: 60px;
+        overflow: hidden;
+    }
+
     .main-container {
         width: 75%;
-        padding: 5px 40px;
+        height: 100%;
+        padding: 20px 40px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
     }
+
+    .history-scroll {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+
+    .history-scroll::-webkit-scrollbar {
+        display: none;
+    }
+
 
     .profile {
         top: 60px;
