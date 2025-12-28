@@ -2,7 +2,6 @@ from datetime import datetime
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from django.conf import settings
-
 import requests
 
 host = settings.API_SERVICE_URL
@@ -74,8 +73,12 @@ class LoginPageView(TemplateView):
 
         return django_response
 
-class RegisterPageView(TemplateView):
-    template_name = "register.html"
+class LogoutPageView(TemplateView):
+    def post(self, request):
+        response = redirect("login-page")
+        response.delete_cookie("access")
+        response.delete_cookie("refresh")
+        return response
 
 class ProfilePageView(TemplateView):
     template_name = "profile.html"

@@ -38,9 +38,16 @@
             </div>
 
             <div class="profile-action">
-                <label for="edit-toggle" class="blue-button">
+                <label for="edit-toggle" class="blue-button action-button">
                     Update profile
                 </label>
+
+                <form method="post" action="{% url 'logout-page' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="red-button action-button">
+                        Logout
+                    </button>
+                </form>
             </div>
 
         </div>
@@ -95,7 +102,33 @@
 
 
 <style scoped>
- /* === Layout === */
+
+    .profile-action {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .action-button {
+        padding: 10px 26px;
+        font-size: 0.95rem;
+        border-radius: 10px;
+    }
+
+    .red-button {
+        background: #3a0d0d;
+        color: #fff;
+        border: 1px solid #ff6b6b;
+        transition: background-color 0.3s;
+    }
+
+    .red-button:hover {
+        background: #ff6b6b;
+    }
+
+
     .profile {
         top: 0px;
     }
