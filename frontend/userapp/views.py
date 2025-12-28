@@ -27,6 +27,45 @@ def api_patch_token(request, url, data):
 class HomePageView(TemplateView):
     template_name = "homepage.html"
 
+class RegisterPageView(TemplateView):
+    template_name = "register.html"
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        api_url = f"{host}/api/v1/users/"
+
+        try:
+            response = requests.post(
+                api_url,
+                json={
+                    "username": username,
+                    "email": email,
+                    "password": password,
+                },
+                timeout=10,
+            )
+        except requests.RequestException:
+            return render(
+                request,
+                self.template_name,
+                {"error": "Registration service unavailable"},
+            )
+
+        if response.status_code not in (200, 201):
+            return render(
+                request,
+                self.template_name,
+                {"error": response.json()},
+            )
+
+        return redirect("login-page")
+
 class LoginPageView(TemplateView):
     template_name = "login.html"
 
