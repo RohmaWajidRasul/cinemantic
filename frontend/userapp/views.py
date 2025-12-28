@@ -103,22 +103,34 @@ class ProfilePageView(TemplateView):
         api_url = f"{host}/api/v1/users/me/"
         data = {}
 
-        # Profile fields (only send what changed)
-        if request.POST.get("username"):
-            data["username"] = request.POST.get("username")
+        profile = self.get_context_data()["profile"]
 
-        if request.POST.get("email"):
-            data["email"] = request.POST.get("email")
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        bio = request.POST.get("bio")
 
-        if request.POST.get("bio"):
-            data["bio"] = request.POST.get("bio")
+        if username and username != profile["user"]["username"]:
+            data["username"] = username
 
-        # Password change (optional)
-        old_password = request.POST.get("old_password")
+        if email and email != profile["user"]["email"]:
+            data["email"] = email
+
+        if bio and bio != profile.get("bio"):
+            data["bio"] = bio
+
         new_password = request.POST.get("new_password")
+        repeat_password = request.POST.get("repeat_password")
 
-        if old_password and new_password:
-            data["old_password"] = old_password
+        if new_password or repeat_password:
+            if new_password != repeat_password:
+                return render(
+                    request,
+                    self.template_name,
+                    {
+                        "profile": profile,
+                        "error": "Passwords do not match",
+                    },
+                )
             data["password"] = new_password
 
         if not data:
@@ -131,8 +143,8 @@ class ProfilePageView(TemplateView):
                 request,
                 self.template_name,
                 {
-                    "profile": self.get_context_data()["profile"],
-                    "error": "Update failed",
+                    "profile": profile,
+                    "error": response.text,
                 },
             )
 
