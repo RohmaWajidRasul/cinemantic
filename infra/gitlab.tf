@@ -9,12 +9,12 @@ provider "gitlab" {
 }
 
 resource "gitlab_cluster_agent" "gke_agent" {
-  project = 24379
+  project = "24379"
   name    = "gke-agent"
 }
 
 resource "gitlab_cluster_agent_token" "agent_token" {
-  project  = var.project_id
+  project  = "24379"
   agent_id = gitlab_cluster_agent.gke_agent.agent_id
   name     = "terraform-generated-token"
 }
