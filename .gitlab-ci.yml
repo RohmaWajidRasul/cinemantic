@@ -1,0 +1,48 @@
+include:
+  - template: Terraform/Base.latest.gitlab-ci.yml
+
+variables:
+  TF_ROOT: ${CI_PROJECT_DIR}/infra 
+  TF_STATE_NAME: default
+  KUBE_CONTEXT: ""
+
+stages:
+  - fmt
+  - validate
+  - build
+  - tf-deploy
+  #- k8s-deploy
+
+# --- Terraform Stages ---
+
+fmt:
+  extends: .terraform:fmt
+
+validate:
+  extends: .terraform:validate
+
+build:
+  extends: .terraform:build
+
+tf-deploy:
+  extends: .terraform:deploy
+  environment:
+    name: production
+  when: manual
+
+#deploy-app:
+#  stage: k8s-deploy
+#  image: 
+#    name: alpine/k8s:1.29.2
+#  dependencies:
+#    - build
+#  script:
+#  - kubectl config use-context "$KUBE_CONTEXT"
+#  - export $(env | cut -d= -f1) 
+#  - envsubst < k8s/k8s-prereqs.yaml > k8s-prereqs.processed.yaml
+#  - envsubst < k8s/k8s.yaml > k8s.processed.yaml
+#  - kubectl apply -f k8s-prereqs.processed.yaml
+#  - kubectl apply -f k8s.processed.yaml
+#  only:
+#    - main
+#  when: manual
