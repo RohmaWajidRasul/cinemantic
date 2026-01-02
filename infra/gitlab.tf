@@ -9,7 +9,7 @@ provider "gitlab" {
 }
 
 resource "gitlab_cluster_agent" "gke_agent" {
-  project = var.project_id
+  project = 24379
   name    = "gke-agent"
 }
 
