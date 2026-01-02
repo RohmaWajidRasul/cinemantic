@@ -1,48 +1,71 @@
-include:
-  - template: Terraform/Base.latest.gitlab-ci.yml
+image:
+  name: hashicorp/terraform:1.7.0
+  entrypoint: [""]
 
 variables:
-  TF_ROOT: ${CI_PROJECT_DIR}/infra 
-  TF_STATE_NAME: default
+  TF_ROOT: ${CI_PROJECT_DIR}/infra
   KUBE_CONTEXT: ""
 
 stages:
-  - fmt
   - validate
   - build
   - tf-deploy
-  #- k8s-deploy
+  # - k8s-deploy
 
-# --- Terraform Stages ---
-
-fmt:
-  extends: .terraform:fmt
+before_script:
+  - cd ${TF_ROOT}
+  - terraform init \
+      -backend-config="address=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default" \
+      -backend-config="lock_address=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default/lock" \
+      -backend-config="unlock_address=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default/lock" \
+      -backend-config="username=gitlab-ci-token" \
+      -backend-config="password=${CI_JOB_TOKEN}" \
+      -backend-config="lock_method=POST" \
+      -backend-config="unlock_method=DELETE"
 
 validate:
-  extends: .terraform:validate
+  stage: validate
+  script:
+    - terraform validate
 
 build:
-  extends: .terraform:build
+  stage: build
+  script:
+    - terraform plan -out=tfplan
+  artifacts:
+    paths:
+      - ${TF_ROOT}/tfplan
 
 tf-deploy:
-  extends: .terraform:deploy
-  environment:
-    name: production
+  stage: tf-deploy
+  script:
+    - terraform apply -auto-approve tfplan
+    - terraform output -json > tf_outputs.json
+  artifacts:
+    paths:
+      - ${TF_ROOT}/tf_outputs.json
   when: manual
+  only:
+    - main
 
 #deploy-app:
 #  stage: k8s-deploy
 #  image: 
 #    name: alpine/k8s:1.29.2
+#    entrypoint: [""]
+#  before_script: []
 #  dependencies:
-#    - build
+#    - tf-deploy
 #  script:
-#  - kubectl config use-context "$KUBE_CONTEXT"
-#  - export $(env | cut -d= -f1) 
-#  - envsubst < k8s/k8s-prereqs.yaml > k8s-prereqs.processed.yaml
-#  - envsubst < k8s/k8s.yaml > k8s.processed.yaml
-#  - kubectl apply -f k8s-prereqs.processed.yaml
-#  - kubectl apply -f k8s.processed.yaml
+#    - apk add --no-cache jq gettext
+#    - kubectl config use-context "$KUBE_CONTEXT"
+#    # Read values from the JSON file
+#    - export DJANGO_ALLOWED_HOSTS=$(jq -r '.ingress_ip_address.value' infra/tf_outputs.json)
+#    - export CLOUDSQL_SA_EMAIL=$(jq -r '.cloudsql_gsa_email.value' infra/tf_outputs.json)
+#    - export CLOUDSQL_INSTANCE_NAME=$(jq -r '.cloud_sql_instance_connection_name.value' infra/tf_outputs.json)
+#    # Deploy
+#    - envsubst < k8s/k8s-prereqs.yaml | kubectl apply -f -
+#    - envsubst < k8s/k8s.yaml | kubectl apply -f -
+#  when: manual
 #  only:
 #    - main
-#  when: manual

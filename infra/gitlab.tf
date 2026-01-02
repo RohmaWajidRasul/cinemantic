@@ -5,6 +5,7 @@ terraform {
       version = "~> 16.0"
     }
   }
+  backend "http" {}
 }
 
 variable "gitlab_access_token" {
