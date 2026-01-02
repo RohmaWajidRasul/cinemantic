@@ -4,7 +4,8 @@ variable "gitlab_access_token" {
 }
 
 provider "gitlab" {
-  token = var.gitlab_access_token
+  token    = var.gitlab_access_token
+  base_url = "${CI_SERVER_URL}/api/v4"
 }
 
 resource "gitlab_cluster_agent" "gke_agent" {
