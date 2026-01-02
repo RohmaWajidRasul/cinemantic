@@ -1,0 +1,1351 @@
+{
+  "version": 4,
+  "terraform_version": "1.7.0",
+  "serial": 7,
+  "lineage": "871c2534-f261-52fd-8024-a5ed196db5c4",
+  "outputs": {
+    "agent_token": {
+      "value": "glagent--7USeIh0Hwr-h_HNendE5W86MQpwOml0Nwk.01.0z0mwiz1g",
+      "type": "string",
+      "sensitive": true
+    },
+    "cloud_sql_instance_connection_name": {
+      "value": "starry-braid-483111-t0:europe-central2:cinemantic-db",
+      "type": "string"
+    },
+    "cloudsql_gsa_email": {
+      "value": "cinemantic-sa@starry-braid-483111-t0.iam.gserviceaccount.com",
+      "type": "string"
+    },
+    "cluster_ca_certificate": {
+      "value": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMRENDQXBTZ0F3SUJBZ0lRZlE2Y1o2aTFUc1RGK1RGNFJDK2gzVEFOQmdrcWhraUc5dzBCQVFzRkFEQXYKTVMwd0t3WURWUVFERXlSallXWXpNbVppTkMxa05tUmxMVFF3TWpNdE9XVmhZUzA1WWpFMk5qWXdaV0ZtWldFdwpJQmNOTWpZd01UQXlNVEkwTmpJeldoZ1BNakExTlRFeU1qWXhNelEyTWpOYU1DOHhMVEFyQmdOVkJBTVRKR05oClpqTXlabUkwTFdRMlpHVXROREF5TXkwNVpXRmhMVGxpTVRZMk5qQmxZV1psWVRDQ0FhSXdEUVlKS29aSWh2Y04KQVFFQkJRQURnZ0dQQURDQ0FZb0NnZ0dCQU1KSTNYeUI4UThVdDY2MWx2WWRoR0pGMWxSempJNG9yemdpU1NybQpxMWVLZTVKNDR1aHFrSWM1VnhZWVY0Zi95bHg2M0xSeE5SaDBCbUxUOWZZRzNBK1RKUDBQREZmTjhBNGlFY0w3CjJmSTkzeXBOejg1eUFYT2JNM2hneVdoWmNCVW5PV3Yrc0JncFdCTjd0eVlxV2ZUVHpJM2s0VzRZUUoxNGlSM0IKQTNXb0l1ZDBRbE13Z1NnMHFvZThGSXl6SlBpSHhHZ3RXRUM5azVUUkhDTW1rNWZtRzRvUWl4d3hpQldhdmd4Rgo5M1N4SHFIYXFrWURVY0lMUnRmUENWeW9yZUJmUUV1anBNaFlWYzdtbVY1T29KeEYvRXlEUDZybTdGdlVrOWExCjZWRGYybzhjcXVlTjhCbzRNL1NacVZHYXphZ0VUbVlZbEFRTDlMRkRaMTJkQmhMeTg1VWozUDFrcjhqa2lKUEUKTGFjRHhpbEJNMUVrRFIrVUNKb1lMb2M4U3gvc29BR2o3SzhWbWlHekE0T1RjV2VMRUl0TGNUTHpheDhOdyswbApoVlFVVzNVOWlzSElDb3ZSclplTlY3L0FzT1l4MTQrZUV5NW9TQlM3aHZOQXkwMFM2NldBblNqWHd6UU9VUGx5CjB2MHRNcGs2dUYwRDRoaVRQbUJJd2E3aGxRSURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQWdRd0R3WUQKVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVU3T3BGcG1OY2VRQ29RazZTZ3pyWjdObjRkRU13RFFZSgpLb1pJaHZjTkFRRUxCUUFEZ2dHQkFMT0tiY25xdWtPT1l6eGRTc25uVDIwUmtFbk5KOTBGQWpDclp5aWh0Ky9HCk05ZmxqUE1CUDhCRnJpM3UxcTZIaENtaEEzRXZaRDN0SWZ4Q2w4VUY0NFhiL2FldVByUExINWNrckZEd2YycWYKRHJsejU1M0cvaXo3bUpZNllsU2syM1FIS0dFVGx3ZmhFUjRxUVA5RXJsVWYxZVlnN2FwQmVOUks2UFNFMFhHMgpwWWJNMVpZL20xdHU2RE1LcWVldFBTd1Z1MGdyN1Aramkya0UybklwZVlwbE9pTzQybkJPNk5LcUtyTFVQZTZSCi8xYW9LbGJ2dGlKSHpzM0pJZXVFYlphMWJ0b1hSaEtCRm4rVmczQWdzKzd5dmlxOE5hd0NQM1daQmE3cjJUVVMKREpzdllJZ0lid1RtTS82V2JsQU5xY2dwVUs1Q0c3Qmw0a212cFA5b3NIcGRvV1o1T2lGRVIxTkdkQ3NUeG1QNgp0K3NwR3puLzZyeGFhQWwwYld1ZXZ6Y0FqcmI5Mzlpb3B5cEhqS1crYVBsaGdIS2Nmak5uTTJUYmZkaUs0bjhSCmowVnNESEZUN0Vjb3AwNVczL0hUT3prVEFZM3RtSjVOY3Q5U2FJSzAyVUdYMlZ5VmpMVTArQnFnbDZBdjZEZDkKRHp3cGkzMWZQZC8wU0JXN3FwMUFwZz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K",
+      "type": "string",
+      "sensitive": true
+    },
+    "cluster_name": {
+      "value": "cinemantic-cluster",
+      "type": "string"
+    },
+    "ingress_ip_address": {
+      "value": "34.149.170.102",
+      "type": "string"
+    },
+    "ingress_ip_name": {
+      "value": "movie-recs-ip",
+      "type": "string"
+    },
+    "model_bucket_name": {
+      "value": "cinemantic-models-starry-braid-483111-t0",
+      "type": "string"
+    },
+    "region": {
+      "value": "europe-central2",
+      "type": "string"
+    },
+    "zone": {
+      "value": "europe-central2-b",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "data",
+      "type": "google_client_config",
+      "name": "default",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "access_token": "ya29.c.c0AYnqXljOGzTF6DNhsGVo4LSQFPoFwmMbShL66ZiLLF6hPpt5PcM4OSxGmV7PtC5Uhjo7Hsrk8rV_QrAvQM-pYfJS5WZv5OrsZSctXWThrfETVogCFXIYOzZ7Z2DiNESbKpWOMXdfiS-FzBEoBqtgcEkZVsTFYuYTfLOp1-tC0XdSQUTL80DGo_03Ti7wAdFnXIiE-Ozb7iGEGGSCICUPS52QDXxqwb2WcPSkEXbuiGp0OhVpHRP1fZ-T7UCccY707m0FIh7W_n3zv9eO05KX64kjKegAIGoZUKQr-LAWw9D17H8M_u1d3FF7ecffuWLDXGeJ1WtgiJMGqWFRVA8z3MiVFIm2aRgJh3pAXsJJknTZxkmIhYTMGNPdswT387Ap_zF2wM6uzltjrmuVqxwd6rUvZXRZkOxdQro4kcIf1bIBo7QoOdz0xtuOc6rQ-qYWiYMxoMrRaMomQSfS6F3Ql2Oe2cYZejM_Bwfz8lB93-3-WvMgkQ5682nI-dWyWWpbcJBay8Ru5MvyIiutfpcaVjIfdzaY2Vqx4Xaf-ulj9gr59M6aQgd12RQX8jid2V-zFRzZad7MeJBmv5yJ20SyYdxe8R2dk0YsJJIZZJuQR7qX1nunbq6xuZVi_Z7dF5j3hMlyQv5aMZ98jRU9b9_jsvjvMhtwyrJvq1YpwuYMOYOJ0aoqOhaYJhvRIpy33J_wubSW5doxUvsRrorVatxiloV2Mrrh27lh5n283jX8cJFou_0W30j9x-615ecOFdU_V7R2jjhRrz4bIBR02iFQcRBY4c3qR26jhS1iUs7id4kXeMS2JWF7mbv5bB2O4WnJ3JQMJFelohBznpbJ_qXysd0ksr29rXBBy-hea-X7yv8qVq2lVoFk2esvB7W_wRO5peF4pbFblo9McwXdcJMc4mJtmi7m4kVRtsdcslYvJMQ4qFv5f6Jsr_BVloh_cdFjFQnjtJuS2jbW5F7S1RXgS8onBOkk7fXcjfQBkbnYRfcmisp7YkhepuX",
+            "default_labels": null,
+            "id": "projects/\"starry-braid-483111-t0\"/regions/\"europe-central2\"/zones/\u003cnull\u003e",
+            "project": "starry-braid-483111-t0",
+            "region": "europe-central2",
+            "zone": null
+          },
+          "sensitive_attributes": []
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "gitlab_cluster_agent",
+      "name": "gke_agent",
+      "provider": "provider[\"registry.terraform.io/gitlabhq/gitlab\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "agent_id": 521,
+            "created_at": "2026-01-02T13:45:34Z",
+            "created_by_user_id": 9957,
+            "id": "24379:521",
+            "name": "gke-agent",
+            "project": "24379"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "gitlab_cluster_agent_token",
+      "name": "agent_token",
+      "provider": "provider[\"registry.terraform.io/gitlabhq/gitlab\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "agent_id": 521,
+            "created_at": "2026-01-02T14:12:24Z",
+            "created_by_user_id": 9957,
+            "description": "",
+            "id": "24379:521:526",
+            "last_used_at": null,
+            "name": "terraform-generated-token",
+            "project": "24379",
+            "status": "active",
+            "token": "glagent--7USeIh0Hwr-h_HNendE5W86MQpwOml0Nwk.01.0z0mwiz1g",
+            "token_id": 526
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "gitlab_cluster_agent.gke_agent"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_global_address",
+      "name": "ingress_ip",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address": "34.149.170.102",
+            "address_type": "EXTERNAL",
+            "creation_timestamp": "2026-01-02T05:38:41.656-08:00",
+            "description": "",
+            "effective_labels": {},
+            "id": "projects/starry-braid-483111-t0/global/addresses/movie-recs-ip",
+            "ip_version": "",
+            "label_fingerprint": "42WmSpB8rSM=",
+            "labels": {},
+            "name": "movie-recs-ip",
+            "network": "",
+            "prefix_length": 0,
+            "project": "starry-braid-483111-t0",
+            "purpose": "",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/starry-braid-483111-t0/global/addresses/movie-recs-ip",
+            "terraform_labels": {},
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_global_address",
+      "name": "private_ip_range",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address": "10.73.0.0",
+            "address_type": "INTERNAL",
+            "creation_timestamp": "2026-01-02T05:39:03.458-08:00",
+            "description": "",
+            "effective_labels": {},
+            "id": "projects/starry-braid-483111-t0/global/addresses/google-managed-services-range",
+            "ip_version": "",
+            "label_fingerprint": "42WmSpB8rSM=",
+            "labels": {},
+            "name": "google-managed-services-range",
+            "network": "https://www.googleapis.com/compute/v1/projects/starry-braid-483111-t0/global/networks/cinemantic-vpc",
+            "prefix_length": 16,
+            "project": "starry-braid-483111-t0",
+            "purpose": "VPC_PEERING",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/starry-braid-483111-t0/global/addresses/google-managed-services-range",
+            "terraform_labels": {},
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_network.vpc_network"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_network",
+      "name": "vpc_network",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "auto_create_subnetworks": false,
+            "delete_default_routes_on_create": false,
+            "description": "",
+            "enable_ula_internal_ipv6": false,
+            "gateway_ipv4": "",
+            "id": "projects/starry-braid-483111-t0/global/networks/cinemantic-vpc",
+            "internal_ipv6_range": "",
+            "mtu": 0,
+            "name": "cinemantic-vpc",
+            "network_firewall_policy_enforcement_order": "AFTER_CLASSIC_FIREWALL",
+            "numeric_id": "8170365106865730702",
+            "project": "starry-braid-483111-t0",
+            "routing_mode": "REGIONAL",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/starry-braid-483111-t0/global/networks/cinemantic-vpc",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_subnetwork",
+      "name": "subnet",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "creation_timestamp": "2026-01-02T05:39:05.747-08:00",
+            "description": "",
+            "external_ipv6_prefix": "",
+            "fingerprint": null,
+            "gateway_address": "10.10.0.1",
+            "id": "projects/starry-braid-483111-t0/regions/europe-central2/subnetworks/cinemantic-vpc-subnet",
+            "internal_ipv6_prefix": "",
+            "ip_cidr_range": "10.10.0.0/24",
+            "ipv6_access_type": "",
+            "ipv6_cidr_range": "",
+            "log_config": [],
+            "name": "cinemantic-vpc-subnet",
+            "network": "https://www.googleapis.com/compute/v1/projects/starry-braid-483111-t0/global/networks/cinemantic-vpc",
+            "private_ip_google_access": true,
+            "private_ipv6_google_access": "DISABLE_GOOGLE_ACCESS",
+            "project": "starry-braid-483111-t0",
+            "purpose": "PRIVATE",
+            "region": "europe-central2",
+            "role": "",
+            "secondary_ip_range": [
+              {
+                "ip_cidr_range": "10.48.0.0/14",
+                "range_name": "k8s-pod-range"
+              },
+              {
+                "ip_cidr_range": "10.52.0.0/20",
+                "range_name": "k8s-service-range"
+              }
+            ],
+            "self_link": "https://www.googleapis.com/compute/v1/projects/starry-braid-483111-t0/regions/europe-central2/subnetworks/cinemantic-vpc-subnet",
+            "send_secondary_ip_range_if_empty": null,
+            "stack_type": "IPV4_ONLY",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_network.vpc_network"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_container_cluster",
+      "name": "primary",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "addons_config": [
+              {
+                "cloudrun_config": [],
+                "config_connector_config": [],
+                "dns_cache_config": [],
+                "gce_persistent_disk_csi_driver_config": [
+                  {
+                    "enabled": true
+                  }
+                ],
+                "gcp_filestore_csi_driver_config": [],
+                "gcs_fuse_csi_driver_config": [],
+                "gke_backup_agent_config": [],
+                "horizontal_pod_autoscaling": [],
+                "http_load_balancing": [],
+                "network_policy_config": [
+                  {
+                    "disabled": true
+                  }
+                ],
+                "ray_operator_config": [],
+                "stateful_ha_config": []
+              }
+            ],
+            "allow_net_admin": null,
+            "authenticator_groups_config": [],
+            "binary_authorization": [
+              {
+                "enabled": false,
+                "evaluation_mode": ""
+              }
+            ],
+            "cluster_autoscaling": [
+              {
+                "auto_provisioning_defaults": [],
+                "auto_provisioning_locations": [],
+                "autoscaling_profile": "BALANCED",
+                "enabled": false,
+                "resource_limits": []
+              }
+            ],
+            "cluster_ipv4_cidr": "10.48.0.0/14",
+            "confidential_nodes": [],
+            "cost_management_config": [],
+            "database_encryption": [
+              {
+                "key_name": "",
+                "state": "DECRYPTED"
+              }
+            ],
+            "datapath_provider": "",
+            "default_max_pods_per_node": 110,
+            "default_snat_status": [
+              {
+                "disabled": false
+              }
+            ],
+            "deletion_protection": false,
+            "description": "",
+            "dns_config": [],
+            "enable_autopilot": false,
+            "enable_cilium_clusterwide_network_policy": false,
+            "enable_intranode_visibility": false,
+            "enable_k8s_beta_apis": [],
+            "enable_kubernetes_alpha": false,
+            "enable_l4_ilb_subsetting": false,
+            "enable_legacy_abac": false,
+            "enable_multi_networking": false,
+            "enable_shielded_nodes": true,
+            "enable_tpu": false,
+            "endpoint": "34.118.78.162",
+            "fleet": [],
+            "gateway_api_config": [],
+            "id": "projects/starry-braid-483111-t0/locations/europe-central2-b/clusters/cinemantic-cluster",
+            "identity_service_config": [],
+            "initial_node_count": 1,
+            "ip_allocation_policy": [
+              {
+                "additional_pod_ranges_config": [],
+                "cluster_ipv4_cidr_block": "10.48.0.0/14",
+                "cluster_secondary_range_name": "k8s-pod-range",
+                "pod_cidr_overprovision_config": [
+                  {
+                    "disabled": false
+                  }
+                ],
+                "services_ipv4_cidr_block": "10.52.0.0/20",
+                "services_secondary_range_name": "k8s-service-range",
+                "stack_type": "IPV4"
+              }
+            ],
+            "label_fingerprint": "a9dc16a7",
+            "location": "europe-central2-b",
+            "logging_config": [
+              {
+                "enable_components": [
+                  "SYSTEM_COMPONENTS",
+                  "WORKLOADS"
+                ]
+              }
+            ],
+            "logging_service": "logging.googleapis.com/kubernetes",
+            "maintenance_policy": [],
+            "master_auth": [
+              {
+                "client_certificate": "",
+                "client_certificate_config": [
+                  {
+                    "issue_client_certificate": false
+                  }
+                ],
+                "client_key": "",
+                "cluster_ca_certificate": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMRENDQXBTZ0F3SUJBZ0lRZlE2Y1o2aTFUc1RGK1RGNFJDK2gzVEFOQmdrcWhraUc5dzBCQVFzRkFEQXYKTVMwd0t3WURWUVFERXlSallXWXpNbVppTkMxa05tUmxMVFF3TWpNdE9XVmhZUzA1WWpFMk5qWXdaV0ZtWldFdwpJQmNOTWpZd01UQXlNVEkwTmpJeldoZ1BNakExTlRFeU1qWXhNelEyTWpOYU1DOHhMVEFyQmdOVkJBTVRKR05oClpqTXlabUkwTFdRMlpHVXROREF5TXkwNVpXRmhMVGxpTVRZMk5qQmxZV1psWVRDQ0FhSXdEUVlKS29aSWh2Y04KQVFFQkJRQURnZ0dQQURDQ0FZb0NnZ0dCQU1KSTNYeUI4UThVdDY2MWx2WWRoR0pGMWxSempJNG9yemdpU1NybQpxMWVLZTVKNDR1aHFrSWM1VnhZWVY0Zi95bHg2M0xSeE5SaDBCbUxUOWZZRzNBK1RKUDBQREZmTjhBNGlFY0w3CjJmSTkzeXBOejg1eUFYT2JNM2hneVdoWmNCVW5PV3Yrc0JncFdCTjd0eVlxV2ZUVHpJM2s0VzRZUUoxNGlSM0IKQTNXb0l1ZDBRbE13Z1NnMHFvZThGSXl6SlBpSHhHZ3RXRUM5azVUUkhDTW1rNWZtRzRvUWl4d3hpQldhdmd4Rgo5M1N4SHFIYXFrWURVY0lMUnRmUENWeW9yZUJmUUV1anBNaFlWYzdtbVY1T29KeEYvRXlEUDZybTdGdlVrOWExCjZWRGYybzhjcXVlTjhCbzRNL1NacVZHYXphZ0VUbVlZbEFRTDlMRkRaMTJkQmhMeTg1VWozUDFrcjhqa2lKUEUKTGFjRHhpbEJNMUVrRFIrVUNKb1lMb2M4U3gvc29BR2o3SzhWbWlHekE0T1RjV2VMRUl0TGNUTHpheDhOdyswbApoVlFVVzNVOWlzSElDb3ZSclplTlY3L0FzT1l4MTQrZUV5NW9TQlM3aHZOQXkwMFM2NldBblNqWHd6UU9VUGx5CjB2MHRNcGs2dUYwRDRoaVRQbUJJd2E3aGxRSURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQWdRd0R3WUQKVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVU3T3BGcG1OY2VRQ29RazZTZ3pyWjdObjRkRU13RFFZSgpLb1pJaHZjTkFRRUxCUUFEZ2dHQkFMT0tiY25xdWtPT1l6eGRTc25uVDIwUmtFbk5KOTBGQWpDclp5aWh0Ky9HCk05ZmxqUE1CUDhCRnJpM3UxcTZIaENtaEEzRXZaRDN0SWZ4Q2w4VUY0NFhiL2FldVByUExINWNrckZEd2YycWYKRHJsejU1M0cvaXo3bUpZNllsU2syM1FIS0dFVGx3ZmhFUjRxUVA5RXJsVWYxZVlnN2FwQmVOUks2UFNFMFhHMgpwWWJNMVpZL20xdHU2RE1LcWVldFBTd1Z1MGdyN1Aramkya0UybklwZVlwbE9pTzQybkJPNk5LcUtyTFVQZTZSCi8xYW9LbGJ2dGlKSHpzM0pJZXVFYlphMWJ0b1hSaEtCRm4rVmczQWdzKzd5dmlxOE5hd0NQM1daQmE3cjJUVVMKREpzdllJZ0lid1RtTS82V2JsQU5xY2dwVUs1Q0c3Qmw0a212cFA5b3NIcGRvV1o1T2lGRVIxTkdkQ3NUeG1QNgp0K3NwR3puLzZyeGFhQWwwYld1ZXZ6Y0FqcmI5Mzlpb3B5cEhqS1crYVBsaGdIS2Nmak5uTTJUYmZkaUs0bjhSCmowVnNESEZUN0Vjb3AwNVczL0hUT3prVEFZM3RtSjVOY3Q5U2FJSzAyVUdYMlZ5VmpMVTArQnFnbDZBdjZEZDkKRHp3cGkzMWZQZC8wU0JXN3FwMUFwZz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"
+              }
+            ],
+            "master_authorized_networks_config": [],
+            "master_version": "1.33.5-gke.1308000",
+            "mesh_certificates": [],
+            "min_master_version": null,
+            "monitoring_config": [
+              {
+                "advanced_datapath_observability_config": [
+                  {
+                    "enable_metrics": false,
+                    "enable_relay": false,
+                    "relay_mode": "DISABLED"
+                  }
+                ],
+                "enable_components": [
+                  "SYSTEM_COMPONENTS",
+                  "STATEFULSET",
+                  "JOBSET",
+                  "STORAGE",
+                  "HPA",
+                  "POD",
+                  "DAEMONSET",
+                  "DEPLOYMENT",
+                  "CADVISOR",
+                  "KUBELET",
+                  "DCGM"
+                ],
+                "managed_prometheus": [
+                  {
+                    "enabled": true
+                  }
+                ]
+              }
+            ],
+            "monitoring_service": "monitoring.googleapis.com/kubernetes",
+            "name": "cinemantic-cluster",
+            "network": "projects/starry-braid-483111-t0/global/networks/cinemantic-vpc",
+            "network_policy": [
+              {
+                "enabled": false,
+                "provider": "PROVIDER_UNSPECIFIED"
+              }
+            ],
+            "networking_mode": "VPC_NATIVE",
+            "node_config": [
+              {
+                "advanced_machine_features": [],
+                "boot_disk_kms_key": "",
+                "confidential_nodes": [],
+                "containerd_config": [],
+                "disk_size_gb": 50,
+                "disk_type": "pd-ssd",
+                "effective_taints": [],
+                "enable_confidential_storage": false,
+                "ephemeral_storage_local_ssd_config": [],
+                "fast_socket": [],
+                "gcfs_config": [],
+                "guest_accelerator": [],
+                "gvnic": [],
+                "host_maintenance_policy": [],
+                "image_type": "COS_CONTAINERD",
+                "kubelet_config": [
+                  {
+                    "cpu_cfs_quota": false,
+                    "cpu_cfs_quota_period": "",
+                    "cpu_manager_policy": "",
+                    "insecure_kubelet_readonly_port_enabled": "FALSE",
+                    "pod_pids_limit": 0
+                  }
+                ],
+                "labels": {},
+                "linux_node_config": [],
+                "local_nvme_ssd_block_config": [],
+                "local_ssd_count": 0,
+                "logging_variant": "DEFAULT",
+                "machine_type": "e2-highcpu-4",
+                "metadata": {
+                  "disable-legacy-endpoints": "true"
+                },
+                "min_cpu_platform": "",
+                "node_group": "",
+                "oauth_scopes": [
+                  "https://www.googleapis.com/auth/cloud-platform"
+                ],
+                "preemptible": false,
+                "reservation_affinity": [],
+                "resource_labels": {
+                  "goog-gke-node-pool-provisioning-model": "on-demand"
+                },
+                "resource_manager_tags": {},
+                "secondary_boot_disks": [],
+                "service_account": "default",
+                "shielded_instance_config": [
+                  {
+                    "enable_integrity_monitoring": true,
+                    "enable_secure_boot": false
+                  }
+                ],
+                "sole_tenant_config": [],
+                "spot": false,
+                "tags": [],
+                "taint": [],
+                "workload_metadata_config": [
+                  {
+                    "mode": "GKE_METADATA"
+                  }
+                ]
+              }
+            ],
+            "node_locations": [],
+            "node_pool": [
+              {
+                "autoscaling": [
+                  {
+                    "location_policy": "BALANCED",
+                    "max_node_count": 1,
+                    "min_node_count": 1,
+                    "total_max_node_count": 0,
+                    "total_min_node_count": 0
+                  }
+                ],
+                "initial_node_count": 1,
+                "instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/starry-braid-483111-t0/zones/europe-central2-b/instanceGroupManagers/gke-cinemantic-cluster-standard-pool-5ac02d31-grp"
+                ],
+                "managed_instance_group_urls": [
+                  "https://www.googleapis.com/compute/v1/projects/starry-braid-483111-t0/zones/europe-central2-b/instanceGroups/gke-cinemantic-cluster-standard-pool-5ac02d31-grp"
+                ],
+                "management": [
+                  {
+                    "auto_repair": true,
+                    "auto_upgrade": true
+                  }
+                ],
+                "max_pods_per_node": 110,
+                "name": "standard-pool",
+                "name_prefix": "",
+                "network_config": [
+                  {
+                    "additional_node_network_configs": [],
+                    "additional_pod_network_configs": [],
+                    "create_pod_range": false,
+                    "enable_private_nodes": true,
+                    "network_performance_config": [],
+                    "pod_cidr_overprovision_config": [],
+                    "pod_ipv4_cidr_block": "10.48.0.0/14",
+                    "pod_range": "k8s-pod-range"
+                  }
+                ],
+                "node_config": [
+                  {
+                    "advanced_machine_features": [],
+                    "boot_disk_kms_key": "",
+                    "confidential_nodes": [],
+                    "containerd_config": [],
+                    "disk_size_gb": 50,
+                    "disk_type": "pd-ssd",
+                    "effective_taints": [],
+                    "enable_confidential_storage": false,
+                    "ephemeral_storage_local_ssd_config": [],
+                    "fast_socket": [],
+                    "gcfs_config": [],
+                    "guest_accelerator": [],
+                    "gvnic": [],
+                    "host_maintenance_policy": [],
+                    "image_type": "COS_CONTAINERD",
+                    "kubelet_config": [
+                      {
+                        "cpu_cfs_quota": false,
+                        "cpu_cfs_quota_period": "",
+                        "cpu_manager_policy": "",
+                        "insecure_kubelet_readonly_port_enabled": "FALSE",
+                        "pod_pids_limit": 0
+                      }
+                    ],
+                    "labels": {},
+                    "linux_node_config": [],
+                    "local_nvme_ssd_block_config": [],
+                    "local_ssd_count": 0,
+                    "logging_variant": "DEFAULT",
+                    "machine_type": "e2-highcpu-4",
+                    "metadata": {
+                      "disable-legacy-endpoints": "true"
+                    },
+                    "min_cpu_platform": "",
+                    "node_group": "",
+                    "oauth_scopes": [
+                      "https://www.googleapis.com/auth/cloud-platform"
+                    ],
+                    "preemptible": false,
+                    "reservation_affinity": [],
+                    "resource_labels": {
+                      "goog-gke-node-pool-provisioning-model": "on-demand"
+                    },
+                    "resource_manager_tags": {},
+                    "secondary_boot_disks": [],
+                    "service_account": "default",
+                    "shielded_instance_config": [
+                      {
+                        "enable_integrity_monitoring": true,
+                        "enable_secure_boot": false
+                      }
+                    ],
+                    "sole_tenant_config": [],
+                    "spot": false,
+                    "tags": [],
+                    "taint": [],
+                    "workload_metadata_config": [
+                      {
+                        "mode": "GKE_METADATA"
+                      }
+                    ]
+                  }
+                ],
+                "node_count": 1,
+                "node_locations": [
+                  "europe-central2-b"
+                ],
+                "placement_policy": [],
+                "queued_provisioning": [],
+                "upgrade_settings": [
+                  {
+                    "blue_green_settings": [],
+                    "max_surge": 1,
+                    "max_unavailable": 0,
+                    "strategy": "SURGE"
+                  }
+                ],
+                "version": "1.33.5-gke.1308000"
+              }
+            ],
+            "node_pool_auto_config": [
+              {
+                "network_tags": [],
+                "node_kubelet_config": [
+                  {
+                    "insecure_kubelet_readonly_port_enabled": "FALSE"
+                  }
+                ],
+                "resource_manager_tags": {}
+              }
+            ],
+            "node_pool_defaults": [
+              {
+                "node_config_defaults": [
+                  {
+                    "containerd_config": [],
+                    "insecure_kubelet_readonly_port_enabled": "FALSE",
+                    "logging_variant": "DEFAULT"
+                  }
+                ]
+              }
+            ],
+            "node_version": "1.33.5-gke.1308000",
+            "notification_config": [
+              {
+                "pubsub": [
+                  {
+                    "enabled": false,
+                    "filter": [],
+                    "topic": ""
+                  }
+                ]
+              }
+            ],
+            "operation": null,
+            "private_cluster_config": [
+              {
+                "enable_private_endpoint": false,
+                "enable_private_nodes": true,
+                "master_global_access_config": [
+                  {
+                    "enabled": false
+                  }
+                ],
+                "master_ipv4_cidr_block": "172.16.0.0/28",
+                "peering_name": "",
+                "private_endpoint": "172.16.0.2",
+                "private_endpoint_subnetwork": "",
+                "public_endpoint": "34.118.78.162"
+              }
+            ],
+            "private_ipv6_google_access": "",
+            "project": "starry-braid-483111-t0",
+            "release_channel": [
+              {
+                "channel": "REGULAR"
+              }
+            ],
+            "remove_default_node_pool": true,
+            "resource_labels": {},
+            "resource_usage_export_config": [],
+            "security_posture_config": [
+              {
+                "mode": "BASIC",
+                "vulnerability_mode": "VULNERABILITY_MODE_UNSPECIFIED"
+              }
+            ],
+            "self_link": "https://container.googleapis.com/v1/projects/starry-braid-483111-t0/zones/europe-central2-b/clusters/cinemantic-cluster",
+            "service_external_ips_config": [
+              {
+                "enabled": false
+              }
+            ],
+            "services_ipv4_cidr": "10.52.0.0/20",
+            "subnetwork": "projects/starry-braid-483111-t0/regions/europe-central2/subnetworks/cinemantic-vpc-subnet",
+            "timeouts": null,
+            "tpu_ipv4_cidr_block": "",
+            "vertical_pod_autoscaling": [],
+            "workload_identity_config": [
+              {
+                "workload_pool": "starry-braid-483111-t0.svc.id.goog"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAwLCJkZWxldGUiOjI0MDAwMDAwMDAwMDAsInJlYWQiOjI0MDAwMDAwMDAwMDAsInVwZGF0ZSI6MzYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMiJ9",
+          "dependencies": [
+            "google_compute_global_address.private_ip_range",
+            "google_compute_network.vpc_network",
+            "google_compute_subnetwork.subnet",
+            "google_service_networking_connection.private_vpc_connection"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_container_node_pool",
+      "name": "standard_pool",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "autoscaling": [
+              {
+                "location_policy": "BALANCED",
+                "max_node_count": 1,
+                "min_node_count": 1,
+                "total_max_node_count": 0,
+                "total_min_node_count": 0
+              }
+            ],
+            "cluster": "cinemantic-cluster",
+            "id": "projects/starry-braid-483111-t0/locations/europe-central2-b/clusters/cinemantic-cluster/nodePools/standard-pool",
+            "initial_node_count": 1,
+            "instance_group_urls": [
+              "https://www.googleapis.com/compute/v1/projects/starry-braid-483111-t0/zones/europe-central2-b/instanceGroupManagers/gke-cinemantic-cluster-standard-pool-5ac02d31-grp"
+            ],
+            "location": "europe-central2-b",
+            "managed_instance_group_urls": [
+              "https://www.googleapis.com/compute/v1/projects/starry-braid-483111-t0/zones/europe-central2-b/instanceGroups/gke-cinemantic-cluster-standard-pool-5ac02d31-grp"
+            ],
+            "management": [
+              {
+                "auto_repair": true,
+                "auto_upgrade": true
+              }
+            ],
+            "max_pods_per_node": 110,
+            "name": "standard-pool",
+            "name_prefix": "",
+            "network_config": [
+              {
+                "additional_node_network_configs": [],
+                "additional_pod_network_configs": [],
+                "create_pod_range": false,
+                "enable_private_nodes": true,
+                "network_performance_config": [],
+                "pod_cidr_overprovision_config": [],
+                "pod_ipv4_cidr_block": "10.48.0.0/14",
+                "pod_range": "k8s-pod-range"
+              }
+            ],
+            "node_config": [
+              {
+                "advanced_machine_features": [],
+                "boot_disk_kms_key": "",
+                "confidential_nodes": [],
+                "containerd_config": [],
+                "disk_size_gb": 50,
+                "disk_type": "pd-ssd",
+                "effective_taints": [],
+                "enable_confidential_storage": false,
+                "ephemeral_storage_local_ssd_config": [],
+                "fast_socket": [],
+                "gcfs_config": [],
+                "guest_accelerator": [],
+                "gvnic": [],
+                "host_maintenance_policy": [],
+                "image_type": "COS_CONTAINERD",
+                "kubelet_config": [
+                  {
+                    "cpu_cfs_quota": false,
+                    "cpu_cfs_quota_period": "",
+                    "cpu_manager_policy": "",
+                    "insecure_kubelet_readonly_port_enabled": "FALSE",
+                    "pod_pids_limit": 0
+                  }
+                ],
+                "labels": {},
+                "linux_node_config": [],
+                "local_nvme_ssd_block_config": [],
+                "local_ssd_count": 0,
+                "logging_variant": "DEFAULT",
+                "machine_type": "e2-highcpu-4",
+                "metadata": {
+                  "disable-legacy-endpoints": "true"
+                },
+                "min_cpu_platform": "",
+                "node_group": "",
+                "oauth_scopes": [
+                  "https://www.googleapis.com/auth/cloud-platform"
+                ],
+                "preemptible": false,
+                "reservation_affinity": [],
+                "resource_labels": {
+                  "goog-gke-node-pool-provisioning-model": "on-demand"
+                },
+                "resource_manager_tags": {},
+                "secondary_boot_disks": [],
+                "service_account": "default",
+                "shielded_instance_config": [
+                  {
+                    "enable_integrity_monitoring": true,
+                    "enable_secure_boot": false
+                  }
+                ],
+                "sole_tenant_config": [],
+                "spot": false,
+                "tags": [],
+                "taint": [],
+                "workload_metadata_config": [
+                  {
+                    "mode": "GKE_METADATA"
+                  }
+                ]
+              }
+            ],
+            "node_count": 1,
+            "node_locations": [
+              "europe-central2-b"
+            ],
+            "operation": null,
+            "placement_policy": [],
+            "project": "starry-braid-483111-t0",
+            "queued_provisioning": [],
+            "timeouts": null,
+            "upgrade_settings": [
+              {
+                "blue_green_settings": [],
+                "max_surge": 1,
+                "max_unavailable": 0,
+                "strategy": "SURGE"
+              }
+            ],
+            "version": "1.33.5-gke.1308000"
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_global_address.private_ip_range",
+            "google_compute_network.vpc_network",
+            "google_compute_subnetwork.subnet",
+            "google_container_cluster.primary",
+            "google_service_networking_connection.private_vpc_connection"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_project_iam_member",
+      "name": "cloudsql_client_binding",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZHZ+9KevA=",
+            "id": "starry-braid-483111-t0/roles/cloudsql.client/serviceAccount:cinemantic-sa@starry-braid-483111-t0.iam.gserviceaccount.com",
+            "member": "serviceAccount:cinemantic-sa@starry-braid-483111-t0.iam.gserviceaccount.com",
+            "project": "starry-braid-483111-t0",
+            "role": "roles/cloudsql.client"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_service_account.cloudsql_sa"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_project_iam_member",
+      "name": "gcs_viewer_binding",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZHZ+9KevA=",
+            "id": "starry-braid-483111-t0/roles/storage.objectAdmin/serviceAccount:cinemantic-sa@starry-braid-483111-t0.iam.gserviceaccount.com",
+            "member": "serviceAccount:cinemantic-sa@starry-braid-483111-t0.iam.gserviceaccount.com",
+            "project": "starry-braid-483111-t0",
+            "role": "roles/storage.objectAdmin"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_service_account.cloudsql_sa"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_service_account",
+      "name": "cloudsql_sa",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "cinemantic-sa",
+            "create_ignore_already_exists": null,
+            "description": "",
+            "disabled": false,
+            "display_name": "GSA for Django Cloud SQL Access",
+            "email": "cinemantic-sa@starry-braid-483111-t0.iam.gserviceaccount.com",
+            "id": "projects/starry-braid-483111-t0/serviceAccounts/cinemantic-sa@starry-braid-483111-t0.iam.gserviceaccount.com",
+            "member": "serviceAccount:cinemantic-sa@starry-braid-483111-t0.iam.gserviceaccount.com",
+            "name": "projects/starry-braid-483111-t0/serviceAccounts/cinemantic-sa@starry-braid-483111-t0.iam.gserviceaccount.com",
+            "project": "starry-braid-483111-t0",
+            "timeouts": null,
+            "unique_id": "116504496386716143963"
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9fQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_service_account_iam_member",
+      "name": "workload_identity_binding",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZHaBRBtFw=",
+            "id": "projects/starry-braid-483111-t0/serviceAccounts/cinemantic-sa@starry-braid-483111-t0.iam.gserviceaccount.com/roles/iam.workloadIdentityUser/serviceAccount:starry-braid-483111-t0.svc.id.goog[default/app-sa]",
+            "member": "serviceAccount:starry-braid-483111-t0.svc.id.goog[default/app-sa]",
+            "role": "roles/iam.workloadIdentityUser",
+            "service_account_id": "projects/starry-braid-483111-t0/serviceAccounts/cinemantic-sa@starry-braid-483111-t0.iam.gserviceaccount.com"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_compute_global_address.private_ip_range",
+            "google_compute_network.vpc_network",
+            "google_compute_subnetwork.subnet",
+            "google_container_cluster.primary",
+            "google_service_account.cloudsql_sa",
+            "google_service_networking_connection.private_vpc_connection"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_service_networking_connection",
+      "name": "private_vpc_connection",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "deletion_policy": null,
+            "id": "projects%2Fstarry-braid-483111-t0%2Fglobal%2Fnetworks%2Fcinemantic-vpc:servicenetworking.googleapis.com",
+            "network": "projects/starry-braid-483111-t0/global/networks/cinemantic-vpc",
+            "peering": "servicenetworking-googleapis-com",
+            "reserved_peering_ranges": [
+              "google-managed-services-range"
+            ],
+            "service": "servicenetworking.googleapis.com",
+            "timeouts": null,
+            "update_on_creation_fail": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_global_address.private_ip_range",
+            "google_compute_network.vpc_network"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_sql_database",
+      "name": "database",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "charset": "UTF8",
+            "collation": "en_US.UTF8",
+            "deletion_policy": "DELETE",
+            "id": "projects/starry-braid-483111-t0/instances/cinemantic-db/databases/cinemantic_db",
+            "instance": "cinemantic-db",
+            "name": "cinemantic_db",
+            "project": "starry-braid-483111-t0",
+            "self_link": "https://sqladmin.googleapis.com/sql/v1beta4/projects/starry-braid-483111-t0/instances/cinemantic-db/databases/cinemantic_db",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_global_address.private_ip_range",
+            "google_compute_network.vpc_network",
+            "google_service_networking_connection.private_vpc_connection",
+            "google_sql_database_instance.postgres_instance"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_sql_database_instance",
+      "name": "postgres_instance",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "available_maintenance_versions": [],
+            "clone": [],
+            "connection_name": "starry-braid-483111-t0:europe-central2:cinemantic-db",
+            "database_version": "POSTGRES_15",
+            "deletion_protection": false,
+            "dns_name": "",
+            "encryption_key_name": null,
+            "first_ip_address": "10.73.0.3",
+            "id": "cinemantic-db",
+            "instance_type": "CLOUD_SQL_INSTANCE",
+            "ip_address": [
+              {
+                "ip_address": "10.73.0.3",
+                "time_to_retire": "",
+                "type": "PRIVATE"
+              }
+            ],
+            "maintenance_version": "POSTGRES_15_15.R20251004.01_26",
+            "master_instance_name": "",
+            "name": "cinemantic-db",
+            "private_ip_address": "10.73.0.3",
+            "project": "starry-braid-483111-t0",
+            "psc_service_attachment_link": "",
+            "public_ip_address": "",
+            "region": "europe-central2",
+            "replica_configuration": [],
+            "restore_backup_context": [],
+            "root_password": null,
+            "self_link": "https://sqladmin.googleapis.com/sql/v1beta4/projects/starry-braid-483111-t0/instances/cinemantic-db",
+            "server_ca_cert": [
+              {
+                "cert": "-----BEGIN CERTIFICATE-----\nMIIDfzCCAmegAwIBAgIBADANBgkqhkiG9w0BAQsFADB3MS0wKwYDVQQuEyQ4ZmU2\nMWIxOC04ODg0LTQ2MGYtOTIzNy0xZGZjODM4YmRmYTQxIzAhBgNVBAMTGkdvb2ds\nZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUsIEluYzELMAkG\nA1UEBhMCVVMwHhcNMjYwMTAyMTQxNTI2WhcNMzUxMjMxMTQxNjI2WjB3MS0wKwYD\nVQQuEyQ4ZmU2MWIxOC04ODg0LTQ2MGYtOTIzNy0xZGZjODM4YmRmYTQxIzAhBgNV\nBAMTGkdvb2dsZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUs\nIEluYzELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB\nAQDUFh29BuBUeNTMutr0occ/NIE6OwgUUrxkNteu1UBE6OctCwL2b+ceWfVYhG0b\nAtAfRO826jfvJfyr/R0kKC/BXWaFDJ1mjIepO+f+HDwXVxZHR6TWJ4idh3jKDBjv\n2Rno6zv3ClX+Hu0Zea3S/zenPtYFWGEl9HKF2rB3HpznBPk28JHe5Q2N7hl4bz5V\n3h+5keJGzYGymrhYj4Op4tbVbV4q0S691iWRlTTsAVekujQChJTSxV3dRQR7YPNk\ntShd0/DV71y6+vhuChjj1xwSoGX0CTaFrSlI/7ohOWrklCTjhtZMvoDyK59bzeVU\nNYlQk0dtWVHWa+uPSGknZEe1AgMBAAGjFjAUMBIGA1UdEwEB/wQIMAYBAf8CAQAw\nDQYJKoZIhvcNAQELBQADggEBAKLmHpqByzkwj3IzzErXYuux3mVLkpg0PHiqTXzc\nD3pgzbcGbehmLR61b9P4sXM/6/W4btVif0bdB5/5SYUcVLB6dzx5ffXB9neyRaFJ\nF7E6+q0qfOZWvT2gEzAH8KShRKkDHw9KEOip9Jphp+wTTUOKup7OL3hpDdOG41HJ\n2GI8KEfpvwvheOlxa9qt7j2k+ZuN4l7d/gxmMmwmCsKq/Rqc3rT3u+7kfm0uKZyC\no7lRAxciQLN1UHI3vAiygHuGK6664hXxDwd18A8CEO043kErosmrU2hlZBsQUoih\n/S96xSLvIEAK+BE0hFEWuqqZ4dBKDBx+l+7FUQizlVFlFrk=\n-----END CERTIFICATE-----",
+                "common_name": "C=US,O=Google\\, Inc,CN=Google Cloud SQL Server CA,dnQualifier=8fe61b18-8884-460f-9237-1dfc838bdfa4",
+                "create_time": "2026-01-02T14:15:26.941Z",
+                "expiration_time": "2035-12-31T14:16:26.941Z",
+                "sha1_fingerprint": "d373ec05101f4e04db93eee300be0d3adeb4224f"
+              }
+            ],
+            "service_account_email_address": "p254073403506-157k7i@gcp-sa-cloud-sql.iam.gserviceaccount.com",
+            "settings": [
+              {
+                "activation_policy": "ALWAYS",
+                "active_directory_config": [],
+                "advanced_machine_features": [],
+                "availability_type": "ZONAL",
+                "backup_configuration": [
+                  {
+                    "backup_retention_settings": [
+                      {
+                        "retained_backups": 7,
+                        "retention_unit": "COUNT"
+                      }
+                    ],
+                    "binary_log_enabled": false,
+                    "enabled": false,
+                    "location": "",
+                    "point_in_time_recovery_enabled": false,
+                    "start_time": "23:00",
+                    "transaction_log_retention_days": 7
+                  }
+                ],
+                "collation": "",
+                "connector_enforcement": "NOT_REQUIRED",
+                "data_cache_config": [],
+                "database_flags": [],
+                "deletion_protection_enabled": false,
+                "deny_maintenance_period": [],
+                "disk_autoresize": true,
+                "disk_autoresize_limit": 0,
+                "disk_size": 50,
+                "disk_type": "PD_SSD",
+                "edition": "ENTERPRISE",
+                "enable_dataplex_integration": false,
+                "enable_google_ml_integration": false,
+                "insights_config": [],
+                "ip_configuration": [
+                  {
+                    "allocated_ip_range": "",
+                    "authorized_networks": [],
+                    "enable_private_path_for_google_cloud_services": false,
+                    "ipv4_enabled": false,
+                    "private_network": "projects/starry-braid-483111-t0/global/networks/cinemantic-vpc",
+                    "psc_config": [],
+                    "require_ssl": false,
+                    "server_ca_mode": "GOOGLE_MANAGED_INTERNAL_CA",
+                    "ssl_mode": ""
+                  }
+                ],
+                "location_preference": [
+                  {
+                    "follow_gae_application": "",
+                    "secondary_zone": "",
+                    "zone": "europe-central2-a"
+                  }
+                ],
+                "maintenance_window": [],
+                "password_validation_policy": [],
+                "pricing_plan": "PER_USE",
+                "sql_server_audit_config": [],
+                "tier": "db-custom-4-8192",
+                "time_zone": "",
+                "user_labels": {},
+                "version": 1
+              }
+            ],
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInVwZGF0ZSI6NTQwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_global_address.private_ip_range",
+            "google_compute_network.vpc_network",
+            "google_service_networking_connection.private_vpc_connection"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_sql_user",
+      "name": "user",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "deletion_policy": null,
+            "host": "",
+            "id": "postgres//cinemantic-db",
+            "instance": "cinemantic-db",
+            "name": "postgres",
+            "password": "cinemantic",
+            "password_policy": [],
+            "project": "starry-braid-483111-t0",
+            "sql_server_user_details": [],
+            "timeouts": null,
+            "type": ""
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "name"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "password"
+              }
+            ]
+          ],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_global_address.private_ip_range",
+            "google_compute_network.vpc_network",
+            "google_service_networking_connection.private_vpc_connection",
+            "google_sql_database_instance.postgres_instance"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_storage_bucket",
+      "name": "models_bucket",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "autoclass": [],
+            "cors": [],
+            "custom_placement_config": [],
+            "default_event_based_hold": false,
+            "effective_labels": {},
+            "enable_object_retention": false,
+            "encryption": [],
+            "force_destroy": true,
+            "id": "cinemantic-models-starry-braid-483111-t0",
+            "labels": {},
+            "lifecycle_rule": [],
+            "location": "EUROPE-CENTRAL2",
+            "logging": [],
+            "name": "cinemantic-models-starry-braid-483111-t0",
+            "project": "starry-braid-483111-t0",
+            "project_number": 254073403506,
+            "public_access_prevention": "inherited",
+            "requester_pays": false,
+            "retention_policy": [],
+            "rpo": null,
+            "self_link": "https://www.googleapis.com/storage/v1/b/cinemantic-models-starry-braid-483111-t0",
+            "soft_delete_policy": [
+              {
+                "effective_time": "2026-01-02T13:38:42.279Z",
+                "retention_duration_seconds": 604800
+              }
+            ],
+            "storage_class": "STANDARD",
+            "terraform_labels": {},
+            "timeouts": null,
+            "uniform_bucket_level_access": true,
+            "url": "gs://cinemantic-models-starry-braid-483111-t0",
+            "versioning": [],
+            "website": []
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsInJlYWQiOjI0MDAwMDAwMDAwMCwidXBkYXRlIjoyNDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjIifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "kubernetes_role",
+      "name": "deployment_restarter",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "default/deployment-restarter",
+            "metadata": [
+              {
+                "annotations": {},
+                "generate_name": "",
+                "generation": 0,
+                "labels": {},
+                "name": "deployment-restarter",
+                "namespace": "default",
+                "resource_version": "1767362200982559011",
+                "uid": "71d61c8f-b556-43e8-818d-ffecda3a97b7"
+              }
+            ],
+            "rule": [
+              {
+                "api_groups": [
+                  "apps"
+                ],
+                "resource_names": [],
+                "resources": [
+                  "deployments"
+                ],
+                "verbs": [
+                  "get",
+                  "patch"
+                ]
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.google_client_config.default",
+            "google_compute_global_address.private_ip_range",
+            "google_compute_network.vpc_network",
+            "google_compute_subnetwork.subnet",
+            "google_container_cluster.primary",
+            "google_service_networking_connection.private_vpc_connection"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "kubernetes_role_binding",
+      "name": "app_sa_restarter_binding",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "default/app-sa-restarter-binding",
+            "metadata": [
+              {
+                "annotations": {},
+                "generate_name": "",
+                "generation": 0,
+                "labels": {},
+                "name": "app-sa-restarter-binding",
+                "namespace": "default",
+                "resource_version": "1767362201160351009",
+                "uid": "32963536-5546-46cf-91b4-4cfc7c711cb1"
+              }
+            ],
+            "role_ref": [
+              {
+                "api_group": "rbac.authorization.k8s.io",
+                "kind": "Role",
+                "name": "deployment-restarter"
+              }
+            ],
+            "subject": [
+              {
+                "api_group": "",
+                "kind": "ServiceAccount",
+                "name": "app-sa",
+                "namespace": "default"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.google_client_config.default",
+            "google_compute_global_address.private_ip_range",
+            "google_compute_network.vpc_network",
+            "google_compute_subnetwork.subnet",
+            "google_container_cluster.primary",
+            "google_service_networking_connection.private_vpc_connection",
+            "kubernetes_role.deployment_restarter"
+          ]
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
