@@ -37,7 +37,7 @@ build:
 tf-deploy:
   stage: tf-deploy
   script:
-    - terraform apply -auto-approve tfplan
+    - terraform apply -lock=false -auto-approve tfplan
     - terraform output -json > tf_outputs.json
   artifacts:
     paths:
