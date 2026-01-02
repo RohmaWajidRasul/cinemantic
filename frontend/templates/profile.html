@@ -1,14 +1,15 @@
 {% load static %}
 <!DOCTYPE html>
-
+<html>
 <head>
     <link rel="stylesheet" href="{% static 'global.css' %}">
 </head>
-<html>
 
 <body>
-    <div class="film-border top"></div>
-    <main>
+<div class="film-border top"></div>
+
+<main>
+    <div class="main-container">
 
         <div class="search">
             <a href="{% url 'search-page' %}">
@@ -25,246 +26,203 @@
             </a>
         </div>
 
-        <div class="main-container">
-            <div class="form">
-                <label for="current-username">Username</label>
-                <input type="text" name="current-username" id="current-username" placeholder="Loading username..." disabled>
+        <!-- Toggle -->
+        <input type="checkbox" id="edit-toggle" hidden>
 
-                <label for="bio">Bio</label>
-                <input type="text" name="bio" id="bio" placeholder="Bio" required>
-
-                <div class="button-container">
-                    <button onclick="changeUser()" class="blue-button">Change bio</button>
-                </div>
-
+        <!-- VIEW MODE -->
+        <div class="profile-view">
+            <div class="profile-info">
+                <p><strong>Username:</strong> {{ profile.user.username }}</p>
+                <p><strong>Email:</strong> {{ profile.user.email }}</p>
+                <p><strong>Bio:</strong> {{ profile.bio|default:"—" }}</p>
             </div>
-            <div class="form">
-                <label for="new-password">New password</label>
-                <input type="password" name="new-password" id="new-password" placeholder="New password" required>
 
-                <label for="repeate-password">Repeat password</label>
-                <input type="password" name="repeat-password" id="repeat-password" placeholder="Repeat password"
-                    required>
-                <p id="password-error" hidden>
-                    Both passwords must match
-                </p>
-                <div class="button-container">
-                    <button onclick="changePassword()" class="blue-button">Change password</button>
-                </div>
+            <div class="profile-action">
+                <label for="edit-toggle" class="blue-button action-button">
+                    Update profile
+                </label>
+
+                <form method="post" action="{% url 'logout-page' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="red-button action-button">
+                        Logout
+                    </button>
+                </form>
             </div>
+
         </div>
 
-    </main>
-    <div class="film-border bottom"></div>
-</body>
 
+        <!-- EDIT MODE -->
+        <form method="post" class="profile-edit">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" value="{{ profile.user.username }}">
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" value="{{ profile.user.email }}">
+            </div>
+
+            <div class="form-group">
+                <label>Bio</label>
+                <input type="text" name="bio" value="{{ profile.bio }}">
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                <label>New password</label>
+                <input type="password" name="new_password">
+            </div>
+
+            <div class="form-group">
+                <label>Repeat password</label>
+                <input type="password" name="repeat_password">
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="blue-button">Confirm update</button>
+            </div>
+        </form>
+
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+</main>
+
+<div class="film-border bottom"></div>
+</body>
 </html>
 
-<script>
-    const BIO_API_ENDPOINT = 'http://127.0.0.1:8000/api/v1/users/me/';
-
-    const errorMsg = document.getElementById("password-error");
-
-    // Event listener to fetch user data
-    document.addEventListener('DOMContentLoaded', () => {
-        loadUserProfile();
-    });
-
-    // Function to fetch user data
-    async function loadUserProfile() {
-
-        const token = localStorage.getItem('access_token');
-        const loginPageUrl = "{% url 'login-page' %}";
-
-        const usernameInput = document.getElementById('current-username');
-        const bioInput = document.getElementById('bio');
-
-        // Check authentication (tokens)
-        if (!token) {
-            console.log('Error: Authentication token not found. Redirecting to login.');
-            if (usernameInput) {
-                usernameInput.value = 'Please log in to view your profile.';
-            }
-            window.location.href = loginPageUrl;
-            return;
-        }
-
-        // Fetch user data
-        try {
-            const response = await fetch(BIO_API_ENDPOINT, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw errorData;
-            }
-
-            const responseData = await response.json();
-            console.log('Profile data successfully retrieved:', responseData);
-
-            // Update the username
-            if (usernameInput) {
-
-                const username = responseData.profile?.user?.username;
-                usernameInput.value = username || 'Username not found.';
-
-            } else {
-                console.log(`Error: Username input element not found.`);
-            }
-
-            // Update Bio
-            if (bioInput) {
-
-                const bio = responseData.profile?.bio;
-                bioInput.value = bio || 'Bio not found';
-
-            } else {
-                console.log(`Error: Bio input element not found.`);
-            }
-
-        } catch (error) {
-            console.error('Error:', error.message);
-        }
-    }
-
-    // Todo: move logic to views 
-    async function changeUser() {
-
-        const bioInput = document.getElementById('bio');
-        const token = localStorage.getItem('access_token');
-        const userData = {
-            bio: bioInput.value,
-        }
-
-        try {
-            const response = await fetch(BIO_API_ENDPOINT, {
-                method: 'PATCH',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(userData),
-            })
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw errorData;
-            }
-
-            const responseData = await response.json();
-
-            bioInput.value = '';
-            console.log(responseData);
-            loadUserProfile();
-
-        } catch (error) {
-            console.log("Error:", error.message);
-        }
-    }
-
-    //TODO: FINISH ERROR HANDLING
-    async function changePassword() {
-
-        const newPassInput = document.getElementById('new-password');
-        const repeatPassInput = document.getElementById('repeat-password');
-        const token = localStorage.getItem('access_token');
-
-        if (newPassInput.value === repeatPassInput.value){
-            errorMsg.hidden = true;
-
-            const userData = {
-                password: newPassInput.value
-            }
-
-            try {
-                const response = await fetch(BIO_API_ENDPOINT, {
-                    method: 'PATCH',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                    body: JSON.stringify(userData),
-                })
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw errorData;
-                }
-
-                const responseData = await response.json();
-
-                console.log(responseData);
-                newPassInput.value = ""
-                repeatPassInput.value = ""
-
-            } catch (error) {
-                console.log("Error:", error.message);
-            }
-        } else {
-            errorMsg.hidden = false;
-        }
-    }
-</script>
 
 <style scoped>
-    .main-container {
+
+    .profile-action {
         display: flex;
-        padding: 5px 0px;
-        width: 60%;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-top: 30px;
     }
 
-    .search {
+    .action-button {
+        padding: 10px 26px;
+        font-size: 0.95rem;
+        border-radius: 10px;
+    }
+
+    .red-button {
+        background: #3a0d0d;
+        color: #fff;
+        border: 1px solid #ff6b6b;
+        transition: background-color 0.3s;
+    }
+
+    .red-button:hover {
+        background: #ff6b6b;
+    }
+
+
+    .profile {
         top: 0px;
     }
 
-    .history {
-        top: 60px;
+    .search {
+        top: 120px;
     }
 
-    .form {
-        flex: 5;
+    .main-container {
+        max-width: 520px;
+        width: 100%;
+        margin: 80px auto;
+        padding: 30px 40px;
+        background: linear-gradient(180deg, #0b0b0b, #141414);
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.6);
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        text-align: left;
-        margin: 30px auto;
-        max-width: 300px;
+        gap: 20px;
     }
 
-    .form label {
-        color: white;
+
+    /* === View mode === */
+    .profile-view p {
+        color: #f4f4f4;
+        font-size: 1.05rem;
+        margin-bottom: 14px;
     }
 
-    .form input {
-        background-color: #000;
+    .profile-view strong {
+        color: #9aa7ff;
+    }
+
+    /* === Edit mode === */
+    .profile-edit {
+        display: none;
+        gap: 18px;
+    }
+
+    #edit-toggle:checked ~ .profile-view {
+        display: none;
+    }
+
+    #edit-toggle:checked ~ .profile-edit {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* === Labels & inputs === */
+    .profile-edit label {
+        color: #cfd6ff;
+        font-size: 0.85rem;
+        margin-top: 10px;
+    }
+
+    .profile-edit input {
+        width: 100%;
+        padding: 10px 12px;
+        background-color: #0a0a0a;
         color: #f0f0f0;
-        border: 2px solid #333;
-        box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.9);
+        border: 1px solid #2c2c2c;
+        border-radius: 8px;
+        font-size: 0.95rem;
     }
 
-    .form input:focus {
+    .profile-edit input:focus {
         outline: none;
         border-color: #7e8bcb;
-        box-shadow:
-            inset 0 1px 5px rgba(0, 0, 0, 0.9),
-            0 0 8px #7e8bcb;
+        box-shadow: 0 0 6px rgba(126,139,203,0.6);
     }
 
+    /* === Password section === */
+    .profile-edit hr {
+        border: none;
+        border-top: 1px solid #2a2a2a;
+        margin: 25px 0;
+    }
+
+    /* === Buttons === */
     .button-container {
-        display: grid;
-        justify-items: center;
+        margin-top: 25px;
+        display: flex;
+        justify-content: center;
     }
 
-    #password-error {
-        align-self: center;
-        font-size: 0.7rem;
+    .blue-button {
+        margin-top: 0px;
     }
+
+    /* === Error === */
+    .error {
+        color: #ff6b6b;
+        text-align: center;
+        margin-top: 10px;
+    }
+
 </style>

@@ -34,7 +34,7 @@ class RecommendationSerializer(serializers.ModelSerializer):
 class MovieMiniSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ["id", "title", "overview"]
+        fields = ["id", "title", "overview", "poster_url"]
 
 
 class RecommendationHistorySerializer(serializers.ModelSerializer):

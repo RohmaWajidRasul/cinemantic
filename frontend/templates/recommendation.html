@@ -32,15 +32,28 @@
         </div>
 
         <div class="main-container">
-
             {% for rec in recs.recommendations %}
-            <div class="content">
-                <h3>{{rec.title}}</h3>
-                <p>{{rec.overview}}</p>
+            <div class="rec-card">
+                <a href="{% url 'movie-page' rec.id %}" class="rec-poster">
+                    <img
+                        src="{{ rec.poster_url }}"
+                        alt="{{ rec.title }} poster"
+                        loading="lazy"
+                    >
+                </a>
+
+                <div class="rec-info">
+                    <h3>
+                        <a href="{% url 'movie-page' rec.id %}" class="rec-title">
+                            {{ rec.title }}
+                        </a>
+                    </h3>
+                    <p>{{ rec.overview }}</p>
+                </div>
             </div>
             {% endfor %}
-
         </div>
+
 
 
     </main>
@@ -50,16 +63,59 @@
 </html>
 
 <style scoped>
-    .profile {
-        top: 0px;
+
+    .rec-card {
+        display: flex;
+        gap: 1rem;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        align-items: flex-start;
+        justify-content: flex-start;
     }
 
-    .search {
+    .rec-poster img {
+        width: 90px;
+        height: auto;
+        border-radius: 4px;
+        object-fit: cover;
+    }
+
+    .rec-info {
+        text-align: left;
+        flex: 1;
+    }
+
+    .rec-title {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .rec-title:hover {
+        text-decoration: underline;
+    }
+
+    .rec-info p {
+        margin-top: 0.5rem;
+        text-align: justify;
+    }
+
+
+
+    .profile {
         top: 60px;
     }
 
-    .history {
+    .search {
         top: 120px;
+    }
+
+    .history {
+        top: 180px;
+    }
+
+    main {
+        align-items: center;
+        height: calc(100vh - 120px);
     }
 
     .main-container {
