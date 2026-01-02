@@ -19,6 +19,13 @@ stages:
 
 before_script:
   - cd ${TF_ROOT}
+  - export TF_HTTP_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default"
+  - export TF_HTTP_LOCK_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default/lock"
+  - export TF_HTTP_UNLOCK_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default/lock"
+  - export TF_HTTP_USERNAME="gitlab-ci-token"
+  - export TF_HTTP_PASSWORD="${CI_JOB_TOKEN}"
+  - export TF_HTTP_LOCK_METHOD="POST"
+  - export TF_HTTP_UNLOCK_METHOD="DELETE"
   - terraform init -backend-config="address=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default" -backend-config="lock_address=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default/lock" -backend-config="unlock_address=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default/lock" -backend-config="username=gitlab-ci-token" -backend-config="password=${CI_JOB_TOKEN}" -backend-config="lock_method=POST" -backend-config="unlock_method=DELETE" -backend-config="retry_wait_min=5"
 
 validate:
@@ -37,14 +44,16 @@ build:
 tf-deploy:
   stage: tf-deploy
   script:
-    - terraform apply -lock=false -auto-approve tfplan
+    - terraform init -reconfigure -backend-config="password=${CI_JOB_TOKEN}"
+    - terraform apply -auto-approve tfplan
     - terraform output -json > tf_outputs.json
   artifacts:
     paths:
       - ${TF_ROOT}/tf_outputs.json
   when: manual
-  #only:
-  #  - main
+  only:
+    - main
+    - 9-add-cloud-deployment-configuration
 
 #deploy-app:
 #  stage: k8s-deploy
