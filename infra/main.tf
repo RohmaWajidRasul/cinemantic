@@ -14,8 +14,14 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "~> 2.0"
     }
+    gitlab = {
+      source  = "gitlabhq/gitlab"
+      version = "~> 16.0"
+    }
   }
+  backend "http" {}
 }
+
 provider "google" {
   project = var.project_id
   region  = var.region

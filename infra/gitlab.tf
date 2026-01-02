@@ -1,13 +1,3 @@
-terraform {
-  required_providers {
-    gitlab = {
-      source  = "gitlabhq/gitlab"
-      version = "~> 16.0"
-    }
-  }
-  backend "http" {}
-}
-
 variable "gitlab_access_token" {
   type      = string
   sensitive = true
