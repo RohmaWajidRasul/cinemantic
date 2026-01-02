@@ -43,8 +43,8 @@ tf-deploy:
     paths:
       - ${TF_ROOT}/tf_outputs.json
   when: manual
-  only:
-    - main
+  #only:
+  #  - main
 
 #deploy-app:
 #  stage: k8s-deploy
