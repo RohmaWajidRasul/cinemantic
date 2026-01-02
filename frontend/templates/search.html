@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="{% static 'global.css' %}">
+</head>
+<html>
+
+<html>
+
+<body>
+    <div class="film-border top"></div>
+    <main>
+
+        <div class="profile">
+            <a href="{% url 'profile-page' %}">
+                <button id="profile-button">
+                    <img src="{% static 'profile.png' %}" alt="Profile page">
+                </button>
+            </a>
+        </div>
+        <div class="history">
+            <a href="{% url 'history-page' %}">
+                <button id="history-button">
+                    <img src="{% static 'movie.png' %}" alt="History page">
+                </button>
+            </a>
+        </div>
+
+        <div class="main-container">
+
+            <form class="searchbar flex" method="GET" action="{% url 'search-page' %}">
+                <input type="text" name="movie-name" id="movie-name" placeholder="Movie name">
+                <button type="submit" class="search-button">
+                    <img src="{% static 'search.png' %}" alt="Search icon">
+                </button>
+            </form>
+
+            <div class="searched-movies flex">
+                {% for movie in movies %}
+                <div class="movie flex">
+                    <a href="{% url 'recommendation-page' movie_id=movie.id %}">
+                        <h4 class="movie-title">{{movie.title}}</h4>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </main>
+    <div class="film-border bottom"></div>
+</body>
+
+</html>
+
+<style>
+    main {
+        flex-direction: column;
+
+        align-items: center;
+    }
+    .profile {
+        top: 60px;
+    }
+
+    .history {
+        top: 120px;
+    }
+
+    .searchbar {
+        background: #f4f4f4;
+        border-radius: 40px;
+        padding: 12px 15px;
+        margin-top: 5px;
+        align-items: center;
+        justify-content: space-between;
+        display: flex;
+    }
+
+    .searchbar input {
+        border: none;
+        background: transparent;
+        font-size: 16px;
+        outline: none;
+    }
+
+    .search-button {
+        background-color: transparent;
+        padding: 0;
+        width: 25px;
+        height: 25px;
+        object-fit: contain;
+        border: none;
+    }
+
+    .search-button img {
+        width: 100%;
+        height: auto;
+    }
+
+    .searchbar-button {
+        flex: 2;
+    }
+
+    .searchbar input {
+        flex: 8;
+    }
+
+    .main-container {
+        width: 60%;
+        padding: 1rem 2rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .searched-movies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        width: 100%;
+        min-height: 100px;
+        max-height: 300px;
+        justify-content: center;
+        margin-top: 30px;
+        overflow: scroll;
+    }
+
+    .movie {
+        width: 150px;
+        padding: 10px 5px;
+        border: 1px solid #333;
+        border-radius: 6px;
+        cursor: pointer;
+        text-align: center;
+        background-color: #212121;
+        color: #f5f5f5;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .searched-movies::-webkit-scrollbar {
+        display: none;
+    }
+
+    .searched-movies {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+</style>

@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'global.css' %}">
+</head>
+
+<body>
+<div class="film-border top"></div>
+
+<main>
+    <div class="main-container">
+
+        <div class="search">
+            <a href="{% url 'search-page' %}">
+                <button id="search-button">
+                    <img src="{% static 'search.png' %}" alt="User Profile">
+                </button>
+            </a>
+        </div>
+        <div class="history">
+            <a href="{% url 'history-page' %}">
+                <button id="history-button">
+                    <img src="{% static 'movie.png' %}" alt="User Profile">
+                </button>
+            </a>
+        </div>
+
+        <!-- Toggle -->
+        <input type="checkbox" id="edit-toggle" hidden>
+
+        <!-- VIEW MODE -->
+        <div class="profile-view">
+            <div class="profile-info">
+                <p><strong>Username:</strong> {{ profile.user.username }}</p>
+                <p><strong>Email:</strong> {{ profile.user.email }}</p>
+                <p><strong>Bio:</strong> {{ profile.bio|default:"—" }}</p>
+            </div>
+
+            <div class="profile-action">
+                <label for="edit-toggle" class="blue-button action-button">
+                    Update profile
+                </label>
+
+                <form method="post" action="{% url 'logout-page' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="red-button action-button">
+                        Logout
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+
+        <!-- EDIT MODE -->
+        <form method="post" class="profile-edit">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" value="{{ profile.user.username }}">
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" value="{{ profile.user.email }}">
+            </div>
+
+            <div class="form-group">
+                <label>Bio</label>
+                <input type="text" name="bio" value="{{ profile.bio }}">
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                <label>New password</label>
+                <input type="password" name="new_password">
+            </div>
+
+            <div class="form-group">
+                <label>Repeat password</label>
+                <input type="password" name="repeat_password">
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="blue-button">Confirm update</button>
+            </div>
+        </form>
+
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+</main>
+
+<div class="film-border bottom"></div>
+</body>
+</html>
+
+
+<style scoped>
+
+    .profile-action {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .action-button {
+        padding: 10px 26px;
+        font-size: 0.95rem;
+        border-radius: 10px;
+    }
+
+    .red-button {
+        background: #3a0d0d;
+        color: #fff;
+        border: 1px solid #ff6b6b;
+        transition: background-color 0.3s;
+    }
+
+    .red-button:hover {
+        background: #ff6b6b;
+    }
+
+
+    .profile {
+        top: 0px;
+    }
+
+    .search {
+        top: 120px;
+    }
+
+    .main-container {
+        max-width: 520px;
+        width: 100%;
+        margin: 80px auto;
+        padding: 30px 40px;
+        background: linear-gradient(180deg, #0b0b0b, #141414);
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+
+    /* === View mode === */
+    .profile-view p {
+        color: #f4f4f4;
+        font-size: 1.05rem;
+        margin-bottom: 14px;
+    }
+
+    .profile-view strong {
+        color: #9aa7ff;
+    }
+
+    /* === Edit mode === */
+    .profile-edit {
+        display: none;
+        gap: 18px;
+    }
+
+    #edit-toggle:checked ~ .profile-view {
+        display: none;
+    }
+
+    #edit-toggle:checked ~ .profile-edit {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* === Labels & inputs === */
+    .profile-edit label {
+        color: #cfd6ff;
+        font-size: 0.85rem;
+        margin-top: 10px;
+    }
+
+    .profile-edit input {
+        width: 100%;
+        padding: 10px 12px;
+        background-color: #0a0a0a;
+        color: #f0f0f0;
+        border: 1px solid #2c2c2c;
+        border-radius: 8px;
+        font-size: 0.95rem;
+    }
+
+    .profile-edit input:focus {
+        outline: none;
+        border-color: #7e8bcb;
+        box-shadow: 0 0 6px rgba(126,139,203,0.6);
+    }
+
+    /* === Password section === */
+    .profile-edit hr {
+        border: none;
+        border-top: 1px solid #2a2a2a;
+        margin: 25px 0;
+    }
+
+    /* === Buttons === */
+    .button-container {
+        margin-top: 25px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .blue-button {
+        margin-top: 0px;
+    }
+
+    /* === Error === */
+    .error {
+        color: #ff6b6b;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+</style>
