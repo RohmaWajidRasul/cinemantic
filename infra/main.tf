@@ -19,7 +19,6 @@ terraform {
       version = "~> 16.0"
     }
   }
-  backend "http" {}
 }
 
 provider "google" {
