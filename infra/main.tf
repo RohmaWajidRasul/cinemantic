@@ -90,7 +90,7 @@ resource "google_compute_router" "router" {
 }
 
 # Create the Cloud NAT gateway
-resource "google_compute_nat" "nat_gateway" {
+resource "google_compute_router_nat" "nat_gateway" {
   name                               = "main-nat-gateway"
   router                             = google_compute_router.router.name
   region                             = var.region
