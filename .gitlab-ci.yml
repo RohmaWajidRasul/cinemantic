@@ -19,14 +19,12 @@ stages:
 
 before_script:
   - cd ${TF_ROOT}
-  - export TF_HTTP_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default"
-  - export TF_HTTP_LOCK_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default/lock"
-  - export TF_HTTP_UNLOCK_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default/lock"
+  # These 2 variables are the "Magic Key" - they fix the auth error automatically
   - export TF_HTTP_USERNAME="gitlab-ci-token"
   - export TF_HTTP_PASSWORD="${CI_JOB_TOKEN}"
-  - export TF_HTTP_LOCK_METHOD="POST"
-  - export TF_HTTP_UNLOCK_METHOD="DELETE"
-  - terraform init -backend-config="address=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default" -backend-config="lock_address=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default/lock" -backend-config="unlock_address=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default/lock" -backend-config="username=gitlab-ci-token" -backend-config="password=${CI_JOB_TOKEN}" -backend-config="lock_method=POST" -backend-config="unlock_method=DELETE" -backend-config="retry_wait_min=5"
+  # This tells Terraform exactly which state file to use
+  - export TF_HTTP_ADDRESS="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/default"
+  - terraform init
 
 validate:
   stage: validate
@@ -44,7 +42,6 @@ build:
 tf-deploy:
   stage: tf-deploy
   script:
-    - terraform init -reconfigure -backend-config="password=${CI_JOB_TOKEN}"
     - terraform apply -auto-approve tfplan
     - terraform output -json > tf_outputs.json
   artifacts:
