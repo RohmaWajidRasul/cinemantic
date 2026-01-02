@@ -140,7 +140,7 @@ resource "google_sql_user" "user" {
 # --- 4. GKE Cluster Definition ---
 
 resource "google_container_cluster" "primary" {
-  name                     = "cinemantic-cluster"
+  name                     = "cinemantic-cluster-v2"
   location                 = var.zone
   initial_node_count       = 1
   network                  = google_compute_network.vpc_network.id

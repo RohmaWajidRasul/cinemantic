@@ -10,7 +10,7 @@ provider "gitlab" {
 
 resource "gitlab_cluster_agent" "gke_agent" {
   project = "24379"
-  name    = "gke-agent"
+  name    = "gke-agent-v2"
 }
 
 resource "gitlab_cluster_agent_token" "agent_token" {
