@@ -18,6 +18,11 @@ variable "network_name" {
   type        = string
 }
 
+variable "gitlab_api_url" {
+  description = "The GitLab API URL"
+  type        = string
+}
+
 variable "db_user" {
   description = "Database username"
   type        = string
