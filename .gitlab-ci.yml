@@ -8,6 +8,7 @@ image:
 
 variables:
   TF_ROOT: ${CI_PROJECT_DIR}/infra
+  TF_VAR_gitlab_api_url: ${CI_API_V4_URL}
 
 stages:
   - tf-validate
