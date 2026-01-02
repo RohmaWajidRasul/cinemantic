@@ -24,7 +24,7 @@ spec:
       # ----------------------------------------
       containers:
       - name: django-web
-        image: gcr.io/optical-empire-480918-j2/django-web:latest
+        image: gcr.io/starry-braid-483111-t0/django-web:latest
         ports:
         - containerPort: 8000
         env:
@@ -101,8 +101,6 @@ spec:
           - "--address=0.0.0.0"
           - "--port=5432"
           - "--private-ip"
-          # Enables Workload Identity: The KSA impersonates the GSA to connect
-          - "--auto-iam-authn" 
           - "${TF_VAR_project_id}:${TF_VAR_region}:${CLOUDSQL_INSTANCE_NAME}" 
         resources:
           requests:
@@ -139,7 +137,7 @@ spec:
       serviceAccountName: app-sa # Required for GCS access and K8s API access
       containers:
       - name: fastapi-model
-        image: gcr.io/optical-empire-480918-j2/fastapi-model:latest
+        image: gcr.io/starry-braid-483111-t0/fastapi-model:latest
         ports:
         - containerPort: 8000
         env:
@@ -196,7 +194,6 @@ spec:
           - "--address=0.0.0.0"
           - "--port=5432"
           - "--private-ip"
-          - "--auto-iam-authn"
           - "${TF_VAR_project_id}:${TF_VAR_region}:${CLOUDSQL_INSTANCE_NAME}"
         resources:
           requests:
