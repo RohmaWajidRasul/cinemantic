@@ -8,37 +8,31 @@
 
 <body>
     <div class="film-border top"></div>
-    <div class="header">
-        <h1>Cinemantic</h1>
-    </div>
-    <div class="white-container">
-        <form class="form" method="post">
-            {% csrf_token %}
+    <div class="wrapper flex">
+        <div class="white-container">
+            <div class="divider"></div>
+            <form class="form" method="post">
+                {% csrf_token %}
 
-            <label for="username">Username</label>
-            <input type="text" name="username" placeholder="Your username" required>
+                <label for="username">Username</label>
+                <input type="text" name="username" placeholder="Your username" required>
 
-            <label for="email">Email</label>
-            <input type="email" name="email" placeholder="Your email" required>
+                <label for="email">Email</label>
+                <input type="email" name="email" placeholder="Your email" required>
 
-            <label for="password">Password</label>
-            <input type="password" name="password" placeholder="Your password" required>
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="Your password" required>
 
+                <button type="submit" class="black-button">Register</button>
+            </form>
+            <div class="divider"></div>
+            <p>Nº 181771</p>
             {% if error %}
-                <p class="error">{{ error }}</p>
+            <p class="error">{{ error }}</p>
             {% endif %}
-
-            <button type="submit" class="black-button">Register</button>
-        </form>
-
+        </div>
     </div>
     <div class="film-border bottom"></div>
 </body>
 
 </html>
-
-<style scoped>
-    .header {
-        margin-top: calc(var(--film-border-height) + 20px);
-    }
-</style>
