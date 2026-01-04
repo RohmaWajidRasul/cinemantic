@@ -1,184 +1,91 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="stylesheet" href="{% static 'global.css' %}">
 </head>
 
 <body>
-<div class="film-border top"></div>
+    <div class="film-border top"></div>
+    <div class="wrapper flex">
 
-<main>
-
-    <div class="profile">
-        <a href="{% url 'profile-page' %}">
-            <button id="profile-button">
-                <img src="{% static 'profile.png' %}" alt="User Profile">
-            </button>
-        </a>
-    </div>
-
-    <div class="search">
-        <a href="{% url 'search-page' %}">
-            <button id="search-button">
-                <img src="{% static 'search.png' %}" alt="Search">
-            </button>
-        </a>
-    </div>
-
-    <div class="main-container">
         <h1>Recommendation history</h1>
-        <div class="history-scroll">
-            {% for entry in history %}
-            <div class="recommendation-card">
 
-                <div class="recommendation-info flex">
-                    <h2>{{ entry.created_at|date:"d/m/Y - H:i" }}</h2>
+        {% for entry in history %}
+        <div class="container">
 
-                    <div class="button-container flex">
-                        <button class="black-button">
-                            <img src="{% static 'thumb_up.png' %}">
-                        </button>
-                        <button class="black-button">
-                            <img src="{% static 'thumb_down.png' %}">
-                        </button>
-                    </div>
+            <div class="recommendation-info grid">
+                <h3>{{ entry.created_at|date:"d/m/Y - H:i" }}</h3>
+                <div class="button-container flex">
+                    <button class="black-button">
+                        <img src="{% static 'thumb_up.png' %}">
+                    </button>
+                    <button class="black-button">
+                        <img src="{% static 'thumb_down.png' %}">
+                    </button>
                 </div>
-
-                <p>
-                    Based on:
-                    {% for m in entry.input_movies %}
-                        {{ m.title }}{% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                </p>
-
-                <div class="movies flex">
-                    {% for movie in entry.recommendations %}
-                    <div class="movie">
-                        <a href="{% url 'movie-page' movie.id %}">
-                            <img
-                                src="{{ movie.poster_url }}"
-                                alt="{{ movie.title }} poster"
-                                loading="lazy"
-                            >
-                        </a>
-                    </div>
-                    {% endfor %}
-                </div>
-
             </div>
-            {% endfor %}
+
+            <p>
+                Based on:
+                {% for m in entry.input_movies %}
+                {{ m.title }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+
+            <div class="movies grid">
+                {% for movie in entry.recommendations %}
+                <div class="movie">
+                    <a href="{% url 'movie-page' movie.id %}">
+                        <img src="{{ movie.poster_url }}" alt="{{ movie.title }} poster" loading="lazy">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+
         </div>
-
-        
-
+        {% endfor %}
     </div>
-</main>
-
-<div class="film-border bottom"></div>
+    <div class="film-border bottom"></div>
 </body>
+
 </html>
 
 
 <style scoped>
-
-    main {
-        height: calc(100vh - 120px);
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        margin-bottom: 60px;
-        overflow: hidden;
-    }
-
-    .main-container {
-        width: 75%;
-        height: 100%;
-        padding: 20px 40px;
-        display: flex;
+    .wrapper {
         flex-direction: column;
-        overflow: hidden;
     }
 
-    .history-scroll {
-        flex: 1;
-        overflow-y: auto;
-        padding-right: 10px;
-    }
-
-    .history-scroll::-webkit-scrollbar {
-        display: none;
-    }
-
-
-    .profile {
-        top: 60px;
-    }
-
-    .search {
-        top: 120px;
-    }
-
-    h1 {
-        text-align: left;
-        font-size: 2rem;
-    }
-
-    .flex {
-        display: flex;
-    }
-
-    .recommendation-card {
-        background-color: #0d0d0d;
-        box-shadow: 0 0 10px rgba(129, 128, 128, 0.3);
-        color: #f0f0f0;
-        padding: 10px 30px;
-        margin: 20px 0;
-        border-radius: 4px;
-        text-align: left;
+    .container {
         gap: 10px;
-        flex-direction: column;
+        padding: 1rem 1.5rem;
+        margin-bottom: 20px;
     }
 
-    .recommendation-info {
-        justify-content: space-between;
-        align-items: center;
-        flex-direction: row;
-    }
-
-    h2 {
-        flex: 8;
+    h3{
+        margin-bottom: 0;
     }
 
     .button-container {
-        flex: 2;
         gap: 30px;
         justify-content: end;
     }
 
-    #recommendation-button {
-        padding: 0.7em;
-        border-radius: 15px;
-    }
-
-    #poster-button {
-        border: none;
+    .black-button {
+        background-color: transparent;
     }
 
     .movies {
-        flex-direction: row;
-        margin-top: 20px;
-        gap: 15px
-    }
-
-    .movie,
-    .recommendation-button {
-        flex: 1;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
     }
 
     .movie img {
         width: 100%;
-        height: 150px;
+        height: 100%;
         object-fit: cover;
+        border-radius: 10px;
     }
 </style>
