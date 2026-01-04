@@ -10,7 +10,7 @@
 <body>
     <div class="film-border top"></div>
     <div class="wrapper flex">
-        <div class="movie-container">
+        <div class="container">
             <div class="poster">
                 <img src={{movie.poster_url}} alt="Test, movie image">
             </div>
@@ -34,16 +34,9 @@
 </html>
 
 <style scoped>
-    .movie-container {
-        display: flex;
+    .container {
         gap: 30px;
-        width: 70%;
-        padding: 1.5rem;
-        background-color: #0d0d0d;
-        color: #f0f0f0;
-        border: 10px solid #222;
-        border-radius: 5px;
-        text-align: left;
+        flex-direction: row;
     }
 
     .poster {
@@ -70,5 +63,4 @@
     p {
         text-align: justify;
     }
-
 </style>
