@@ -87,7 +87,7 @@ h1 {
 .dropdown {
     position: fixed;
     top: 50px;
-    left: 20px;
+    left: 10px;
     display: inline-block;
     z-index: 1000;
     padding-bottom: 20px;
@@ -109,10 +109,10 @@ h1 {
 .dropdown-content {
     display: none;
     position: absolute;
-    left: 0;
+    left: 5;
     top: 55px;
     background-color: #F2F2F7;
-    min-width: 60px;
+    min-width: 50px;
     border-radius: 12px;
     border: 1px solid #eee;
     overflow: hidden;
