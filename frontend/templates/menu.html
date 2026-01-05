@@ -36,14 +36,14 @@
             </a>
             {% endif %}
 
-
+            {% if show_logout %}
             <form method="post" action="{% url 'logout-page' %}" class="flex">
                 {% csrf_token %}
                 <button type="submit" class="logout">
                     <img src="{% static 'icon/close.png' %}" alt="Logout icon">
                 </button>
             </form>
-
+            {% endif %}
         </div>
     </div>
 </body>

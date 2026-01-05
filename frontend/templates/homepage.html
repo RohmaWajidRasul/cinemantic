@@ -13,15 +13,21 @@
         <div class="image-container grid">
             <div class="flex">
                 <a href="{% url 'register-page' %}">
-                    <img id="img1" src="{% static 'img/popcorn.png' %}" alt="Pop corn bucket illustration">
+                    <img src="{% static 'img/popcorn.png' %}" alt="Pop corn bucket illustration">
                 </a>
                 <h2>Register</h2>
             </div>
             <div class="flex">
                 <a href="{% url 'login-page' %}">
-                    <img id="img2" src="{% static 'img/drink.png' %}" alt="Drink illustration">
+                    <img src="{% static 'img/drink.png' %}" alt="Drink illustration">
                 </a>
                 <h2>Login</h2>
+            </div>
+            <div class="flex">
+                <a href="{% url 'search-page' %}">
+                    <img id="img3" src="{% static 'img/camera.png' %}" alt="Camera illustration">
+                </a>
+                <h2>Search</h2>
             </div>
         </div>
 
@@ -38,6 +44,10 @@
         flex-direction: column;
     }
 
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
     .flex {
         justify-content: flex-start;
         flex-direction: column;
@@ -51,7 +61,6 @@
     }
 
     h2 {
-        margin: 0;
         color: white;
         text-shadow:
             0 0 10px rgba(255, 255, 0, 0.4),
@@ -69,11 +78,7 @@
         justify-self: center;
     }
 
-    #img1:hover {
-        transform: rotate(-15deg);
-    }
-
-    #img2:hover {
+    img:hover {
         transform: rotate(15deg);
     }
 </style>
