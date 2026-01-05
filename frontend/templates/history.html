@@ -19,12 +19,18 @@
             <div class="recommendation-info grid">
                 <h3>{{ entry.created_at|date:"d/m/Y - H:i" }}</h3>
                 <div class="button-container flex">
-                    <button class="black-button">
-                        <img src="{% static 'icon/thumb_up.png' %}">
-                    </button>
-                    <button class="black-button">
-                        <img src="{% static 'icon/thumb_down.png' %}">
-                    </button>
+                    <form method="post" action="{% url 'history-page' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="entry_id" value="{{ entry.id }}">
+
+                        <button type="submit" name="feedback" value="positive" class="black-button">
+                            <img src="{% static 'icon/thumb_up.png' %}">
+                        </button>
+
+                        <button type="submit" name="feedback" value="negative" class="black-button">
+                            <img src="{% static 'icon/thumb_down.png' %}">
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -65,13 +71,14 @@
         margin-bottom: 20px;
     }
 
-    h3{
-        margin-bottom: 0;
+    .button-container {
+        gap: 10px;
+        justify-content: end;
     }
 
-    .button-container {
-        gap: 30px;
-        justify-content: end;
+    .button-container img {
+        width: 25px;
+        height: 25px;
     }
 
     .black-button {

@@ -305,7 +305,7 @@ class HistoryPageView(TemplateView):
             response.raise_for_status() 
 
         except requests.exceptions.RequestException as e:
-            print(f"Error fetching external data: {e}")
+            print(f"Error while sending data: {e}")
 
         return redirect("history-page")
 
