@@ -14,8 +14,8 @@
     <div class="wrapper flex">
         <form class="searchbar flex" method="GET" action="{% url 'search-page' %}">
             <input type="text" name="movie-name" id="movie-name" placeholder="Movie name">
-            <button type="submit" class="search-button">
-                <img src="{% static 'icon/search_black.png' %}" alt="Search icon">
+            <button type="submit" class="search-button flex">
+                <img src="{% static 'icon/search.png' %}" alt="Search icon">
             </button>
         </form>
         <div class="movies">
@@ -40,31 +40,43 @@
     }
 
     .searchbar {
-        background: #dad9d9;
-        border-radius: 40px;
-        padding: 10px 15px;
-        justify-content: space-between;
-        margin: 20px 0;
+        width: fit-content;
+        align-items: center;
+        background: linear-gradient(145deg, #0a0a0a, #111);
+        border-radius: 50px;
+        padding: 6px 20px 6px 15px;
+        margin: 15px 0 20px;
+        box-shadow: 0 0 15px rgba(255, 255, 0, 0.5);
     }
 
     .searchbar input {
+        background: transparent;
         border: none;
-        background: #dad9d9;
-        font-size: 1.5em;
         outline: none;
+        color: #fff;
+        padding: 12px 16px;
+        font-size: 1.3em;
+        flex: 2;
+        letter-spacing: 1px;
+    }
+
+    .movie-search input::placeholder {
+        color: #bbb;
     }
 
     .search-button {
-        background-color: transparent;
-        padding: 0;
-        width: 5%;
-        height: 5%;
-        object-fit: contain;
+        flex: 1;
+        background: transparent;
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
     }
 
     .search-button img {
-        width: 100%;
-        height: auto;
+        width: 25px;
+        height: 25px;
     }
 
     .movies {
