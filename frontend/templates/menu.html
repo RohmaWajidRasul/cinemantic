@@ -9,38 +9,38 @@
 <body>
     <div class="dropdown">
         <button class="dropbtn">
-            <img src="{% static 'menu.png' %}" alt="Menu icon">
+            <img src="{% static 'icon/movie.png' %}" alt="Menu icon">
         </button>
         <div class="dropdown-content">
             {% if show_home %}
             <a href="{% url 'homepage' %}">
-                <img src="{% static 'home.png' %}" alt="Homepage icon">
+                <img src="{% static 'icon/home.png' %}" alt="Homepage icon">
             </a>
             {% endif %}
 
             {% if show_profile %}
             <a href="{% url 'profile-page' %}">
-                <img src="{% static 'profile.png' %}" alt="Profile icon">
+                <img src="{% static 'icon/profile.png' %}" alt="Profile icon">
             </a>
             {% endif %}
 
             {% if show_search %}
             <a href="{% url 'search-page' %}">
-                <img src="{% static 'search.png' %}" alt="Search icon">
+                <img src="{% static 'icon/search_white.png' %}" alt="Search icon">
             </a>
             {% endif %}
 
             {% if show_history %}
             <a href="{% url 'history-page' %}">
-                <img src="{% static 'movie.png' %}" alt="History icon">
+                <img src="{% static 'icon/history.png' %}" alt="History icon">
             </a>
             {% endif %}
 
 
             <form method="post" action="{% url 'logout-page' %}" class="flex">
                 {% csrf_token %}
-                <button type="submit">
-                    <img src="{% static 'close.png' %}" alt="Logout icon">
+                <button type="submit" class="logout">
+                    <img src="{% static 'icon/close.png' %}" alt="Logout icon">
                 </button>
             </form>
 
@@ -51,8 +51,12 @@
 <html>
 
 <style>
-    .flex {
-        margin: 0;
-        padding: 0;
+    .logout {
+        padding: 15px;
+        background-color: #0d0d0d;
+    }
+
+    .logout:hover {
+        background-color: transparent;
     }
 </style>

@@ -13,18 +13,18 @@
         <div class="image-container grid">
             <div class="flex">
                 <a href="{% url 'register-page' %}">
-                    <img id="img1" src="{% static 'popcorn.png' %}" alt="Pop corn bucket illustration">
+                    <img id="img1" src="{% static 'img/popcorn.png' %}" alt="Pop corn bucket illustration">
                 </a>
                 <h2>Register</h2>
             </div>
             <div class="flex">
                 <a href="{% url 'login-page' %}">
-                    <img id="img2" src="{% static 'drink.png' %}" alt="Drink illustration">
+                    <img id="img2" src="{% static 'img/drink.png' %}" alt="Drink illustration">
                 </a>
                 <h2>Login</h2>
             </div>
         </div>
-        
+
     </div>
     <div class="film-border bottom"></div>
 </body>
@@ -33,7 +33,7 @@
 
 <style>
     .wrapper {
-        background: #520608 url("{% static 'homepage.jpg' %}") no-repeat center / cover;
+        background: #520608 url("{% static 'img/homepage.jpg' %}") no-repeat center / cover;
         background-blend-mode: luminosity;
         flex-direction: column;
     }
@@ -50,42 +50,17 @@
         animation: flicker 3s infinite alternate;
     }
 
-    @keyframes flicker {
-
-        0%,
-        20%,
-        30%,
-        50%,
-        60%,
-        100% {
-            text-shadow:
-                0 0 10px rgba(255, 255, 0, 0.4),
-                0 0 20px rgba(255, 255, 0, 0.4),
-                0 0 40px #ff6600b3,
-                0 0 70px #ff6600b3,
-                0 0 80px #ff6600b3,
-                0 0 100px #ff6600b3,
-                0 0 150px #ff6600b3;
-        }
-
-        25%,
-        40%,
-        55% {
-            text-shadow:
-                0 0 5px rgba(255, 255, 0, 0.4),
-                0 0 10px rgba(255, 255, 0, 0.4),
-                0 0 15px rgba(255, 255, 0, 0.4),
-                0 0 20px #ff6600b3,
-                0 0 35px #ff6600b3,
-                0 0 40px #ff6600b3,
-                0 0 50px #ff6600b3,
-                0 0 75px #ff6600b3;
-        }
-    }
-
     h2 {
         margin: 0;
         color: white;
+        text-shadow:
+            0 0 10px rgba(255, 255, 0, 0.4),
+            0 0 20px rgba(255, 255, 0, 0.4),
+            0 0 40px #ff6600b3,
+            0 0 70px #ff6600b3,
+            0 0 80px #ff6600b3,
+            0 0 100px #ff6600b3,
+            0 0 150px #ff6600b3;
     }
 
     img {

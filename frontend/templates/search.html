@@ -15,7 +15,7 @@
         <form class="searchbar flex" method="GET" action="{% url 'search-page' %}">
             <input type="text" name="movie-name" id="movie-name" placeholder="Movie name">
             <button type="submit" class="search-button">
-                <img src="{% static 'search.png' %}" alt="Search icon">
+                <img src="{% static 'icon/search_black.png' %}" alt="Search icon">
             </button>
         </form>
         <div class="movies">
@@ -26,10 +26,8 @@
                 </a>
             </div>
             {% endfor %}
-
         </div>
     </div>
-
     <div class="film-border bottom"></div>
 </body>
 
