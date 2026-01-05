@@ -290,6 +290,24 @@ class HistoryPageView(TemplateView):
             context["history"] = []
 
         return context
+    
+    def post(self, request):
+
+        entry_id = request.POST.get('entry_id')
+        feedback = request.POST.get('feedback')  
+        data = { "feedback": feedback}
+
+        api_url = f"{host}/api/v1/movies/recommendationhistory/{entry_id}/"
+    
+        try:
+
+            response = api_patch_token(request, api_url, data)
+            response.raise_for_status() 
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching external data: {e}")
+
+        return redirect("history-page")
 
 class MoviePageView(TemplateView):
     template_name = "movie.html"
@@ -341,5 +359,3 @@ class AdminPageView(TemplateView):
             context["model_versions"] = []
 
         return context
-
-
