@@ -34,7 +34,6 @@ def validateCSV(df):
 
     return df
 
-###TODO: GENRES BULLSHIT
 def addMovies(df):
  
     df = df.drop(columns=["genres", "genres_list"])
