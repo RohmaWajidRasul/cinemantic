@@ -45,8 +45,6 @@
                             <th>Version</th>
                             <th>Status</th>
                             <th>Created</th>
-                            <th>Likes</th>
-                            <th>Dislikes</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,17 +74,23 @@
 
 
 <style scoped>
-    .admin-form{
-        flex: 4;
+    .admin-form {
+        flex: 5;
     }
 
-    .model-info{
+    .model-info {
         flex: 6;
     }
 
     .model-info .white-container {
-        width: 80%;
+        width: 70%;
+        height: 420px;
         padding: 1rem;
+        overflow: scroll;
+    }
+
+    .model-info .white-container::-webkit-scrollbar {
+        display: none;
     }
 
     .header {
