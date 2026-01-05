@@ -26,6 +26,7 @@
                         </a>
                     </h3>
                     <p>{{ rec.overview }}</p>
+                    <p>Similarity: {{rec.similarity| floatformat:2}}</p>
                 </div>
             </div>
             {% endfor %}
