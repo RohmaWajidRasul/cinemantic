@@ -166,9 +166,10 @@ h1 {
     background-color: #0d0d0d;
 }
 
+.dropbtn img,
 .dropdown-content img {
-    width: 22px;
-    height: 22px;
+    width: 25px;
+    height: 25px;
 }
 
 /* ============================================================================ */
