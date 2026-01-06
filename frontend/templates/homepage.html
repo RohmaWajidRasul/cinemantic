@@ -15,19 +15,19 @@
                 <a href="{% url 'register-page' %}">
                     <img src="{% static 'img/popcorn.png' %}" alt="Pop corn bucket illustration">
                 </a>
-                <h2>Register</h2>
+                <h2 class="neon">Register</h2>
             </div>
             <div class="flex">
                 <a href="{% url 'login-page' %}">
                     <img src="{% static 'img/drink.png' %}" alt="Drink illustration">
                 </a>
-                <h2>Login</h2>
+                <h2 class="neon">Login</h2>
             </div>
             <div class="flex">
                 <a href="{% url 'search-page' %}">
                     <img id="img3" src="{% static 'img/camera.png' %}" alt="Camera illustration">
                 </a>
-                <h2>Search</h2>
+                <h2 class="neon">Search</h2>
             </div>
         </div>
 
@@ -41,7 +41,6 @@
     .wrapper {
         background: #520608 url("{% static 'img/homepage.jpg' %}") no-repeat center / cover;
         background-blend-mode: luminosity;
-        flex-direction: column;
     }
 
     .grid {
@@ -58,18 +57,6 @@
         font-family: 'Monoton';
         letter-spacing: 5px;
         animation: flicker 3s infinite alternate;
-    }
-
-    h2 {
-        color: white;
-        text-shadow:
-            0 0 10px rgba(255, 255, 0, 0.4),
-            0 0 20px rgba(255, 255, 0, 0.4),
-            0 0 40px #ff6600b3,
-            0 0 70px #ff6600b3,
-            0 0 80px #ff6600b3,
-            0 0 100px #ff6600b3,
-            0 0 150px #ff6600b3;
     }
 
     img {

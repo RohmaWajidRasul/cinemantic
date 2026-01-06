@@ -13,16 +13,16 @@
     <div class="film-border top"></div>
     <div class="wrapper flex">
         <form class="searchbar flex" method="GET" action="{% url 'search-page' %}">
-            <input type="text" name="movie-name" id="movie-name" placeholder="Movie name">
+            <input type="text" name="movie-name" id="movie-name" placeholder="Movie name" autocomplete="off">
             <button type="submit" class="search-button flex">
-                <img src="{% static 'icon/search.png' %}" alt="Search icon">
+                <img src="{% static 'icon/search.png' %}" alt="Search icon" class="icon">
             </button>
         </form>
         <div class="movies">
             {% for movie in movies %}
             <div class="movie flex">
                 <a href="{% url 'recommendation-page' movie_id=movie.id %}">
-                    <img src={{movie.poster_url}} alt="Movie poster">
+                    <img src={{movie.poster_url}} alt="{{movie.title}} poster" class="img">
                 </a>
             </div>
             {% endfor %}
@@ -37,46 +37,6 @@
     .wrapper {
         flex-direction: column;
         justify-content: start;
-    }
-
-    .searchbar {
-        width: fit-content;
-        align-items: center;
-        background: linear-gradient(145deg, #0a0a0a, #111);
-        border-radius: 50px;
-        padding: 6px 20px 6px 15px;
-        margin: 15px 0 20px;
-        box-shadow: 0 0 15px rgba(255, 255, 0, 0.5);
-    }
-
-    .searchbar input {
-        background: transparent;
-        border: none;
-        outline: none;
-        color: #fff;
-        padding: 12px 16px;
-        font-size: 1.3em;
-        flex: 2;
-        letter-spacing: 1px;
-    }
-
-    .movie-search input::placeholder {
-        color: #bbb;
-    }
-
-    .search-button {
-        flex: 1;
-        background: transparent;
-        border: none;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        cursor: pointer;
-    }
-
-    .search-button img {
-        width: 25px;
-        height: 25px;
     }
 
     .movies {
@@ -104,8 +64,5 @@
 
     .movie img {
         display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
     }
 </style>
