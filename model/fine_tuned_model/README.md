@@ -7,74 +7,8 @@ tags:
 - generated_from_trainer
 - dataset_size:276
 - loss:MultipleNegativesRankingLoss
+base_model: sentence-transformers/all-MiniLM-L6-v2
 widget:
-- source_sentence: Decades ago, the USSR developed unkillable sharks and launched
-    them to the moon. Today, a team of American astronauts will endure the fight of
-    their lives.
-  sentences:
-  - Two sisters find an ancient book that gives birth to bloodthirsty demons that
-    run amok in a Los Angeles apartment building and thrusts them into a primal battle
-    for survival as they face the most nightmarish version of family imaginable.
-  - The Red Ribbon Army, an evil organization that was once destroyed by Goku in the
-    past, has been reformed by a group of people who have created new and mightier
-    Androids, Gamma 1 and Gamma 2, and seek vengeance against Goku and his family.
-  - A gruesome serial killer is terrorizing London while brilliant but disgraced detective
-    John Luther sits behind bars. Haunted by his failure to capture the cyber psychopath
-    who now taunts him, Luther decides to break out of prison to finish the job by
-    any means necessary.
-- source_sentence: 'Blindsided by a new generation of blazing-fast racers, the legendary
-    Lightning McQueen is suddenly pushed out of the sport he loves. To get back in
-    the game, he will need the help of an eager young race technician with her own
-    plan to win, inspiration from the late Fabulous Hudson Hornet, and a few unexpected
-    turns. Proving that #95 isn''t through yet will test the heart of a champion on
-    Piston Cup Racing’s biggest stage!'
-  sentences:
-  - After old enemies kill his family, a former mafia enforcer and his feisty daughter
-    flee to Milan, where they hide out while plotting their revenge.
-  - John Wick is forced out of retirement by a former associate looking to seize control
-    of a shadowy international assassins’ guild. Bound by a blood oath to aid him,
-    Wick travels to Rome and does battle against some of the world’s most dangerous
-    killers.
-  - 'Blindsided by a new generation of blazing-fast racers, the legendary Lightning
-    McQueen is suddenly pushed out of the sport he loves. To get back in the game,
-    he will need the help of an eager young race technician with her own plan to win,
-    inspiration from the late Fabulous Hudson Hornet, and a few unexpected turns.
-    Proving that #95 isn''t through yet will test the heart of a champion on Piston
-    Cup Racing’s biggest stage!'
-- source_sentence: The hottest biotech company in the world has discovered they can
-    clone history’s most influential people from the dead. Now, they are auctioning
-    clones of Michelangelo, Galileo, Vivaldi, and others for tens of millions of dollars
-    to the world’s ultra-rich. But when they steal the Shroud of Turin and clone the
-    DNA of Jesus Christ, all hell breaks loose.
-  sentences:
-  - With the price on his head ever increasing, John Wick uncovers a path to defeating
-    The High Table. But before he can earn his freedom, Wick must face off against
-    a new enemy with powerful alliances across the globe and forces that turn old
-    friends into foes.
-  - After witnessing a bizarre, traumatic incident involving a patient, Dr. Rose Cotter
-    starts experiencing frightening occurrences that she can't explain. As an overwhelming
-    terror begins taking over her life, Rose must confront her troubling past in order
-    to survive and escape her horrifying new reality.
-  - 'Mathieu, a member of the French institute in Irkutsk, is arrested overnight by
-    the Russian authorities.  Imprisoned and accused of sexual abuse on his own daughter,
-    he realises he is a victim of a Kompromat. With the help of the FSB, someone has
-    built up a case to frame him. Isolated, he has no one to turn to. Proving his
-    innocence is impossible: the only solution is to escape.'
-- source_sentence: A stubborn and hotheaded minor league basketball coach is forced
-    to train a Special Olympics team when he is sentenced to community service.
-  sentences:
-  - Set in the Bronx during the tumultuous 1960s, an adolescent boy is torn between
-    his honest, working-class father and a violent yet charismatic crime boss. Complicating
-    matters is the youngster's growing attraction - forbidden in his neighborhood
-    - for a beautiful black girl.
-  - Unlucky assassin Ladybug is determined to do his job peacefully after one too
-    many gigs gone off the rails. Fate, however, may have other plans, as Ladybug's
-    latest mission puts him on a collision course with lethal adversaries from around
-    the globe—all with connected, yet conflicting, objectives—on the world's fastest
-    train.
-  - A tale of outsized ambition and outrageous excess, tracing the rise and fall of
-    multiple characters in an era of unbridled decadence and depravity during Hollywood's
-    transition from silent films and to sound films in the late 1920s.
 - source_sentence: Shanghai, 1934. In an insect world parallel to that of humans,
     veteran Inspector Sun, a lone spider, leads his last mission against his archenemy
     the Red Locust, before embarking on a well-deserved retirement. His vacation aboard
@@ -82,29 +16,97 @@ widget:
     millionaire Dr. Spindelthorp is found murdered. What begins as a routine case
     for Sun will ultimately decide the fate of humanity.
   sentences:
-  - A mysterious force knocks the moon from its orbit around Earth and sends it hurtling
-    on a collision course with life as we know it.
-  - An extraordinary young girl discovers her superpower and summons the remarkable
-    courage, against all odds, to help others change their stories, whilst also taking
-    charge of her own destiny. Standing up for what's right, she's met with miraculous
-    results.
+  - After old enemies kill his family, a former mafia enforcer and his feisty daughter
+    flee to Milan, where they hide out while plotting their revenge.
+  - After finding a host body in investigative reporter Eddie Brock, the alien symbiote
+    must face a new enemy, Carnage, the alter ego of serial killer Cletus Kasady.
+  - After starting their own detective agency, Nick and Audrey Spitz land a career-making
+    case when their billionaire pal is kidnapped from his wedding.
+- source_sentence: Ryan Logan, a former Special Forces operative, is battling to cope
+    with life after the loss of his wife.  He is thrusted into the criminal underworld
+    to keep his only son from being taken from him.
+  sentences:
+  - An aging Chinese immigrant is swept up in an insane adventure, where she alone
+    can save what's important to her by connecting with the lives she could have led
+    in other universes.
+  - Harry Potter has lived under the stairs at his aunt and uncle's house his whole
+    life. But on his 11th birthday, he learns he's a powerful wizard—with a place
+    waiting for him at the Hogwarts School of Witchcraft and Wizardry. As he learns
+    to harness his newfound powers with the help of the school's kindly headmaster,
+    Harry uncovers the truth about his parents' deaths—and about the villain who's
+    to blame.
+  - An aging Chinese immigrant is swept up in an insane adventure, where she alone
+    can save what's important to her by connecting with the lives she could have led
+    in other universes.
+- source_sentence: 'Mathieu, a member of the French institute in Irkutsk, is arrested
+    overnight by the Russian authorities.  Imprisoned and accused of sexual abuse
+    on his own daughter, he realises he is a victim of a Kompromat. With the help
+    of the FSB, someone has built up a case to frame him. Isolated, he has no one
+    to turn to. Proving his innocence is impossible: the only solution is to escape.'
+  sentences:
+  - Ophelia, a young nun recently arriving in the town of San Ramon, is forced to
+    perform an exorcism on a pregnant woman in danger of dying. Just when she thinks
+    her possession has ended, she discovers that the evil presence hasn't disappeared
+    yet. The director of the award-winning Here Comes the Devil and Late Phases adds
+    a new twist to possession movies in one of this year's Latin American horror surprises.
+  - The Red Ribbon Army, an evil organization that was once destroyed by Goku in the
+    past, has been reformed by a group of people who have created new and mightier
+    Androids, Gamma 1 and Gamma 2, and seek vengeance against Goku and his family.
+  - A young girl discovers an idealized parallel universe behind a secret door in
+    her new home, unaware that it contains a sinister secret.
+- source_sentence: 'Blindsided by a new generation of blazing-fast racers, the legendary
+    Lightning McQueen is suddenly pushed out of the sport he loves. To get back in
+    the game, he will need the help of an eager young race technician with her own
+    plan to win, inspiration from the late Fabulous Hudson Hornet, and a few unexpected
+    turns. Proving that #95 isn''t through yet will test the heart of a champion on
+    Piston Cup Racing’s biggest stage!'
+  sentences:
+  - All Gary wants is to make awesome home movies with his best buds. All his older
+    sister Samantha wants is to hang with the cool kids. When their parents head out
+    of town one Halloween weekend, an all-time rager of a teen house party turns to
+    terror when aliens attack, forcing the siblings to band together to survive the
+    night.
+  - It has been a year since Mic Mic and Oscar returned from their incredible adventure.
+    And now, after a diabolical plan by Vulture to sabotage the delivery of the Grizzly
+    cub to his opponent in the American presidential elections, Mic Mic, Oscar, Panda
+    teenager and Stork set off on another great adventure as they ride a zeppelin
+    to return little Grizzly to its rightful parents and save the American elections
+    and the whole continent from an erupting volcano.
   - While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario
     and Luigi are transported down a mysterious pipe and wander into a magical new
     world. But when the brothers are separated, Mario embarks on an epic quest to
     find Luigi.
+- source_sentence: 'Puss in Boots discovers that his passion for adventure has taken
+    its toll: He has burned through eight of his nine lives, leaving him with only
+    one life left. Puss sets out on an epic journey to find the mythical Last Wish
+    and restore his nine lives.'
+  sentences:
+  - Through a series of unfortunate events, three mummies end up in present-day London
+    and embark on a wacky and hilarious journey in search of an old ring belonging
+    to the Royal Family, stolen by ambitious archaeologist Lord Carnaby.
+  - A gruesome serial killer is terrorizing London while brilliant but disgraced detective
+    John Luther sits behind bars. Haunted by his failure to capture the cyber psychopath
+    who now taunts him, Luther decides to break out of prison to finish the job by
+    any means necessary.
+  - Elena and Ivan are getting ready to enter into a new phase in their life. They
+    are leaving the metropolis of Barcelona to settle in the Catalan countryside,
+    where they are taking over a cork oak plantation. Not only will the business pay
+    for their living, but they also want to exploit the plantation equitably and sustainably.
+    But despite their ideals, Elena and Ivan soon find themselves in a crisis which
+    will endanger not only their project, but also their relationship.
 pipeline_tag: sentence-similarity
 library_name: sentence-transformers
 ---
 
-# SentenceTransformer
+# SentenceTransformer based on sentence-transformers/all-MiniLM-L6-v2
 
-This is a [sentence-transformers](https://www.SBERT.net) model trained. It maps sentences & paragraphs to a 384-dimensional dense vector space and can be used for semantic textual similarity, semantic search, paraphrase mining, text classification, clustering, and more.
+This is a [sentence-transformers](https://www.SBERT.net) model finetuned from [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2). It maps sentences & paragraphs to a 384-dimensional dense vector space and can be used for semantic textual similarity, semantic search, paraphrase mining, text classification, clustering, and more.
 
 ## Model Details
 
 ### Model Description
 - **Model Type:** Sentence Transformer
-<!-- - **Base model:** [Unknown](https://huggingface.co/unknown) -->
+- **Base model:** [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) <!-- at revision c9745ed1d9f207416be6d2e6f8de32d1f16199bf -->
 - **Maximum Sequence Length:** 256 tokens
 - **Output Dimensionality:** 384 dimensions
 - **Similarity Function:** Cosine Similarity
@@ -146,9 +148,9 @@ from sentence_transformers import SentenceTransformer
 model = SentenceTransformer("sentence_transformers_model_id")
 # Run inference
 sentences = [
-    'Shanghai, 1934. In an insect world parallel to that of humans, veteran Inspector Sun, a lone spider, leads his last mission against his archenemy the Red Locust, before embarking on a well-deserved retirement. His vacation aboard a Pan Am clipper between Shanghai and San Francisco comes to an abrupt end when millionaire Dr. Spindelthorp is found murdered. What begins as a routine case for Sun will ultimately decide the fate of humanity.',
-    'While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario and Luigi are transported down a mysterious pipe and wander into a magical new world. But when the brothers are separated, Mario embarks on an epic quest to find Luigi.',
-    'A mysterious force knocks the moon from its orbit around Earth and sends it hurtling on a collision course with life as we know it.',
+    'Puss in Boots discovers that his passion for adventure has taken its toll: He has burned through eight of his nine lives, leaving him with only one life left. Puss sets out on an epic journey to find the mythical Last Wish and restore his nine lives.',
+    'Elena and Ivan are getting ready to enter into a new phase in their life. They are leaving the metropolis of Barcelona to settle in the Catalan countryside, where they are taking over a cork oak plantation. Not only will the business pay for their living, but they also want to exploit the plantation equitably and sustainably. But despite their ideals, Elena and Ivan soon find themselves in a crisis which will endanger not only their project, but also their relationship.',
+    'Through a series of unfortunate events, three mummies end up in present-day London and embark on a wacky and hilarious journey in search of an old ring belonging to the Royal Family, stolen by ambitious archaeologist Lord Carnaby.',
 ]
 embeddings = model.encode(sentences)
 print(embeddings.shape)
@@ -157,9 +159,9 @@ print(embeddings.shape)
 # Get the similarity scores for the embeddings
 similarities = model.similarity(embeddings, embeddings)
 print(similarities)
-# tensor([[1.0000, 0.1880, 0.2141],
-#         [0.1880, 1.0000, 0.1241],
-#         [0.2141, 0.1241, 1.0000]])
+# tensor([[1.0000, 0.1894, 0.2391],
+#         [0.1894, 1.0000, 0.1800],
+#         [0.2391, 0.1800, 1.0000]])
 ```
 
 <!--
@@ -210,13 +212,13 @@ You can finetune this model on your own dataset.
   |         | sentence_0                                                                          | sentence_1                                                                          |
   |:--------|:------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------|
   | type    | string                                                                              | string                                                                              |
-  | details | <ul><li>min: 18 tokens</li><li>mean: 58.72 tokens</li><li>max: 129 tokens</li></ul> | <ul><li>min: 18 tokens</li><li>mean: 57.91 tokens</li><li>max: 129 tokens</li></ul> |
+  | details | <ul><li>min: 18 tokens</li><li>mean: 58.72 tokens</li><li>max: 129 tokens</li></ul> | <ul><li>min: 18 tokens</li><li>mean: 58.42 tokens</li><li>max: 129 tokens</li></ul> |
 * Samples:
-  | sentence_0                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | sentence_1                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-  |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-  | <code>Reclusive author Loretta Sage writes about exotic places in her popular adventure novels that feature a handsome cover model named Alan. While on tour promoting her new book with Alan, Loretta gets kidnapped by an eccentric billionaire who hopes she can lead him to the ancient city's lost treasure that featured in her latest story. Alan, determined to prove he can be a hero in real life and not just on the pages of her books, sets off to rescue her.</code> | <code>After the alleged suicide of her priest brother, Grace travels to the remote Scottish convent where he fell to his death. Distrusting the Church's account, she uncovers murder, sacrilege and a disturbing truth about herself.</code>                                                                                                                                                                                                                         |
-  | <code>A tale of outsized ambition and outrageous excess, tracing the rise and fall of multiple characters in an era of unbridled decadence and depravity during Hollywood's transition from silent films and to sound films in the late 1920s.</code>                                                                                                                                                                                                                              | <code>A mysterious force knocks the moon from its orbit around Earth and sends it hurtling on a collision course with life as we know it.</code>                                                                                                                                                                                                                                                                                                                      |
-  | <code>A winter night. An isolated house in a small town. Two warring sides must join forces to survive an evil tied to one of the field's oldest legends.</code>                                                                                                                                                                                                                                                                                                                   | <code>Shanghai, 1934. In an insect world parallel to that of humans, veteran Inspector Sun, a lone spider, leads his last mission against his archenemy the Red Locust, before embarking on a well-deserved retirement. His vacation aboard a Pan Am clipper between Shanghai and San Francisco comes to an abrupt end when millionaire Dr. Spindelthorp is found murdered. What begins as a routine case for Sun will ultimately decide the fate of humanity.</code> |
+  | sentence_0                                                                                                                                                                                                                                                                                                                                           | sentence_1                                                                                                                                                                                                                                                                                                                             |
+  |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | <code>A cold and mysterious new security guard for a Los Angeles cash truck company surprises his co-workers when he unleashes precision skills during a heist. The crew is left wondering who he is and where he came from. Soon, the marksman's ultimate motive becomes clear as he takes dramatic and irrevocable steps to settle a score.</code> | <code>With the price on his head ever increasing, John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe and forces that turn old friends into foes.</code>                                                        |
+  | <code>Puss in Boots discovers that his passion for adventure has taken its toll: He has burned through eight of his nine lives, leaving him with only one life left. Puss sets out on an epic journey to find the mythical Last Wish and restore his nine lives.</code>                                                                              | <code>A young girl discovers an idealized parallel universe behind a secret door in her new home, unaware that it contains a sinister secret.</code>                                                                                                                                                                                   |
+  | <code>A mysterious force knocks the moon from its orbit around Earth and sends it hurtling on a collision course with life as we know it.</code>                                                                                                                                                                                                     | <code>After depleting Earth's resources for centuries, humankind's survival requires an exodus to outer space. An international expedition is quickly formed to find a suitable new planet, but when plans go awry, the crew is suddenly stranded without power on a strange planet, where something unimaginable lies in wait.</code> |
 * Loss: [<code>MultipleNegativesRankingLoss</code>](https://sbert.net/docs/package_reference/sentence_transformer/losses.html#multiplenegativesrankingloss) with these parameters:
   ```json
   {

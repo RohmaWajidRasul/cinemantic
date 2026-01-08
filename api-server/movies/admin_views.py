@@ -28,22 +28,29 @@ class AdminRetrainView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        try:
-            base_model = ModelVersion.objects.get(
-                version=base_model_version,
-                status__in=["ready", "current"]
-            )
-        except ModelVersion.DoesNotExist:
-            return Response({"error": "Base model unavailable."}, status=status.HTTP_400_BAD_REQUEST)
+        if base_model_version.lower() != "default":
+            try:
+                base_model = ModelVersion.objects.get(
+                    version=base_model_version,
+                    status__in=["ready", "current"]
+                )
+            except ModelVersion.DoesNotExist:
+                return Response({"error": "Base model unavailable."}, status=status.HTTP_400_BAD_REQUEST)
+            parent_model = base_model
 
-        new_version = self.create_new_model_version(base_model)
+        else:
+            base_model = None
+            parent_model = None 
+
+        # Reserve a new version
+        new_version = self.create_new_model_version(parent_model)
 
         ai_url = settings.AI_SERVICE_URL + "/api/v1/fine-tune/"
         data = {
-            "base_model": base_model.version,
+            "base_model": base_model.version if base_model else "default",
             "batch_size": batch_size,
             "epochs": epochs,
-            "new_version": new_version.version 
+            "new_version": new_version.version
         }
         files = {"file": (file.name, file.read(), file.content_type)}
 
@@ -64,11 +71,11 @@ class AdminRetrainView(APIView):
             {
                 "detail": "Retraining triggered.",
                 "model_version": new_version.version,
-                "parent_model": base_model.version
+                "parent_model": base_model.version if base_model else None
             },
             status=status.HTTP_201_CREATED
         )
-    
+
     def create_new_model_version(self, parent_model: ModelVersion) -> ModelVersion:
     
         with transaction.atomic():
