@@ -12,36 +12,41 @@ from settings import POSTGRES
 
 
 class FineTuneParameter(BaseModel):
-    model_name: str
+    version: str
     batch_size: int
     epochs: int
 
 def run_fine_tuning(df, params):
 
-    v = getVersion()
+    v = params.get("version")
     api_url = f"{API_SERVICE_URL}/api/v1/admin/model-versions/{v}/"
 
     try:
         recommender = MovieRecommender(
             df=df,
             batch_size=params.get("batch_size", 128),
-            epochs=params.get("epochs", 2)  
+            epochs=params.get("epochs", 2)
         )
+
         recommender.setup_recommender(True)
-    except:
-        payload={"status": "failed"}
-        requests.patch(api_url, json=payload)
-        return
-    
-    addMovies(df)
-    addGenres(df)
-    updateEmb(recommender)
-    updateRecsTable()
 
+        addMovies(df)
+        addGenres(df)
+        updateEmb(recommender)
+        updateRecsTable()
 
-    print(api_url)
-    payload = {"status": "ready"}
-    requests.patch(api_url, json=payload, headers={"X-MODEL-SECRET": MODEL_UPDATE_SECRET},)
+        payload = {"status": "ready"}
+
+    except Exception as e:
+        print("Fine-tuning failed:", e)
+        payload = {"status": "failed"}
+
+    requests.patch(
+        api_url,
+        json=payload,
+        headers={"X-MODEL-SECRET": MODEL_UPDATE_SECRET},
+    )
+
 
 app = FastAPI()
 
@@ -50,10 +55,12 @@ def health():
     return {"status": "healthy"}
 
 @app.post("/api/v1/admin/fine-tune/")
-def train(background_tasks: BackgroundTasks, model_name: str = Form(...), batch_size: int = Form(...), epochs: int = Form(...), file: UploadFile = File(...)):
+def train(background_tasks: BackgroundTasks, version: str = Form(...), batch_size: int = Form(...), 
+          epochs: int = Form(...), file: UploadFile = File(...)):
 
+    print("POST RECEIVED")
     params_dict = {
-        "model_name": model_name,
+        "version": version,
         "batch_size": batch_size,
         "epochs": epochs
     }
@@ -77,6 +84,7 @@ def train(background_tasks: BackgroundTasks, model_name: str = Form(...), batch_
 
     try:
         ## Fine-tuning + inserting into db
+        print("FINE TUNING STARTS")
         background_tasks.add_task(run_fine_tuning, df, params_dict)
 
         return JSONResponse(

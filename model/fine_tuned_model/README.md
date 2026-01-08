@@ -5,80 +5,86 @@ tags:
 - feature-extraction
 - dense
 - generated_from_trainer
-- dataset_size:396
+- dataset_size:276
 - loss:MultipleNegativesRankingLoss
 base_model: sentence-transformers/all-MiniLM-L6-v2
 widget:
-- source_sentence: Siblings Lucy, Edmund, Susan and Peter step through a magical wardrobe
-    and find the land of Narnia. There, they discover a charming, once peaceful kingdom
-    that has been plunged into eternal winter by the evil White Witch, Jadis. Aided
-    by the wise and magnificent lion, Aslan, the children lead Narnia into a spectacular,
-    climactic battle to be free of the Witch's glacial powers forever.
+- source_sentence: Sayen is hunting down the men who murdered her grandmother. Using
+    her training and knowledge of nature, she is able to turn the tables on them,
+    learning of a conspiracy from a corporation that threatens her people's ancestral
+    lands.
   sentences:
-  - A young street-smart, Nathan Drake and his wisecracking partner Victor “Sully”
-    Sullivan embark on a dangerous pursuit of “the greatest treasure never found”
-    while also tracking clues that may lead to Nathan’s long-lost brother.
-  - After dominating the boxing world, Adonis Creed has been thriving in both his
-    career and family life. When a childhood friend and former boxing prodigy, Damien
-    Anderson, resurfaces after serving a long sentence in prison, he is eager to prove
-    that he deserves his shot in the ring. The face-off between former friends is
-    more than just a fight. To settle the score, Adonis must put his future on the
-    line to battle Damien — a fighter who has nothing to lose.
-  - After his grandfather's death, a man travels with his wife and kids to his hometown,
-    where chaos ensues with his relatives over the inheritance.
-- source_sentence: The story of 14th century Czech icon and warlord Jan Zizka who
-    defeated armies of the Teutonic Order and the Holy Roman Empire.
+  - Reporters Loretta McLaughlin and Jean Cole bravely pursue the story of the Boston
+    Strangler at great personal risk, putting their own lives on the line in their
+    quest to uncover the truth.
+  - Set more than a decade after the events of the first film, learn the story of
+    the Sully family (Jake, Neytiri, and their kids), the trouble that follows them,
+    the lengths they go to keep each other safe, the battles they fight to stay alive,
+    and the tragedies they endure.
+  - A journey deep into an uncharted and treacherous land, where fantastical creatures
+    await the legendary Clades—a family of explorers whose differences threaten to
+    topple their latest, and by far most crucial, mission.
+- source_sentence: Liliana is the dream girl of many of her co-workers, among them
+    "Piquiña", an ugly and ordinary charlatan who, convinced of his irresistible attractiveness,
+    launches into her conquest during the celebration of the company's "novena". Liliana,
+    who can't stand "Piquíña", makes it clear to him that the only way she would be
+    with him would be if he were the last man on earth.
   sentences:
-  - A 17 year old finds out that his girlfriend is dying, so he sets out to give her
-    an entire life, in the last year she has left.
-  - A young street-smart, Nathan Drake and his wisecracking partner Victor “Sully”
-    Sullivan embark on a dangerous pursuit of “the greatest treasure never found”
-    while also tracking clues that may lead to Nathan’s long-lost brother.
-  - Yeon-du asks her best friend Bora to collect all the information she can about
-    Baek Hyun-jin while she is away in the U.S. for heart surgery. Bora decides to
-    get close to Baek's best friend, Pung Woon-ho first. However, Bora's clumsy plan
-    unfolds in an unexpected direction. In 1999, a year before the new century, Bora,
-    who turns seventeen, falls into the fever of first love.
-- source_sentence: A young street-smart, Nathan Drake and his wisecracking partner
-    Victor “Sully” Sullivan embark on a dangerous pursuit of “the greatest treasure
-    never found” while also tracking clues that may lead to Nathan’s long-lost brother.
+  - An American priest working in Mexico is considered a saint by many local parishioners.
+    However, due to a botched exorcism, he carries a secret that’s eating him alive
+    until he gets an opportunity to face his demon one final time.
+  - All Gary wants is to make awesome home movies with his best buds. All his older
+    sister Samantha wants is to hang with the cool kids. When their parents head out
+    of town one Halloween weekend, an all-time rager of a teen house party turns to
+    terror when aliens attack, forcing the siblings to band together to survive the
+    night.
+  - 'Blindsided by a new generation of blazing-fast racers, the legendary Lightning
+    McQueen is suddenly pushed out of the sport he loves. To get back in the game,
+    he will need the help of an eager young race technician with her own plan to win,
+    inspiration from the late Fabulous Hudson Hornet, and a few unexpected turns.
+    Proving that #95 isn''t through yet will test the heart of a champion on Piston
+    Cup Racing’s biggest stage!'
+- source_sentence: After witnessing a grotesque murder at a party in her new town,
+    a teenager starts having strange visions and bizarre desires.
   sentences:
-  - Twenty-five years after a streak of brutal murders shocked the quiet town of Woodsboro,
-    a new killer has donned the Ghostface mask and begins targeting a group of teenagers
-    to resurrect secrets from the town’s deadly past.
-  - A winter night. An isolated house in a small town. Two warring sides must join
-    forces to survive an evil tied to one of the field's oldest legends.
-  - A 17 year old finds out that his girlfriend is dying, so he sets out to give her
-    an entire life, in the last year she has left.
-- source_sentence: With the price on his head ever increasing, John Wick uncovers
-    a path to defeating The High Table. But before he can earn his freedom, Wick must
-    face off against a new enemy with powerful alliances across the globe and forces
-    that turn old friends into foes.
+  - Mario and Luigi, plumbers from Brooklyn, find themselves in an alternate universe
+    where evolved dinosaurs live in hi-tech squalor. They're the only hope to save
+    our universe from invasion by the dino dictator, Koopa.
+  - Royal Air Force pilot Lt. Kate Sinclair is on her final flight mission when her
+    jet is shot down over one of the most dangerous rebel strongholds in Afghanistan.
+    She finds refuge in an abandoned underground bunker where deadly man-made creatures
+    known as Ravagers — half-human, half-alien, and hungry for human flesh — are awakened.
+  - The Red Ribbon Army, an evil organization that was once destroyed by Goku in the
+    past, has been reformed by a group of people who have created new and mightier
+    Androids, Gamma 1 and Gamma 2, and seek vengeance against Goku and his family.
+- source_sentence: Mario and Luigi, plumbers from Brooklyn, find themselves in an
+    alternate universe where evolved dinosaurs live in hi-tech squalor. They're the
+    only hope to save our universe from invasion by the dino dictator, Koopa.
   sentences:
-  - As viable water is depleted on Earth, a mission is sent to Saturn's moon Titan
-    to retrieve sustainable H2O reserves from its alien inhabitants. But just as the
-    humans acquire the precious resource, they are attacked by Titan rebels, who don't
-    trust that the Earthlings will leave in peace.
-  - Darcy and Tom gather their families for the ultimate destination wedding but when
-    the entire party is taken hostage, “’Til Death Do Us Part” takes on a whole new
-    meaning in this hilarious, adrenaline-fueled adventure as Darcy and Tom must save
-    their loved ones—if they don’t kill each other first.
-  - A winter night. An isolated house in a small town. Two warring sides must join
-    forces to survive an evil tied to one of the field's oldest legends.
-- source_sentence: A winter night. An isolated house in a small town. Two warring
-    sides must join forces to survive an evil tied to one of the field's oldest legends.
+  - When the power mysteriously fails, and almost everyone vanishes from a small tourist
+    vessel in the Arctic, fear becomes the master for the three who remain. Forced
+    ashore, the men deteriorate in body and mind until a dark truth emerges that compels
+    them to ally or perish.
+  - Thirteen-year-old Mei is experiencing the awkwardness of being a teenager with
+    a twist – when she gets too excited, she transforms into a giant red panda.
+  - A stubborn and hotheaded minor league basketball coach is forced to train a Special
+    Olympics team when he is sentenced to community service.
+- source_sentence: The hottest biotech company in the world has discovered they can
+    clone history’s most influential people from the dead. Now, they are auctioning
+    clones of Michelangelo, Galileo, Vivaldi, and others for tens of millions of dollars
+    to the world’s ultra-rich. But when they steal the Shroud of Turin and clone the
+    DNA of Jesus Christ, all hell breaks loose.
   sentences:
-  - After his retirement is interrupted by Gorr the God Butcher, a galactic killer
-    who seeks the extinction of the gods, Thor Odinson enlists the help of King Valkyrie,
-    Korg, and ex-girlfriend Jane Foster, who now wields Mjolnir as the Mighty Thor.
-    Together they embark upon a harrowing cosmic adventure to uncover the mystery
-    of the God Butcher’s vengeance and stop him before it’s too late.
-  - Shanghai, 1934. In an insect world parallel to that of humans, veteran Inspector
-    Sun, a lone spider, leads his last mission against his archenemy the Red Locust,
-    before embarking on a well-deserved retirement. His vacation aboard a Pan Am clipper
-    between Shanghai and San Francisco comes to an abrupt end when millionaire Dr.
-    Spindelthorp is found murdered. What begins as a routine case for Sun will ultimately
-    decide the fate of humanity.
+  - When five lovely young girls who hate studying hire part-time tutor Futaro, he
+    guides not only their education but also their hearts. Time spent has brought
+    them all closer, with feelings growing within the girls and Futaro. As they finish
+    their third year of high school and their last school festival approaches, they
+    set their sights on what’s next. Is there a future with one of them and Futaro?
+  - Detective James Knight 's last-minute assignment to the Independence Day shift
+    turns into a race to stop an unbalanced ambulance EMT from imperiling the city's
+    festivities. The misguided vigilante, playing cop with a stolen gun and uniform,
+    has a bank vault full of reasons to put on his own fireworks show... one that
+    will strike dangerously close to Knight's home.
   - Decades ago, the USSR developed unkillable sharks and launched them to the moon.
     Today, a team of American astronauts will endure the fight of their lives.
 pipeline_tag: sentence-similarity
@@ -135,9 +141,9 @@ from sentence_transformers import SentenceTransformer
 model = SentenceTransformer("sentence_transformers_model_id")
 # Run inference
 sentences = [
-    "A winter night. An isolated house in a small town. Two warring sides must join forces to survive an evil tied to one of the field's oldest legends.",
-    'Shanghai, 1934. In an insect world parallel to that of humans, veteran Inspector Sun, a lone spider, leads his last mission against his archenemy the Red Locust, before embarking on a well-deserved retirement. His vacation aboard a Pan Am clipper between Shanghai and San Francisco comes to an abrupt end when millionaire Dr. Spindelthorp is found murdered. What begins as a routine case for Sun will ultimately decide the fate of humanity.',
-    'After his retirement is interrupted by Gorr the God Butcher, a galactic killer who seeks the extinction of the gods, Thor Odinson enlists the help of King Valkyrie, Korg, and ex-girlfriend Jane Foster, who now wields Mjolnir as the Mighty Thor. Together they embark upon a harrowing cosmic adventure to uncover the mystery of the God Butcher’s vengeance and stop him before it’s too late.',
+    'The hottest biotech company in the world has discovered they can clone history’s most influential people from the dead. Now, they are auctioning clones of Michelangelo, Galileo, Vivaldi, and others for tens of millions of dollars to the world’s ultra-rich. But when they steal the Shroud of Turin and clone the DNA of Jesus Christ, all hell breaks loose.',
+    'Decades ago, the USSR developed unkillable sharks and launched them to the moon. Today, a team of American astronauts will endure the fight of their lives.',
+    'When five lovely young girls who hate studying hire part-time tutor Futaro, he guides not only their education but also their hearts. Time spent has brought them all closer, with feelings growing within the girls and Futaro. As they finish their third year of high school and their last school festival approaches, they set their sights on what’s next. Is there a future with one of them and Futaro?',
 ]
 embeddings = model.encode(sentences)
 print(embeddings.shape)
@@ -146,9 +152,9 @@ print(embeddings.shape)
 # Get the similarity scores for the embeddings
 similarities = model.similarity(embeddings, embeddings)
 print(similarities)
-# tensor([[1.0000, 0.3092, 0.2253],
-#         [0.3092, 1.0000, 0.2267],
-#         [0.2253, 0.2267, 1.0000]])
+# tensor([[1.0000, 0.1682, 0.1853],
+#         [0.1682, 1.0000, 0.0770],
+#         [0.1853, 0.0770, 1.0000]])
 ```
 
 <!--
@@ -193,19 +199,19 @@ You can finetune this model on your own dataset.
 
 #### Unnamed Dataset
 
-* Size: 396 training samples
+* Size: 276 training samples
 * Columns: <code>sentence_0</code> and <code>sentence_1</code>
-* Approximate statistics based on the first 396 samples:
-  |         | sentence_0                                                                          | sentence_1                                                                         |
-  |:--------|:------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------|
-  | type    | string                                                                              | string                                                                             |
-  | details | <ul><li>min: 18 tokens</li><li>mean: 58.38 tokens</li><li>max: 129 tokens</li></ul> | <ul><li>min: 18 tokens</li><li>mean: 56.2 tokens</li><li>max: 129 tokens</li></ul> |
+* Approximate statistics based on the first 276 samples:
+  |         | sentence_0                                                                          | sentence_1                                                                          |
+  |:--------|:------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------|
+  | type    | string                                                                              | string                                                                              |
+  | details | <ul><li>min: 18 tokens</li><li>mean: 58.72 tokens</li><li>max: 129 tokens</li></ul> | <ul><li>min: 18 tokens</li><li>mean: 59.11 tokens</li><li>max: 111 tokens</li></ul> |
 * Samples:
-  | sentence_0                                                                                                                                                                                                                                                                                                                                                                               | sentence_1                                                                                                                                                                                                                                                                                                                                                                                       |
-  |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-  | <code>Doctor Strange, with the help of mystical allies both old and new, traverses the mind-bending and dangerous alternate realities of the Multiverse to confront a mysterious new adversary.</code>                                                                                                                                                                                   | <code>When the power mysteriously fails, and almost everyone vanishes from a small tourist vessel in the Arctic, fear becomes the master for the three who remain. Forced ashore, the men deteriorate in body and mind until a dark truth emerges that compels them to ally or perish.</code>                                                                                                    |
-  | <code>Nearly 5,000 years after he was bestowed with the almighty powers of the Egyptian gods—and imprisoned just as quickly—Black Adam is freed from his earthly tomb, ready to unleash his unique form of justice on the modern world.</code>                                                                                                                                           | <code>The story of 14th century Czech icon and warlord Jan Zizka who defeated armies of the Teutonic Order and the Holy Roman Empire.</code>                                                                                                                                                                                                                                                     |
-  | <code>Remy, a seemingly naive and devout young woman, finds herself cast out from her religious cult. With no place to turn, she immerses herself into the underground world of truck stop sex workers. Under the watchful eye of their matriarch and an enigmatic local lawman, Remy navigates between her strained belief system and the code to find her true calling in life.</code> | <code>Peter is searching for his long-lost sister when he crosses paths with a fortune teller in the market square. His one one question is: is his sister still alive? The answer, that he must find a mysterious elephant and the magician who will conjure it, sets Peter off on a journey to complete three seemingly impossible tasks that will change the face of his town forever.</code> |
+  | sentence_0                                                                                                                                                                                                                                                                                                                                                                                                                                                 | sentence_1                                                                                                                                                                                                                                                                      |
+  |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | <code>Rich and powerful Simon Qing has been schooled in the ways of sex by his virile father, but is still a virgin. That is, until he meets his first love Violetta who has fun with him all over his father’s estate. Their love does not last, so Simon embarks on a journey. Along the way he meets the comely nun Moon whom Simon deflowers and then marries. He then becomes enamored of Golden Lotus but she is married to dwarf Wu Da-Lang.</code> | <code>Between personal obligations and training for his next big fight against an opponent with ties to his family's past, Adonis Creed is up against the challenge of his life.</code>                                                                                         |
+  | <code>When the power mysteriously fails, and almost everyone vanishes from a small tourist vessel in the Arctic, fear becomes the master for the three who remain. Forced ashore, the men deteriorate in body and mind until a dark truth emerges that compels them to ally or perish.</code>                                                                                                                                                              | <code>With the price on his head ever increasing, John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe and forces that turn old friends into foes.</code> |
+  | <code>This Christmas, Homer surprises Marge with the ultimate gift: an unforgettable performance from Italian opera superstar Andrea Bocelli and his children Matteo and Virginia.</code>                                                                                                                                                                                                                                                                  | <code>The Elric brothers’ long and winding journey comes to a close in this epic finale, where they must face off against an unworldly, nationwide threat.</code>                                                                                                               |
 * Loss: [<code>MultipleNegativesRankingLoss</code>](https://sbert.net/docs/package_reference/sentence_transformer/losses.html#multiplenegativesrankingloss) with these parameters:
   ```json
   {
@@ -349,7 +355,7 @@ You can finetune this model on your own dataset.
 </details>
 
 ### Framework Versions
-- Python: 3.14.1
+- Python: 3.12.6
 - Sentence Transformers: 5.1.2
 - Transformers: 4.57.3
 - PyTorch: 2.9.1+cpu
