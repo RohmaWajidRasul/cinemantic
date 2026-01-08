@@ -1,270 +1,148 @@
 {% load static %}
+{% include "menu.html" with show_home=True show_profile=False show_search=True show_history=True show_logout=True %}
 <!DOCTYPE html>
+<html>
 
 <head>
     <link rel="stylesheet" href="{% static 'global.css' %}">
 </head>
-<html>
 
 <body>
     <div class="film-border top"></div>
-    <main>
+    <div class="wrapper flex">
+        <div class="clapperboard">
 
-        <div class="search">
-            <a href="{% url 'search-page' %}">
-                <button id="search-button">
-                    <img src="{% static 'search.png' %}" alt="User Profile">
-                </button>
-            </a>
-        </div>
-        <div class="history">
-            <a href="{% url 'history-page' %}">
-                <button id="history-button">
-                    <img src="{% static 'movie.png' %}" alt="User Profile">
-                </button>
-            </a>
-        </div>
+            <form method="post" class="profile-edit">
+                {% csrf_token %}
 
-        <div class="main-container">
-            <div class="form">
-                <label for="current-username">Username</label>
-                <input type="text" name="current-username" id="current-username" placeholder="Loading username..." disabled>
+                <div class="slate-content grid">
 
-                <label for="bio">Bio</label>
-                <input type="text" name="bio" id="bio" placeholder="Bio" required>
+                    <div class="form border-right">
+                        <label for="current-username">Username</label>
+                        <input type="text" name="current-username" id="current-username"
+                            value="{{ profile.user.username }}">
+                        <div class="chalk-divider"></div>
 
-                <div class="button-container">
-                    <button onclick="changeUser()" class="blue-button">Change bio</button>
+                        <label for="bio">Bio</label>
+                        <input type="text" name="bio" id="bio" value="{{ profile.bio|default:" —" }}">
+                    </div>
+
+                    <div class="form">
+                        <label for="new-password">New password</label>
+                        <input type="password" name="new-password" id="new-password" placeholder="New password">
+                        <div class="chalk-divider"></div>
+
+                        <label for="repeate-password">Repeat password</label>
+                        <input type="password" name="repeat-password" id="repeat-password"
+                            placeholder="Repeat password">
+                    </div>
+
                 </div>
 
-            </div>
-            <div class="form">
-                <label for="new-password">New password</label>
-                <input type="password" name="new-password" id="new-password" placeholder="New password" required>
-
-                <label for="repeate-password">Repeat password</label>
-                <input type="password" name="repeat-password" id="repeat-password" placeholder="Repeat password"
-                    required>
-                <p id="password-error" hidden>
-                    Both passwords must match
-                </p>
-                <div class="button-container">
-                    <button onclick="changePassword()" class="blue-button">Change password</button>
+                <div class="chalk-divider"></div>
+                <div class="button-container grid">
+                    <div class="border-right" id="c1"></div>
+                    <div class="flex" id="c2">
+                        <button onclick="changeInfo()">Change profile</button>
+                    </div>
+                    <div class="column border-left" id="c3"></div>
                 </div>
-            </div>
-        </div>
 
-    </main>
+            </form>
+
+            {% if error %}
+            <p class="error">{{ error }}</p>
+            {% endif %}
+
+        </div>
+    </div>
     <div class="film-border bottom"></div>
 </body>
 
 </html>
 
-<script>
-    const BIO_API_ENDPOINT = 'http://127.0.0.1:8000/api/v1/users/me/';
-
-    const errorMsg = document.getElementById("password-error");
-
-    // Event listener to fetch user data
-    document.addEventListener('DOMContentLoaded', () => {
-        loadUserProfile();
-    });
-
-    // Function to fetch user data
-    async function loadUserProfile() {
-
-        const token = localStorage.getItem('access_token');
-        const loginPageUrl = "{% url 'login-page' %}";
-
-        const usernameInput = document.getElementById('current-username');
-        const bioInput = document.getElementById('bio');
-
-        // Check authentication (tokens)
-        if (!token) {
-            console.log('Error: Authentication token not found. Redirecting to login.');
-            if (usernameInput) {
-                usernameInput.value = 'Please log in to view your profile.';
-            }
-            window.location.href = loginPageUrl;
-            return;
-        }
-
-        // Fetch user data
-        try {
-            const response = await fetch(BIO_API_ENDPOINT, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw errorData;
-            }
-
-            const responseData = await response.json();
-            console.log('Profile data successfully retrieved:', responseData);
-
-            // Update the username
-            if (usernameInput) {
-
-                const username = responseData.profile?.user?.username;
-                usernameInput.value = username || 'Username not found.';
-
-            } else {
-                console.log(`Error: Username input element not found.`);
-            }
-
-            // Update Bio
-            if (bioInput) {
-
-                const bio = responseData.profile?.bio;
-                bioInput.value = bio || 'Bio not found';
-
-            } else {
-                console.log(`Error: Bio input element not found.`);
-            }
-
-        } catch (error) {
-            console.error('Error:', error.message);
-        }
-    }
-
-    // Todo: move logic to views 
-    async function changeUser() {
-
-        const bioInput = document.getElementById('bio');
-        const token = localStorage.getItem('access_token');
-        const userData = {
-            bio: bioInput.value,
-        }
-
-        try {
-            const response = await fetch(BIO_API_ENDPOINT, {
-                method: 'PATCH',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(userData),
-            })
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw errorData;
-            }
-
-            const responseData = await response.json();
-
-            bioInput.value = '';
-            console.log(responseData);
-            loadUserProfile();
-
-        } catch (error) {
-            console.log("Error:", error.message);
-        }
-    }
-
-    //TODO: FINISH ERROR HANDLING
-    async function changePassword() {
-
-        const newPassInput = document.getElementById('new-password');
-        const repeatPassInput = document.getElementById('repeat-password');
-        const token = localStorage.getItem('access_token');
-
-        if (newPassInput.value === repeatPassInput.value){
-            errorMsg.hidden = true;
-
-            const userData = {
-                password: newPassInput.value
-            }
-
-            try {
-                const response = await fetch(BIO_API_ENDPOINT, {
-                    method: 'PATCH',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                    body: JSON.stringify(userData),
-                })
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw errorData;
-                }
-
-                const responseData = await response.json();
-
-                console.log(responseData);
-                newPassInput.value = ""
-                repeatPassInput.value = ""
-
-            } catch (error) {
-                console.log("Error:", error.message);
-            }
-        } else {
-            errorMsg.hidden = false;
-        }
-    }
-</script>
 
 <style scoped>
-    .main-container {
-        display: flex;
-        padding: 5px 0px;
-        width: 60%;
+    .clapperboard {
+        width: 70%;
+        background-color: #1a1a1a;
+        border-radius: 10px;
+        overflow: visible;
+        position: relative;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
     }
 
-    .search {
-        top: 0px;
+    .clapperboard::before {
+        content: '';
+        display: block;
+        height: 50px;
+        width: 100%;
+        border-radius: inherit;
+        border-bottom: 4px solid #000;
+        background: repeating-linear-gradient(45deg,
+                #1a1a1a,
+                #1a1a1a 20px,
+                #f0f0f0 20px,
+                #f0f0f0 40px);
+        transform-origin: bottom left;
+        transition: transform 0.3s ease-in-out;
     }
 
-    .history {
-        top: 60px;
+    .clapperboard:hover::before {
+        transform: rotate(-5deg);
+    }
+
+    .slate-content,
+    .button-container {
+        align-items: center;
+        width: 100%;
     }
 
     .form {
-        flex: 5;
-        display: flex;
         flex-direction: column;
-        justify-content: center;
         text-align: left;
-        margin: 30px auto;
-        max-width: 300px;
+        padding: 10px 30px;
+        margin: 0;
+        letter-spacing: 4px;
     }
 
     .form label {
         color: white;
+        font-weight: normal;
+        margin-top: 20px;
     }
 
-    .form input {
-        background-color: #000;
-        color: #f0f0f0;
-        border: 2px solid #333;
-        box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.9);
-    }
-
-    .form input:focus {
-        outline: none;
-        border-color: #7e8bcb;
-        box-shadow:
-            inset 0 1px 5px rgba(0, 0, 0, 0.9),
-            0 0 8px #7e8bcb;
+    .chalk-divider {
+        height: 2px;
+        width: 100%;
+        background: linear-gradient(90deg,
+                rgba(255, 255, 255, 0.8) 20%,
+                rgba(240, 240, 240, 0.9) 50%);
+        opacity: 0.7;
     }
 
     .button-container {
-        display: grid;
-        justify-items: center;
+        grid-template-columns: repeat(3, 1fr);
     }
 
-    #password-error {
-        align-self: center;
-        font-size: 0.7rem;
+    button:hover {
+        background-color: rgba(193, 190, 190, 0.5);
+    }
+
+    .border-right {
+        border-right: 2px solid rgba(240, 240, 240, 0.5);
+    }
+
+    .border-left {
+        border-left: 2px solid rgba(240, 240, 240, 0.5);
+    }
+
+    #c1,
+    #c3 {
+        height: 100%;
+    }
+
+    #c2 {
+        margin: 1em 0;
     }
 </style>

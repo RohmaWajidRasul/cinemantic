@@ -5,36 +5,50 @@ from database import engine
 import os
 import numpy as np
 
+def checkDuplicates(df):
+    with engine.connect() as conn:
+        rows = conn.execute(text("SELECT overview FROM movies_movie")).fetchall()
+
+    db_overviews = {row.overview for row in rows if row.overview}
+
+    df = df[~df["overview"].isin(db_overviews)]
+
+    return df
 
 
 #load csv
 def validateCSV(df):
     print(f"Initial size: {df.shape[0]}")
+    df = checkDuplicates(df)
 
-    required_cols = set(["id", "title", "release_date", "score", "overview", "crew", "original_language", "poster_url", "genres"])
-    if required_cols.issubset(df.columns):
-
-        # Remove overviews without english translation
-        df = df[~df["overview"].str.contains("We don't have an overview translated in English.", na=False)].copy()
-        # Remove movies without genre
-        df = df.dropna(subset=['genres'])
-        # Clean white spaces
-        df['release_date'] = df['release_date'].str.strip()
-        # Remove duplicate rows (overview column is supposed to be unique)
-        df = df.drop_duplicates(subset=['overview'])
-        # Remove duplicate rows (id column is supposed to be unique)
-        df = df.drop_duplicates(subset=['id'])
-        # Ensure 'score' column only has values between 0-100
-        df['score'] = pd.to_numeric(df['score'], errors='coerce')
-        df.loc[(df['score'] < 0) | (df['score'] > 100), 'score'] = pd.NA
-        print(f"Final size: {df.shape[0]}")
+    if df.empty:
+        raise Exception("No new data") 
 
     else:
-        raise Exception("Invalid data") 
+
+        required_cols = set(["id", "title", "release_date", "score", "overview", "crew", "original_language", "poster_url", "genres"])
+        if required_cols.issubset(df.columns):
+
+            # Remove overviews without english translation
+            df = df[~df["overview"].str.contains("We don't have an overview translated in English.", na=False)].copy()
+            # Remove movies without genre
+            df = df.dropna(subset=['genres'])
+            # Clean white spaces
+            df['release_date'] = df['release_date'].str.strip()
+            # Remove duplicate rows (overview column is supposed to be unique)
+            df = df.drop_duplicates(subset=['overview'])
+            # Remove duplicate rows (id column is supposed to be unique)
+            df = df.drop_duplicates(subset=['id'])
+            # Ensure 'score' column only has values between 0-100
+            df['score'] = pd.to_numeric(df['score'], errors='coerce')
+            df.loc[(df['score'] < 0) | (df['score'] > 100), 'score'] = pd.NA
+            print(f"Final size: {df.shape[0]}")
+
+        else:
+            raise Exception("Invalid data") 
 
     return df
 
-###TODO: GENRES BULLSHIT
 def addMovies(df):
  
     df = df.drop(columns=["genres", "genres_list"])
