@@ -11,7 +11,7 @@ variables:
   TF_VAR_gitlab_api_url: ${CI_API_V4_URL}
 
 stages:
-  -test
+  - test
   - tf-validate
   - tf-build
   # - k8s-deploy
