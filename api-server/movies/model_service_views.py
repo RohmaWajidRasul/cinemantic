@@ -28,8 +28,9 @@ class ModelVersionUpdateView(APIView):
             return Response({"error": "Version not found"}, status=status.HTTP_404_NOT_FOUND)
         
         new_status = request.data.get("status")
-        precision_before = request.data.get("precision_before")
-        precision_after = request.data.get("precision_after")
+        precision_before = request.data.get("precision_before", None)
+        precision_after = request.data.get("precision_after", None)
+        detail = request.data.get("detail", None)
 
         if new_status is None:
             return Response(
@@ -61,6 +62,9 @@ class ModelVersionUpdateView(APIView):
             if precision_after is not None:
                 mv.precision_after = float(precision_after)
 
+            if detail is not None:
+                mv.detail = detail
+
             mv.save()
 
         return Response(
@@ -72,7 +76,7 @@ class ModelVersionUpdateView(APIView):
             status=status.HTTP_200_OK
         )
     
-class ModelVersionAdminListView(ListAPIView):
+class ModelVersionListView(ListAPIView):
     serializer_class = ModelVersionSerializer
     permission_classes = [IsAdminUser]
 

@@ -89,4 +89,46 @@ class AdminRetrainView(APIView):
 
             return new_version
 
+class AdminRollbackView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def post(self, _request, version):
+        try:
+            mv = ModelVersion.objects.get(version=version, status="ready")
+        except ModelVersion.DoesNotExist:
+            return Response(
+                {"error": "Model must be in READY state"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        mv.status = "initializing"
+        mv.save()
+
+        url = f"{settings.AI_SERVICE_URL}/api/v1/model-versions/{mv.version}/rollback/"
+
+
+        try:
+            response = requests.post(url)
+        except Exception as e:
+            return Response(
+                {"error": f"Could not reach AI service: {e}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+        if response.status_code != 200:
+            return Response(
+                {
+                    "error": "AI service returned an error.",
+                    "ai_response": response.text
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        
+        return Response(
+            {
+                "detail": "Rollback triggered.",
+                "model_version": mv.version,
+            },
+            status=status.HTTP_201_CREATED
+        )
 

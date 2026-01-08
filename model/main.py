@@ -12,8 +12,10 @@ from settings import POSTGRES
 
 def run_fine_tuning(df, params):
 
-    v = params.get("new_version"),
-    api_url = f"{API_SERVICE_URL}/api/v1/admin/model-versions/{v}/"
+    v = params.get("new_version")
+    api_url = f"{API_SERVICE_URL}/api/v1/internal/model-versions/{v}/"
+
+    use_default = False
 
     try:
         recommender = MovieRecommender(
@@ -22,28 +24,86 @@ def run_fine_tuning(df, params):
             epochs=params.get("epochs", 2)
         )
 
-        precision_before, precision_after = recommender.setup_recommender(True)
+        if params.get("base_model") == "default":
+            use_default = True
+
+        precision_before, precision_after = recommender.setup_recommender(use_default)
+
+        THRESHOLD = 0.05
+
+        drop_ratio = (precision_before - precision_after) / precision_before
+        bad_model = drop_ratio > THRESHOLD
 
         addMovies(df)
         addGenres(df)
-        updateEmb(recommender)
-        updateRecsTable()
 
-        payload = {
-            "status": "current",
-            "precision_before": precision_before,
-            "precision_after": precision_after,
-        }
+        if bad_model:
+            print("Bad fine-tuned model detected. Using previous model...")
+            recommender._reset_old_model()
+
+            new_ids = df["id"].tolist()
+            updateEmb(recommender, only_new=True, new_ids=new_ids)
+
+            updateRecsTable()
+
+            payload = {
+                "status": "ready",
+                "precision_before": precision_before,
+                "precision_after": precision_after,
+                "detail": "Model not deployed due to precision drop > 5%"
+            }
+        else:
+            updateEmb(recommender)
+
+            updateRecsTable()
+
+            payload = {
+                "status": "current",
+                "precision_before": precision_before,
+                "precision_after": precision_after,
+                "detail": "Model was deployed"
+            }
 
     except Exception as e:
         print("Fine-tuning failed:", e)
-        payload = {"status": "failed"}
+        payload = {
+            "status": "failed",
+            "detail": f"Fine-tuning failed: {e}" 
+        }
 
     requests.patch(
         api_url,
         json=payload,
         headers={"X-MODEL-SECRET": MODEL_UPDATE_SECRET},
     )
+
+def run_rollback(version: str):
+    api_url = f"{API_SERVICE_URL}/api/v1/internal/model-versions/{version}/"
+
+    try:
+        print(f"ROLLBACK STARTED for version {version}")
+
+        recommender = MovieRecommender()
+        updateEmb(recommender)
+        updateRecsTable()
+
+        payload = {
+            "status": "current",
+            "detail": "Rollback succeeded"
+        }
+    except Exception as e:
+        print("Rollback failed:", e)
+        payload = {
+            "status": "failed",
+            "detail": f"Rollback failed: {e}" 
+        }
+
+    requests.patch(
+        api_url,
+        json=payload,
+        headers={"X-MODEL-SECRET": MODEL_UPDATE_SECRET},
+    )
+
 
 app = FastAPI()
 
@@ -94,6 +154,23 @@ def train(background_tasks: BackgroundTasks, base_model: str = Form(...), batch_
             status_code=500,
             detail=f"Training failed due to an internal error: {e}"
         )
+
+@app.post("/api/v1/model-versions/{version}/rollback/")
+def rollback_model(version: str, background_tasks: BackgroundTasks):
+
+    try: 
+        print(f"ROLLING BACK MODEL {version}")
+        background_tasks.add_task(run_rollback, version)
+
+        return JSONResponse(
+            status_code=200,
+            content={"detail": f"Rollback initialized for model {version}"}
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Rollback failed due to an internal error: {e}"
+        )  
 
 @app.get("/api/v1/movies/")
 async def recommend(payload: dict):
