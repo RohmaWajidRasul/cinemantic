@@ -10,15 +10,9 @@ import requests
 from database import engine
 from settings import POSTGRES
 
-
-class FineTuneParameter(BaseModel):
-    version: str
-    batch_size: int
-    epochs: int
-
 def run_fine_tuning(df, params):
 
-    v = getVersion()
+    v = params.get("new_version"),
     api_url = f"{API_SERVICE_URL}/api/v1/admin/model-versions/{v}/"
 
     try:
@@ -51,22 +45,22 @@ def run_fine_tuning(df, params):
         headers={"X-MODEL-SECRET": MODEL_UPDATE_SECRET},
     )
 
-
 app = FastAPI()
 
 @app.get("/health")
 def health():
     return {"status": "healthy"}
 
-@app.post("/api/v1/admin/fine-tune/")
+@app.post("/api/v1/fine-tune/")
 def train(background_tasks: BackgroundTasks, base_model: str = Form(...), batch_size: int = Form(...), 
-          epochs: int = Form(...), file: UploadFile = File(...)):
+          epochs: int = Form(...), new_version: str = Form(...), file: UploadFile = File(...)):
 
-    print("POST RECEIVED")
+    print("FINE-TUNE RECEIVED")
     params_dict = {
         "base_model": base_model,
         "batch_size": batch_size,
-        "epochs": epochs
+        "epochs": epochs,
+        "new_version": new_version
     }
 
     if not file:

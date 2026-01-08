@@ -1,5 +1,6 @@
 import requests
 from django.conf import settings
+from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
@@ -33,52 +34,31 @@ class AdminRetrainView(APIView):
                 status__in=["ready", "current"]
             )
         except ModelVersion.DoesNotExist:
-            return Response(
-                {
-                    "error": "Base model unavailable."
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({"error": "Base model unavailable."}, status=status.HTTP_400_BAD_REQUEST)
 
-        ai_url = settings.AI_SERVICE_URL + "/api/v1/admin/fine-tune/"
+        new_version = self.create_new_model_version(base_model)
 
+        ai_url = settings.AI_SERVICE_URL + "/api/v1/fine-tune/"
         data = {
             "base_model": base_model.version,
             "batch_size": batch_size,
-            "epochs": epochs
+            "epochs": epochs,
+            "new_version": new_version.version 
         }
-
-        files = {
-            "file": (file.name, file.read(), file.content_type)
-        }
+        files = {"file": (file.name, file.read(), file.content_type)}
 
         try:
-            auth_header = request.headers.get("Authorization")
-            headers = {}
-            if auth_header:
-                headers["Authorization"] = auth_header
-
-            ai_resp = requests.post(ai_url, data=data, files=files, headers=headers)
+            ai_resp = requests.post(ai_url, data=data, files=files)
         except Exception as e:
-            return Response(
-                {"error": f"Could not reach AI service: {e}"},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+            new_version.delete()  
+            return Response({"error": f"Could not reach AI service: {e}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         if ai_resp.status_code != 200:
+            new_version.delete()  
             return Response(
-                {
-                    "error": "AI service returned an error.",
-                    "ai_response": ai_resp.text
-                },
+                {"error": "AI service returned an error.", "ai_response": ai_resp.text},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-        
-        new_version = ModelVersion.objects.create(
-            version=self._generate_version(),
-            status="fine-tuning",
-            parent_model=base_model
-        )
 
         return Response(
             {
@@ -89,12 +69,24 @@ class AdminRetrainView(APIView):
             status=status.HTTP_201_CREATED
         )
     
-    def _generate_version(self):
-        last = ModelVersion.objects.order_by("-created_at").first()
-        
-        if not last:
-            return "v1.0"
-        
-        num = int(last.version.replace("v", "").split(".")[0])
-        
-        return f"v{num + 1}.0"
+    def create_new_model_version(parent_model: ModelVersion) -> ModelVersion:
+    
+        with transaction.atomic():
+            # Lock the last version to prevent race conditions
+            last = ModelVersion.objects.select_for_update().order_by("-created_at").first()
+            if not last:
+                new_version_str = "v1.0"
+            else:
+                num = int(last.version.replace("v", "").split(".")[0])
+                new_version_str = f"v{num + 1}.0"
+
+            # Create the row immediately to reserve this version
+            new_version = ModelVersion.objects.create(
+                version=new_version_str,
+                status="fine-tuning",
+                parent_model=parent_model
+            )
+
+            return new_version
+
+
