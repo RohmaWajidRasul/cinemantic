@@ -18,7 +18,7 @@ class FineTuneParameter(BaseModel):
 
 def run_fine_tuning(df, params):
 
-    v = params.get("version")
+    v = getVersion()
     api_url = f"{API_SERVICE_URL}/api/v1/admin/model-versions/{v}/"
 
     try:
