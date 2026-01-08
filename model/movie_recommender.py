@@ -164,6 +164,9 @@ class MovieRecommender:
     def setup_recommender(self, fine_tune=False):
         """Loads all data and prepares the recommender"""
 
+        precision_before = None
+        precision_after = None 
+
         if fine_tune:
             self.model = SentenceTransformer(self.model_name)
 
@@ -177,8 +180,7 @@ class MovieRecommender:
             print("Precision@k before finetuning")
             val_embeddings = self._compute_val_embeddings()
             val_embeddings = normalize(val_embeddings)
-            self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
-
+            precision_before = self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
 
             print("Fine-tuning model...")
             self._fine_tune_model(training_examples)
@@ -186,9 +188,8 @@ class MovieRecommender:
             print("Precision@k after finetuning")
             val_embeddings = self._compute_val_embeddings()
             val_embeddings = normalize(val_embeddings)
-            self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
+            precision_after = self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
         else:
-            self._load_movies_from_dataframe()
             # If not fine-tuning, try to load a pre fine-tuned model
             try:
                 self.model = SentenceTransformer(self.output_path)
@@ -198,6 +199,8 @@ class MovieRecommender:
         self._compute_text_embeddings()
         self._compute_genre_embeddings()
         self._build_combined_vectors()
+
+        return precision_before, precision_after
 
     ###EVALUATION###
     

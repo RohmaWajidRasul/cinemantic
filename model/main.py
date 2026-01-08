@@ -28,14 +28,18 @@ def run_fine_tuning(df, params):
             epochs=params.get("epochs", 2)
         )
 
-        recommender.setup_recommender(True)
+        precision_before, precision_after = recommender.setup_recommender(True)
 
         addMovies(df)
         addGenres(df)
         updateEmb(recommender)
         updateRecsTable()
 
-        payload = {"status": "ready"}
+        payload = {
+            "status": "current",
+            "precision_before": precision_before,
+            "precision_after": precision_after,
+        }
 
     except Exception as e:
         print("Fine-tuning failed:", e)
@@ -55,12 +59,12 @@ def health():
     return {"status": "healthy"}
 
 @app.post("/api/v1/admin/fine-tune/")
-def train(background_tasks: BackgroundTasks, version: str = Form(...), batch_size: int = Form(...), 
+def train(background_tasks: BackgroundTasks, base_model: str = Form(...), batch_size: int = Form(...), 
           epochs: int = Form(...), file: UploadFile = File(...)):
 
     print("POST RECEIVED")
     params_dict = {
-        "version": version,
+        "base_model": base_model,
         "batch_size": batch_size,
         "epochs": epochs
     }

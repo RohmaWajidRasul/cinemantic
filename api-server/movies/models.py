@@ -74,8 +74,18 @@ class ModelVersion(models.Model):
         ("fine-tuning", "Fine-tuning"),
         ("ready", "Ready"),
         ("failed", "Failed"),
+        ("current", "Current")
     ]
 
     version = models.CharField(max_length=100, unique=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    precision_before = models.FloatField(null=True, blank=True)
+    precision_after = models.FloatField(null=True, blank=True)
+    parent_model = models.ForeignKey(
+        "self",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="child_models"
+    )
     created_at = models.DateTimeField(auto_now_add=True)

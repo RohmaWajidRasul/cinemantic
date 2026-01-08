@@ -17,17 +17,36 @@ class AdminRetrainView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        version = request.POST.get("version")
+        base_model_version = request.POST.get("base_model")
         batch_size = request.POST.get("batch_size")
         epochs = request.POST.get("epochs")
+
+        if not base_model_version:
+            return Response(
+                {"error": "base_model is required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            base_model = ModelVersion.objects.get(
+                version=base_model_version,
+                status__in=["ready", "current"]
+            )
+        except ModelVersion.DoesNotExist:
+            return Response(
+                {
+                    "error": "Base model unavailable."
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         ai_url = settings.AI_SERVICE_URL + "/api/v1/admin/fine-tune/"
 
         data = {
-        "version": version,
-        "batch_size": batch_size,
-        "epochs": epochs
-    }
+            "base_model": base_model.version,
+            "batch_size": batch_size,
+            "epochs": epochs
+        }
 
         files = {
             "file": (file.name, file.read(), file.content_type)
@@ -57,13 +76,15 @@ class AdminRetrainView(APIView):
         
         new_version = ModelVersion.objects.create(
             version=self._generate_version(),
-            status="fine_tuning"
+            status="fine-tuning",
+            parent_model=base_model
         )
 
         return Response(
             {
                 "detail": "Retraining triggered.",
-                "model_version": new_version.version
+                "model_version": new_version.version,
+                "parent_model": base_model.version
             },
             status=status.HTTP_201_CREATED
         )
