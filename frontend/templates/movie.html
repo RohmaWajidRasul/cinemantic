@@ -11,24 +11,28 @@
 <body>
     <div class="film-border top"></div>
     <div class="wrapper flex">
-        <div class="movie-container">
-            <div class="poster">
-                <img src={{movie.poster_url}} alt="{{ movie.title }} poster" class="img">
-            </div>
-            <div class="movie-content">
-                <div class="overview">
-                    <h3 id="name">{{movie.title}}</h3>
-                    <h4 id="release_date">{{movie.release_date}}</h4>
+        <div class="film-strip flex">
+            <div class="recs flex">
+                <div class="container flex">
+                    <div class="poster">
+                        <img src={{movie.poster_url}} alt="{{ movie.title }} poster" class="img">
+                    </div>
+                    <div class="movie-content">
+                        <div class="overview">
+                            <h3 id="name">{{movie.title}}</h3>
+                            <h4 id="release_date">{{movie.release_date}}</h4>
+                        </div>
+                        <div class="description">
+                            <p id="overview">{{movie.overview}}</p>
+                            <p id="genres">Genres: {{movie.genres|join:", "}}</p><p></p>
+                            <p id="cast">Cast: {{movie.crew}}</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="description">
-                    <p id="overview">{{movie.overview}}</p>
-                    <p id="genres">Genres: {{movie.genres|join:", "}}</p>
-                    <p id="cast">Cast: {{movie.crew}}</p>
-                </div>
+
             </div>
         </div>
     </div>
-
     <div class="film-border bottom"></div>
 </body>
 
@@ -36,7 +40,6 @@
 
 <style scoped>
     .container {
-        gap: 30px;
         flex-direction: row;
     }
 

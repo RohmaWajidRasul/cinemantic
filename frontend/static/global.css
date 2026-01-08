@@ -318,18 +318,6 @@ a {
     text-align: center;
 }
 
-.movie-container {
-    display: flex;
-    flex-direction: row;
-    width: 70%;
-    padding: 1.5rem;
-    background-color: #0d0d0d;
-    color: #f0f0f0;
-    border: 10px solid #222;
-    border-radius: 5px;
-    text-align: left;
-}
-
 /* ============================================================================ */
 /* Forms */
 
