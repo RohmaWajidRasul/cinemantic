@@ -104,6 +104,7 @@ class ModelVersionSerializer(serializers.ModelSerializer):
             "status",
             "precision_before",
             "precision_after",
+            "detail",
             "created_at",
             "user_feedback_summary",
         ]

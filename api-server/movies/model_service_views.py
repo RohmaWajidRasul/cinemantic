@@ -83,7 +83,7 @@ class ModelVersionListView(ListAPIView):
     def get_queryset(self):
         
         return ModelVersion.objects.annotate(
-            positive_count=Count('recommendationhistory', filter=Q(recommendationhistory__feedback="positive")),
-            negative_count=Count('recommendationhistory', filter=Q(recommendationhistory__feedback="negative")),
-            null_count=Count('recommendationhistory', filter=Q(recommendationhistory__feedback__isnull=True))
-        ).order_by("-created_at")
+            positive_count=Count('recommendation_histories', filter=Q(recommendation_histories__feedback='positive')),
+            negative_count=Count('recommendation_histories', filter=Q(recommendation_histories__feedback='negative')),
+            null_count=Count('recommendation_histories', filter=Q(recommendation_histories__feedback__isnull=True))
+        ).order_by('-created_at')

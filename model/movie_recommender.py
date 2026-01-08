@@ -1,3 +1,5 @@
+import gc
+import shutil
 import numpy as np
 import pandas as pd
 import os
@@ -34,9 +36,13 @@ class MovieRecommender:
         self.genre_embs = None
         self.combined_vectors = None
         self.default_model = default_model
-    
+
+        self.temp_old_model_path = "./temp_old_model"
+
+        shutil.copytree(self.output_path, self.temp_old_model_path, dirs_exist_ok=True)
+
         try:
-            self.old_model = SentenceTransformer(self.output_path)
+            self.old_model = SentenceTransformer(self.temp_old_model_path)
             self.model = SentenceTransformer(self.output_path)
         except Exception as e:
             raise Exception(f"Invalid base model: {e}")      
@@ -102,17 +108,36 @@ class MovieRecommender:
         return examples
 
     def _fine_tune_model(self, training_examples):
-        """Fine tune model using new tuples"""
-
+        """Fine tune model safely on Windows into ./fine_tuned_model"""
+        
         train_dataloader = DataLoader(training_examples, shuffle=True, batch_size=self.batch_size, pin_memory=False)
         train_loss = losses.MultipleNegativesRankingLoss(self.model)
 
+        import tempfile
+        temp_output_path = tempfile.mkdtemp(prefix="fine_tune_")
+
+        # Train into temporary folder
         self.model.fit(
             train_objectives=[(train_dataloader, train_loss)],
             epochs=self.epochs,
             warmup_steps=100,
-            output_path=self.output_path
+            output_path=temp_output_path
         )
+
+        # Release model handles
+        self.model = None
+        gc.collect()
+
+        # Remove old model folder
+        if os.path.exists(self.output_path):
+            shutil.rmtree(self.output_path, ignore_errors=True)
+
+        # Move temp folder to the final location
+        os.rename(temp_output_path, self.output_path)
+
+        # Reload model
+        self.model = SentenceTransformer(self.output_path)
+        print(f"Fine-tuned model is now ready at {self.output_path}")
 
     def _compute_embeddings(self, ids, texts):
         """Helper to turn strings into vector embeddings"""

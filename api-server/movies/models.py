@@ -55,7 +55,14 @@ class RecommendationHistory(models.Model):
         size=5
     )
 
-    model_version = models.CharField(max_length=100)
+    model_version = models.ForeignKey(
+        "ModelVersion",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="recommendation_histories"
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     feedback = models.CharField(
@@ -72,7 +79,7 @@ class RecommendationHistory(models.Model):
 class ModelVersion(models.Model):
     STATUS_CHOICES = [
         ("fine-tuning", "Fine-tuning"),
-        ("initializing", "Initializing")
+        ("initializing", "Initializing"),
         ("ready", "Ready"),
         ("failed", "Failed"),
         ("current", "Current")

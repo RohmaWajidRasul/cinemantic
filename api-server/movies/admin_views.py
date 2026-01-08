@@ -69,7 +69,7 @@ class AdminRetrainView(APIView):
             status=status.HTTP_201_CREATED
         )
     
-    def create_new_model_version(parent_model: ModelVersion) -> ModelVersion:
+    def create_new_model_version(self, parent_model: ModelVersion) -> ModelVersion:
     
         with transaction.atomic():
             # Lock the last version to prevent race conditions

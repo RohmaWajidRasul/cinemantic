@@ -98,17 +98,11 @@ class MovieRecommendationsView(ListAPIView):
 
         if request.user and request.user.is_authenticated and recommendations:
 
-            current_model_version = (
-                ModelVersion.objects
-                .filter(status="current")
-                .order_by("-created_at")
-                .values_list("version", flat=True)
-                .first()
-            )
+            current_model_version = ModelVersion.objects.filter(status="current").order_by("-created_at").first()
 
             RecommendationHistory.objects.create(
                 user=request.user,
-                model_version=current_model_version or "unknown",
+                model_version=current_model_version,
                 input_movies=[movie.id],
                 recommended_ids=recommended_ids,
             )
@@ -212,13 +206,7 @@ class CombinedRecommendationsView(APIView):
         # ------------------------------------------
         if request.user and request.user.is_authenticated and top5:
 
-            current_model_version = (
-                ModelVersion.objects
-                .filter(status="current")
-                .order_by("-created_at")
-                .values_list("version", flat=True)
-                .first()
-            )
+            current_model_version = ModelVersion.objects.filter(status="current").order_by("-created_at").first()
 
             RecommendationHistory.objects.create(
                 user=request.user,
@@ -336,13 +324,7 @@ class ExternalMovieRecommendationView(APIView):
 
             input_movie_str = f"{movie_title} ({year})"
 
-            current_model_version = (
-                ModelVersion.objects
-                .filter(status="current")
-                .order_by("-created_at")
-                .values_list("version", flat=True)
-                .first()
-            )
+            current_model_version = ModelVersion.objects.filter(status="current").order_by("-created_at").first()
 
             recommended_ids = [item["id"] for item in recs.get("results", [])]
 

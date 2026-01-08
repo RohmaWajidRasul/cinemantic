@@ -159,6 +159,8 @@ def updateEmb(recommender, only_new=False, new_ids=None):
             )
 
 def updateRecsTable():
+
+    print("UPDATING RECS TABLE")
     
     with engine.connect() as conn:
         # 1. Calculate recommendations into a temporary table using a single query.
@@ -180,6 +182,9 @@ def updateRecsTable():
         """))
         conn.commit()
 
+        print("INSERTING NEW RECS")
+
+
         # 2. Atomic swap: Truncate and Insert from Temp
         with conn.begin():
             conn.execute(text("TRUNCATE TABLE movies_recommendation"))
@@ -188,6 +193,9 @@ def updateRecsTable():
                 SELECT movie_id, recommended_movie_id, similarity FROM temp_recs
             """))
             conn.execute(text("DROP TABLE temp_recs"))
+
+        print("DONE UPDATING RECS")
+
 
 
 ###TODO: CHANGE GENRES BULLSHIT TABLE SHIT

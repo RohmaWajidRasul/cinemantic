@@ -7,99 +7,104 @@ tags:
 - generated_from_trainer
 - dataset_size:276
 - loss:MultipleNegativesRankingLoss
-base_model: sentence-transformers/all-MiniLM-L6-v2
 widget:
-- source_sentence: Sayen is hunting down the men who murdered her grandmother. Using
-    her training and knowledge of nature, she is able to turn the tables on them,
-    learning of a conspiracy from a corporation that threatens her people's ancestral
-    lands.
+- source_sentence: Decades ago, the USSR developed unkillable sharks and launched
+    them to the moon. Today, a team of American astronauts will endure the fight of
+    their lives.
   sentences:
-  - Reporters Loretta McLaughlin and Jean Cole bravely pursue the story of the Boston
-    Strangler at great personal risk, putting their own lives on the line in their
-    quest to uncover the truth.
-  - Set more than a decade after the events of the first film, learn the story of
-    the Sully family (Jake, Neytiri, and their kids), the trouble that follows them,
-    the lengths they go to keep each other safe, the battles they fight to stay alive,
-    and the tragedies they endure.
-  - A journey deep into an uncharted and treacherous land, where fantastical creatures
-    await the legendary Clades—a family of explorers whose differences threaten to
-    topple their latest, and by far most crucial, mission.
-- source_sentence: Liliana is the dream girl of many of her co-workers, among them
-    "Piquiña", an ugly and ordinary charlatan who, convinced of his irresistible attractiveness,
-    launches into her conquest during the celebration of the company's "novena". Liliana,
-    who can't stand "Piquíña", makes it clear to him that the only way she would be
-    with him would be if he were the last man on earth.
+  - Two sisters find an ancient book that gives birth to bloodthirsty demons that
+    run amok in a Los Angeles apartment building and thrusts them into a primal battle
+    for survival as they face the most nightmarish version of family imaginable.
+  - The Red Ribbon Army, an evil organization that was once destroyed by Goku in the
+    past, has been reformed by a group of people who have created new and mightier
+    Androids, Gamma 1 and Gamma 2, and seek vengeance against Goku and his family.
+  - A gruesome serial killer is terrorizing London while brilliant but disgraced detective
+    John Luther sits behind bars. Haunted by his failure to capture the cyber psychopath
+    who now taunts him, Luther decides to break out of prison to finish the job by
+    any means necessary.
+- source_sentence: 'Blindsided by a new generation of blazing-fast racers, the legendary
+    Lightning McQueen is suddenly pushed out of the sport he loves. To get back in
+    the game, he will need the help of an eager young race technician with her own
+    plan to win, inspiration from the late Fabulous Hudson Hornet, and a few unexpected
+    turns. Proving that #95 isn''t through yet will test the heart of a champion on
+    Piston Cup Racing’s biggest stage!'
   sentences:
-  - An American priest working in Mexico is considered a saint by many local parishioners.
-    However, due to a botched exorcism, he carries a secret that’s eating him alive
-    until he gets an opportunity to face his demon one final time.
-  - All Gary wants is to make awesome home movies with his best buds. All his older
-    sister Samantha wants is to hang with the cool kids. When their parents head out
-    of town one Halloween weekend, an all-time rager of a teen house party turns to
-    terror when aliens attack, forcing the siblings to band together to survive the
-    night.
+  - After old enemies kill his family, a former mafia enforcer and his feisty daughter
+    flee to Milan, where they hide out while plotting their revenge.
+  - John Wick is forced out of retirement by a former associate looking to seize control
+    of a shadowy international assassins’ guild. Bound by a blood oath to aid him,
+    Wick travels to Rome and does battle against some of the world’s most dangerous
+    killers.
   - 'Blindsided by a new generation of blazing-fast racers, the legendary Lightning
     McQueen is suddenly pushed out of the sport he loves. To get back in the game,
     he will need the help of an eager young race technician with her own plan to win,
     inspiration from the late Fabulous Hudson Hornet, and a few unexpected turns.
     Proving that #95 isn''t through yet will test the heart of a champion on Piston
     Cup Racing’s biggest stage!'
-- source_sentence: After witnessing a grotesque murder at a party in her new town,
-    a teenager starts having strange visions and bizarre desires.
-  sentences:
-  - Mario and Luigi, plumbers from Brooklyn, find themselves in an alternate universe
-    where evolved dinosaurs live in hi-tech squalor. They're the only hope to save
-    our universe from invasion by the dino dictator, Koopa.
-  - Royal Air Force pilot Lt. Kate Sinclair is on her final flight mission when her
-    jet is shot down over one of the most dangerous rebel strongholds in Afghanistan.
-    She finds refuge in an abandoned underground bunker where deadly man-made creatures
-    known as Ravagers — half-human, half-alien, and hungry for human flesh — are awakened.
-  - The Red Ribbon Army, an evil organization that was once destroyed by Goku in the
-    past, has been reformed by a group of people who have created new and mightier
-    Androids, Gamma 1 and Gamma 2, and seek vengeance against Goku and his family.
-- source_sentence: Mario and Luigi, plumbers from Brooklyn, find themselves in an
-    alternate universe where evolved dinosaurs live in hi-tech squalor. They're the
-    only hope to save our universe from invasion by the dino dictator, Koopa.
-  sentences:
-  - When the power mysteriously fails, and almost everyone vanishes from a small tourist
-    vessel in the Arctic, fear becomes the master for the three who remain. Forced
-    ashore, the men deteriorate in body and mind until a dark truth emerges that compels
-    them to ally or perish.
-  - Thirteen-year-old Mei is experiencing the awkwardness of being a teenager with
-    a twist – when she gets too excited, she transforms into a giant red panda.
-  - A stubborn and hotheaded minor league basketball coach is forced to train a Special
-    Olympics team when he is sentenced to community service.
 - source_sentence: The hottest biotech company in the world has discovered they can
     clone history’s most influential people from the dead. Now, they are auctioning
     clones of Michelangelo, Galileo, Vivaldi, and others for tens of millions of dollars
     to the world’s ultra-rich. But when they steal the Shroud of Turin and clone the
     DNA of Jesus Christ, all hell breaks loose.
   sentences:
-  - When five lovely young girls who hate studying hire part-time tutor Futaro, he
-    guides not only their education but also their hearts. Time spent has brought
-    them all closer, with feelings growing within the girls and Futaro. As they finish
-    their third year of high school and their last school festival approaches, they
-    set their sights on what’s next. Is there a future with one of them and Futaro?
-  - Detective James Knight 's last-minute assignment to the Independence Day shift
-    turns into a race to stop an unbalanced ambulance EMT from imperiling the city's
-    festivities. The misguided vigilante, playing cop with a stolen gun and uniform,
-    has a bank vault full of reasons to put on his own fireworks show... one that
-    will strike dangerously close to Knight's home.
-  - Decades ago, the USSR developed unkillable sharks and launched them to the moon.
-    Today, a team of American astronauts will endure the fight of their lives.
+  - With the price on his head ever increasing, John Wick uncovers a path to defeating
+    The High Table. But before he can earn his freedom, Wick must face off against
+    a new enemy with powerful alliances across the globe and forces that turn old
+    friends into foes.
+  - After witnessing a bizarre, traumatic incident involving a patient, Dr. Rose Cotter
+    starts experiencing frightening occurrences that she can't explain. As an overwhelming
+    terror begins taking over her life, Rose must confront her troubling past in order
+    to survive and escape her horrifying new reality.
+  - 'Mathieu, a member of the French institute in Irkutsk, is arrested overnight by
+    the Russian authorities.  Imprisoned and accused of sexual abuse on his own daughter,
+    he realises he is a victim of a Kompromat. With the help of the FSB, someone has
+    built up a case to frame him. Isolated, he has no one to turn to. Proving his
+    innocence is impossible: the only solution is to escape.'
+- source_sentence: A stubborn and hotheaded minor league basketball coach is forced
+    to train a Special Olympics team when he is sentenced to community service.
+  sentences:
+  - Set in the Bronx during the tumultuous 1960s, an adolescent boy is torn between
+    his honest, working-class father and a violent yet charismatic crime boss. Complicating
+    matters is the youngster's growing attraction - forbidden in his neighborhood
+    - for a beautiful black girl.
+  - Unlucky assassin Ladybug is determined to do his job peacefully after one too
+    many gigs gone off the rails. Fate, however, may have other plans, as Ladybug's
+    latest mission puts him on a collision course with lethal adversaries from around
+    the globe—all with connected, yet conflicting, objectives—on the world's fastest
+    train.
+  - A tale of outsized ambition and outrageous excess, tracing the rise and fall of
+    multiple characters in an era of unbridled decadence and depravity during Hollywood's
+    transition from silent films and to sound films in the late 1920s.
+- source_sentence: Shanghai, 1934. In an insect world parallel to that of humans,
+    veteran Inspector Sun, a lone spider, leads his last mission against his archenemy
+    the Red Locust, before embarking on a well-deserved retirement. His vacation aboard
+    a Pan Am clipper between Shanghai and San Francisco comes to an abrupt end when
+    millionaire Dr. Spindelthorp is found murdered. What begins as a routine case
+    for Sun will ultimately decide the fate of humanity.
+  sentences:
+  - A mysterious force knocks the moon from its orbit around Earth and sends it hurtling
+    on a collision course with life as we know it.
+  - An extraordinary young girl discovers her superpower and summons the remarkable
+    courage, against all odds, to help others change their stories, whilst also taking
+    charge of her own destiny. Standing up for what's right, she's met with miraculous
+    results.
+  - While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario
+    and Luigi are transported down a mysterious pipe and wander into a magical new
+    world. But when the brothers are separated, Mario embarks on an epic quest to
+    find Luigi.
 pipeline_tag: sentence-similarity
 library_name: sentence-transformers
 ---
 
-# SentenceTransformer based on sentence-transformers/all-MiniLM-L6-v2
+# SentenceTransformer
 
-This is a [sentence-transformers](https://www.SBERT.net) model finetuned from [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2). It maps sentences & paragraphs to a 384-dimensional dense vector space and can be used for semantic textual similarity, semantic search, paraphrase mining, text classification, clustering, and more.
+This is a [sentence-transformers](https://www.SBERT.net) model trained. It maps sentences & paragraphs to a 384-dimensional dense vector space and can be used for semantic textual similarity, semantic search, paraphrase mining, text classification, clustering, and more.
 
 ## Model Details
 
 ### Model Description
 - **Model Type:** Sentence Transformer
-- **Base model:** [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) <!-- at revision c9745ed1d9f207416be6d2e6f8de32d1f16199bf -->
+<!-- - **Base model:** [Unknown](https://huggingface.co/unknown) -->
 - **Maximum Sequence Length:** 256 tokens
 - **Output Dimensionality:** 384 dimensions
 - **Similarity Function:** Cosine Similarity
@@ -141,9 +146,9 @@ from sentence_transformers import SentenceTransformer
 model = SentenceTransformer("sentence_transformers_model_id")
 # Run inference
 sentences = [
-    'The hottest biotech company in the world has discovered they can clone history’s most influential people from the dead. Now, they are auctioning clones of Michelangelo, Galileo, Vivaldi, and others for tens of millions of dollars to the world’s ultra-rich. But when they steal the Shroud of Turin and clone the DNA of Jesus Christ, all hell breaks loose.',
-    'Decades ago, the USSR developed unkillable sharks and launched them to the moon. Today, a team of American astronauts will endure the fight of their lives.',
-    'When five lovely young girls who hate studying hire part-time tutor Futaro, he guides not only their education but also their hearts. Time spent has brought them all closer, with feelings growing within the girls and Futaro. As they finish their third year of high school and their last school festival approaches, they set their sights on what’s next. Is there a future with one of them and Futaro?',
+    'Shanghai, 1934. In an insect world parallel to that of humans, veteran Inspector Sun, a lone spider, leads his last mission against his archenemy the Red Locust, before embarking on a well-deserved retirement. His vacation aboard a Pan Am clipper between Shanghai and San Francisco comes to an abrupt end when millionaire Dr. Spindelthorp is found murdered. What begins as a routine case for Sun will ultimately decide the fate of humanity.',
+    'While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario and Luigi are transported down a mysterious pipe and wander into a magical new world. But when the brothers are separated, Mario embarks on an epic quest to find Luigi.',
+    'A mysterious force knocks the moon from its orbit around Earth and sends it hurtling on a collision course with life as we know it.',
 ]
 embeddings = model.encode(sentences)
 print(embeddings.shape)
@@ -152,9 +157,9 @@ print(embeddings.shape)
 # Get the similarity scores for the embeddings
 similarities = model.similarity(embeddings, embeddings)
 print(similarities)
-# tensor([[1.0000, 0.1682, 0.1853],
-#         [0.1682, 1.0000, 0.0770],
-#         [0.1853, 0.0770, 1.0000]])
+# tensor([[1.0000, 0.1880, 0.2141],
+#         [0.1880, 1.0000, 0.1241],
+#         [0.2141, 0.1241, 1.0000]])
 ```
 
 <!--
@@ -205,13 +210,13 @@ You can finetune this model on your own dataset.
   |         | sentence_0                                                                          | sentence_1                                                                          |
   |:--------|:------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------|
   | type    | string                                                                              | string                                                                              |
-  | details | <ul><li>min: 18 tokens</li><li>mean: 58.72 tokens</li><li>max: 129 tokens</li></ul> | <ul><li>min: 18 tokens</li><li>mean: 59.11 tokens</li><li>max: 111 tokens</li></ul> |
+  | details | <ul><li>min: 18 tokens</li><li>mean: 58.72 tokens</li><li>max: 129 tokens</li></ul> | <ul><li>min: 18 tokens</li><li>mean: 57.91 tokens</li><li>max: 129 tokens</li></ul> |
 * Samples:
-  | sentence_0                                                                                                                                                                                                                                                                                                                                                                                                                                                 | sentence_1                                                                                                                                                                                                                                                                      |
-  |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-  | <code>Rich and powerful Simon Qing has been schooled in the ways of sex by his virile father, but is still a virgin. That is, until he meets his first love Violetta who has fun with him all over his father’s estate. Their love does not last, so Simon embarks on a journey. Along the way he meets the comely nun Moon whom Simon deflowers and then marries. He then becomes enamored of Golden Lotus but she is married to dwarf Wu Da-Lang.</code> | <code>Between personal obligations and training for his next big fight against an opponent with ties to his family's past, Adonis Creed is up against the challenge of his life.</code>                                                                                         |
-  | <code>When the power mysteriously fails, and almost everyone vanishes from a small tourist vessel in the Arctic, fear becomes the master for the three who remain. Forced ashore, the men deteriorate in body and mind until a dark truth emerges that compels them to ally or perish.</code>                                                                                                                                                              | <code>With the price on his head ever increasing, John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe and forces that turn old friends into foes.</code> |
-  | <code>This Christmas, Homer surprises Marge with the ultimate gift: an unforgettable performance from Italian opera superstar Andrea Bocelli and his children Matteo and Virginia.</code>                                                                                                                                                                                                                                                                  | <code>The Elric brothers’ long and winding journey comes to a close in this epic finale, where they must face off against an unworldly, nationwide threat.</code>                                                                                                               |
+  | sentence_0                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | sentence_1                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+  |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | <code>Reclusive author Loretta Sage writes about exotic places in her popular adventure novels that feature a handsome cover model named Alan. While on tour promoting her new book with Alan, Loretta gets kidnapped by an eccentric billionaire who hopes she can lead him to the ancient city's lost treasure that featured in her latest story. Alan, determined to prove he can be a hero in real life and not just on the pages of her books, sets off to rescue her.</code> | <code>After the alleged suicide of her priest brother, Grace travels to the remote Scottish convent where he fell to his death. Distrusting the Church's account, she uncovers murder, sacrilege and a disturbing truth about herself.</code>                                                                                                                                                                                                                         |
+  | <code>A tale of outsized ambition and outrageous excess, tracing the rise and fall of multiple characters in an era of unbridled decadence and depravity during Hollywood's transition from silent films and to sound films in the late 1920s.</code>                                                                                                                                                                                                                              | <code>A mysterious force knocks the moon from its orbit around Earth and sends it hurtling on a collision course with life as we know it.</code>                                                                                                                                                                                                                                                                                                                      |
+  | <code>A winter night. An isolated house in a small town. Two warring sides must join forces to survive an evil tied to one of the field's oldest legends.</code>                                                                                                                                                                                                                                                                                                                   | <code>Shanghai, 1934. In an insect world parallel to that of humans, veteran Inspector Sun, a lone spider, leads his last mission against his archenemy the Red Locust, before embarking on a well-deserved retirement. His vacation aboard a Pan Am clipper between Shanghai and San Francisco comes to an abrupt end when millionaire Dr. Spindelthorp is found murdered. What begins as a routine case for Sun will ultimately decide the fate of humanity.</code> |
 * Loss: [<code>MultipleNegativesRankingLoss</code>](https://sbert.net/docs/package_reference/sentence_transformer/losses.html#multiplenegativesrankingloss) with these parameters:
   ```json
   {
@@ -355,7 +360,7 @@ You can finetune this model on your own dataset.
 </details>
 
 ### Framework Versions
-- Python: 3.12.6
+- Python: 3.14.1
 - Sentence Transformers: 5.1.2
 - Transformers: 4.57.3
 - PyTorch: 2.9.1+cpu

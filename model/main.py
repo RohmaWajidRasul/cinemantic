@@ -1,14 +1,11 @@
 from fastapi import FastAPI, Form, UploadFile, File, HTTPException, BackgroundTasks
 from fastapi.responses import JSONResponse
-from settings import POSTGRES, API_SERVICE_URL, MODEL_UPDATE_SECRET
+from settings import API_SERVICE_URL, MODEL_UPDATE_SECRET
 from movie_recommender import MovieRecommender
-import asyncio
 import pandas as pd
-from pydantic import BaseModel
-from dataHandler import validateCSV, addMovies, getRecommended, updateEmb, addGenres, updateRecsTable, getVersion
+from dataHandler import validateCSV, addMovies, getRecommended, updateEmb, addGenres, updateRecsTable
 import requests
 from database import engine
-from settings import POSTGRES
 
 def run_fine_tuning(df, params):
 
