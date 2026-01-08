@@ -1,37 +1,33 @@
 {% load static %}
+{% include "menu.html" with show_home=True show_profile=False show_search=True show_history=False show_logout=False %}
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="stylesheet" href="{% static 'global.css' %}">
 </head>
 
 <body>
     <div class="film-border top"></div>
-    <div class="header">
-        <h1>Cinemantic</h1>
+    <div class="wrapper flex">
+        <div class="white-container">
+            <div class="divider"></div>
+            <form class="form" method="post">
+                {% csrf_token %}
+
+                <label for="username">Username</label>
+                <input type="text" name="username" placeholder="Username" required>
+
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="Password" required>
+
+                <button type="submit" class="black-button">Login</button>
+            </form>
+            <div class="divider"></div>
+            <p>Nº 181772</p>
+        </div>
     </div>
-
-    <div class="white-container">
-        <form class="form" method="post">
-            {% csrf_token %}
-
-            <label for="username">Username</label>
-            <input type="text" name="username" required>
-
-            <label for="password">Password</label>
-            <input type="password" name="password" required>
-
-            <button type="submit" class="black-button">Login</button>
-        </form>
-    </div>
-
     <div class="film-border bottom"></div>
 </body>
+
 </html>
-
-<style scoped>
-    .header {
-        margin-top: calc(var(--film-border-height) + 20px);
-    }
-</style>
-

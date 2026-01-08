@@ -8,60 +8,54 @@
 
 <body>
     <div class="film-border top"></div>
-    <div class="search">
-        <a href="{% url 'search-page' %}">
-            <button id="search-button">
-                <img src="{% static 'search.png' %}" alt="Search page button">
-            </button>
-        </a>
-    </div>
-    <main>
-        <div class="main-container">
-            <h1>Welcome to Cinemantic!</h1>
-            <p>Are you tired of scrolling endelesly on different websites to find a good movie recommendation? Well, you
-                don't need to do that anymore because with Cinemantic you can get tailored movie
-                recommendations based on all of the movies you already know what you like! So stop wasting your time and
-                let's get started with it.
-            </p>
-            <div class="button_container">
+    <div class="wrapper flex">
+        <h1>Cinemantic</h1>
+        <div class="image-container grid">
+            <div class="flex">
                 <a href="{% url 'register-page' %}">
-                    <button class="blue-button">Register</button>
+                    <img src="{% static 'img/popcorn.png' %}" alt="Pop corn bucket illustration">
                 </a>
+                <h2 class="neon">Register</h2>
+            </div>
+            <div class="flex">
                 <a href="{% url 'login-page' %}">
-                    <button class="blue-button">Login</button>
+                    <img src="{% static 'img/drink.png' %}" alt="Drink illustration">
                 </a>
+                <h2 class="neon">Login</h2>
             </div>
         </div>
-    </main>
+
+    </div>
     <div class="film-border bottom"></div>
 </body>
 
 </html>
 
 <style>
-    main {
-        align-items: center;
-    }
-    .main-container {
-        width: 40%;
-        padding: 20px 10px;
+    .wrapper {
+        background: #520608 url("{% static 'img/homepage.jpg' %}") no-repeat center / cover;
+        background-blend-mode: luminosity;
     }
 
-    .search {
-        right: 30px;
-        top: 60px;
+    .flex {
+        justify-content: flex-start;
+        flex-direction: column;
     }
 
-    p {
-        text-align: justify;
-        width: 90%;
-        margin: auto;
+    h1 {
+        font-size: 3.5em;
+        font-family: 'Monoton';
+        letter-spacing: 5px;
+        animation: flicker 3s infinite alternate;
     }
 
-    .button_container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px
+    img {
+        height: 250px;
+        transition: transform 0.2s;
+        justify-self: center;
+    }
+
+    img:hover {
+        transform: rotate(15deg);
     }
 </style>

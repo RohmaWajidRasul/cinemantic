@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="{% static 'global.css' %}">
+</head>
+<html>
+
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">
+            <img src="{% static 'icon/movie.png' %}" alt="Menu icon">
+        </button>
+        <div class="dropdown-content">
+            {% if show_home %}
+            <a href="{% url 'homepage' %}">
+                <img src="{% static 'icon/home.png' %}" alt="Homepage icon">
+            </a>
+            {% endif %}
+
+            {% if show_profile %}
+            <a href="{% url 'profile-page' %}">
+                <img src="{% static 'icon/profile.png' %}" alt="Profile icon">
+            </a>
+            {% endif %}
+
+            {% if show_search %}
+            <a href="{% url 'search-page' %}">
+                <img src="{% static 'icon/search.png' %}" alt="Search icon">
+            </a>
+            {% endif %}
+
+            {% if show_history %}
+            <a href="{% url 'history-page' %}">
+                <img src="{% static 'icon/history.png' %}" alt="History icon">
+            </a>
+            {% endif %}
+
+            {% if show_logout %}
+            <form method="post" action="{% url 'logout-page' %}" class="flex">
+                {% csrf_token %}
+                <button type="submit" class="logout">
+                    <img src="{% static 'icon/close.png' %}" alt="Logout icon">
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+<html>
+
+<style>
+    .logout {
+        padding: 15px;
+        background-color: #0d0d0d;
+    }
+
+    .logout:hover {
+        background-color: transparent;
+    }
+</style>
