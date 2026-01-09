@@ -11,6 +11,7 @@ variables:
   TF_VAR_gitlab_api_url: ${CI_API_V4_URL}
 
 stages:
+  - test
   - tf-validate
   - tf-build
   # - k8s-deploy
@@ -19,6 +20,15 @@ before_script:
   - cd ${TF_ROOT}
   # These 2 variables are the "Magic Key" - they fix the auth error automatically
   - terraform init
+
+python-tests:
+  stage: test
+  image: python:3.11
+  before_script:
+    - pip install pandas
+  script:
+    - cd model
+    - python -m unittest discover -s . -p "test_*.py"
 
 tf-validate:
   stage: tf-validate
