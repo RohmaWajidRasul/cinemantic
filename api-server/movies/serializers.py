@@ -95,6 +95,7 @@ class RecommendationFeedbackSerializer(serializers.ModelSerializer):
 
 class ModelVersionSerializer(serializers.ModelSerializer):
     user_feedback_summary = serializers.SerializerMethodField()
+    parent_model_version = serializers.SerializerMethodField()
 
     class Meta:
         model = ModelVersion
@@ -107,6 +108,7 @@ class ModelVersionSerializer(serializers.ModelSerializer):
             "detail",
             "created_at",
             "user_feedback_summary",
+            "parent_model_version",
         ]
 
     def get_user_feedback_summary(self, obj):
@@ -116,3 +118,8 @@ class ModelVersionSerializer(serializers.ModelSerializer):
             "negative": getattr(obj, "negative_count", 0),
             "null": getattr(obj, "null_count", 0),
         }
+    
+    def get_parent_model_version(self, obj):
+        if obj.parent_model:
+            return obj.parent_model.version
+        return None
