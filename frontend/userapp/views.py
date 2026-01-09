@@ -1,3 +1,4 @@
+# Implemented by Júlia and Rohma
 from datetime import datetime
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
@@ -222,13 +223,26 @@ class RecommendationPageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         movie_id = kwargs.get("movie_id")
+        external_movie_name = self.request.GET.get("movie-name")
+        response = None
 
-        if movie_id is None:
-            return context
-
-        recs_url = f"{host}/api/v1/movies/{movie_id}/recommendations/"
+        if movie_id is None and external_movie_name is None:
+             return context
+        elif movie_id:
+            recs_url = f"{host}/api/v1/movies/{movie_id}/recommendations/"
+        elif external_movie_name:
+            recs_url = f"{host}/api/v1/movies/external/"
 
         try:
+            if movie_id:
+                response = api_get_token(self.request, recs_url)
+            elif external_movie_name:
+                headers = {}
+                access = self.request.COOKIES.get("access")
+                if access:
+                    headers["Authorization"] = f"Bearer {access}"
+                    response = requests.get(recs_url, json={"title": external_movie_name}, headers=headers, timeout=10)
+
             response = api_get_token(self.request, recs_url)
             response.raise_for_status()
             fetched_data = response.json()
@@ -247,6 +261,12 @@ class RecommendationPageView(TemplateView):
                     movie_data = movie_resp.json()
 
                     rec["poster_url"] = movie_data.get("poster_url")
+
+                    if external_movie_name:
+
+                        rec["title"] = movie_data.get("title")
+                        rec["overview"] = movie_data.get("overview")
+
 
                 except requests.RequestException as e:
                     print(f"Poster fetch failed for movie {rec_id}: {e}")

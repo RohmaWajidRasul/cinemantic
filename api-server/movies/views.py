@@ -1,3 +1,4 @@
+# Implemented by Rohma 
 import requests
 from django.conf import settings
 from django.shortcuts import get_object_or_404
@@ -344,7 +345,7 @@ class ExternalMovieRecommendationView(APIView):
                 .first()
             )
 
-            recommended_ids = [item["id"] for item in recs.get("results", [])]
+            recommended_ids = [item["id"] for item in recs.get("recommendations", [])]
 
             RecommendationHistory.objects.create(
                 user=request.user,
