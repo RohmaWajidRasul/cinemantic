@@ -1,3 +1,5 @@
+# Implemented by Rohma 
+
 import requests
 from django.conf import settings
 from django.db import transaction

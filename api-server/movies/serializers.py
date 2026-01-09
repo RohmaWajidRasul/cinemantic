@@ -1,3 +1,4 @@
+# Implemented by Rohma 
 from rest_framework import serializers
 from .models import Movie, Recommendation, RecommendationHistory, ModelVersion
 

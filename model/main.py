@@ -1,3 +1,4 @@
+# Implemented by Bimnet, Filipe and Rohma
 from fastapi import FastAPI, Form, UploadFile, File, HTTPException, BackgroundTasks
 from fastapi.responses import JSONResponse
 from settings import API_SERVICE_URL, MODEL_UPDATE_SECRET
@@ -201,7 +202,7 @@ async def recommend(payload: dict):
             status_code=200,
             content={
             "detail": "Recommendations fetched successfully.",
-            "results": results
+            "recommendations": results
         }
         )
     except Exception as e:

@@ -4,6 +4,7 @@
 <html>
 
 <head>
+    <!--Implemented by Júlia -->
     <link rel="stylesheet" href="{% static 'global.css' %}">
 </head>
 
@@ -24,7 +25,8 @@
                         </div>
                         <div class="description">
                             <p id="overview">{{movie.overview}}</p>
-                            <p id="genres">Genres: {{movie.genres|join:", "}}</p><p></p>
+                            <p id="genres">Genres: {{movie.genres|join:", "}}</p>
+                            <p></p>
                             <p id="cast">Cast: {{movie.crew}}</p>
                         </div>
                     </div>

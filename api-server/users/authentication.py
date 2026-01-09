@@ -1,3 +1,4 @@
+# Implemented by Rohma
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class CookieJWTAuthentication(JWTAuthentication):
