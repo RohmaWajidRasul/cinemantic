@@ -104,6 +104,7 @@ app = FastAPI()
 
 @app.on_event("startup")
 def startup():
+    # TODO: Pull deployed weights to ./models/current
     global recommender
     recommender = MovieRecommender()
     print("MovieRecommender loaded")
@@ -161,6 +162,8 @@ def rollback_model(version: str, background_tasks: BackgroundTasks):
 
     try: 
         print(f"ROLLING BACK MODEL {version}")
+        # TODO: Pull {version} weights from GCS to ./models/current
+
         background_tasks.add_task(run_rollback, version)
 
         return JSONResponse(
