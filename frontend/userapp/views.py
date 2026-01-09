@@ -1,3 +1,4 @@
+# Implemented by Júlia and Rohma
 from datetime import datetime
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
@@ -226,15 +227,13 @@ class RecommendationPageView(TemplateView):
         response = None
 
         if movie_id is None and external_movie_name is None:
-            return context
+             return context
         elif movie_id:
             recs_url = f"{host}/api/v1/movies/{movie_id}/recommendations/"
         elif external_movie_name:
             recs_url = f"{host}/api/v1/movies/external/"
 
-
         try:
-
             if movie_id:
                 response = api_get_token(self.request, recs_url)
             elif external_movie_name:
@@ -243,6 +242,7 @@ class RecommendationPageView(TemplateView):
                 if access:
                     headers["Authorization"] = f"Bearer {access}"
                     response = requests.get(recs_url, json={"title": external_movie_name}, headers=headers, timeout=10)
+
             response.raise_for_status()
             fetched_data = response.json()
 
@@ -378,3 +378,18 @@ class AdminPageView(TemplateView):
             context["model_versions"] = []
 
         return context
+    
+    def post(self, request):
+            model_version = request.POST.get('model_version')
+            
+            api_url = f"{host}/api/v1/model-versions/{model_version}/rollback/"
+
+            try:
+                response = api_get_token(self.request, api_url)
+                response.raise_for_status()
+            
+            except Exception as e:
+                print(f"Error rolling back model: {e}")
+
+            return redirect("admin-page")
+       

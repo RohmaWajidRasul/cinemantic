@@ -1,3 +1,4 @@
+# Implemented by Rohma
 from rest_framework import generics, permissions
 from .serializers import RegisterSerializer, ProfileSerializer, UserUpdateSerializer, CustomTokenObtainPairSerializer
 from django.contrib.auth import get_user_model

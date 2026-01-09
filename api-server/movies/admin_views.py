@@ -1,3 +1,5 @@
+# Implemented by Rohma 
+
 import requests
 from django.conf import settings
 from django.db import transaction
@@ -60,7 +62,7 @@ class AdminRetrainView(APIView):
             new_version.delete()  
             return Response({"error": f"Could not reach AI service: {e}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        if ai_resp.status_code != 202:
+        if ai_resp.status_code != 200 and ai_resp.status_code != 202 :
             new_version.delete()  
             return Response(
                 {"error": "AI service returned an error.", "ai_response": ai_resp.text},

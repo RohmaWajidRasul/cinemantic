@@ -1,3 +1,4 @@
+# Implemented by Bimnet, Filipe and Rohma
 from fastapi import FastAPI, Form, UploadFile, File, HTTPException, BackgroundTasks
 from fastapi.responses import JSONResponse
 from settings import API_SERVICE_URL, MODEL_UPDATE_SECRET, MODEL_BUCKET_NAME

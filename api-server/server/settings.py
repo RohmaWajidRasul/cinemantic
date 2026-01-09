@@ -1,3 +1,4 @@
+# Implemented by Rohma 
 """
 Django settings for server project.
 

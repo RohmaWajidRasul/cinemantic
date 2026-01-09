@@ -1,3 +1,4 @@
+# Implemented by Bimnet, Filipe, Júlia and Rohma
 import io
 import pandas as pd
 from sqlalchemy import text
