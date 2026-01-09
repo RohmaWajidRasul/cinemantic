@@ -1,3 +1,4 @@
+# Implemented by Filipe and Rohma
 from sqlalchemy import create_engine
 from settings import POSTGRES
 

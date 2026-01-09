@@ -1,3 +1,4 @@
+# Implemented by Júlia and Rohma 
 from django.urls import path
 from .views import * 
 
@@ -9,6 +10,7 @@ urlpatterns = [
     path('profile', ProfilePageView.as_view(), name="profile-page"),
     path('search', SearchPageView.as_view(), name="search-page"),
     path('recommendation/<int:movie_id>/', RecommendationPageView.as_view(), name="recommendation-page"),
+    path('recommendation/', RecommendationPageView.as_view(), name="recommendation-page"),
     path('movies/<int:movie_id>/', MoviePageView.as_view(), name='movie-page'),    
     path('history', HistoryPageView.as_view(), name='history-page'),
     path('admin', AdminPageView.as_view(), name="admin-page"),

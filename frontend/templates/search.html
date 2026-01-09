@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 
 <head>
+    <!--Implemented by Júlia -->
     <link rel="stylesheet" href="{% static 'global.css' %}">
 </head>
 <html>
@@ -12,10 +13,13 @@
 <body>
     <div class="film-border top"></div>
     <div class="wrapper flex">
-        <form class="searchbar flex" method="GET" action="{% url 'search-page' %}">
+        <form class="searchbar grid" method="GET" action="{% url 'search-page' %}">
             <input type="text" name="movie-name" id="movie-name" placeholder="Movie name" autocomplete="off">
             <button type="submit" class="search-button flex">
                 <img src="{% static 'icon/search.png' %}" alt="Search icon" class="icon">
+            </button>
+            <button type="submit" class="search-button flex" formaction="{% url 'recommendation-page' %}">
+                <p>External</p>
             </button>
         </form>
         <div class="movies">
@@ -64,5 +68,10 @@
 
     .movie img {
         display: block;
+    }
+
+    .search-button {
+        width: 100%;
+        color: white;
     }
 </style>

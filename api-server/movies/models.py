@@ -1,3 +1,4 @@
+# Implemented by Rohma 
 from django.db import models
 from django.conf import settings
 from pgvector.django import VectorField

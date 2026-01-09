@@ -1,3 +1,4 @@
+# Implemented by Júlia
 """
 Django settings for client project.
 
