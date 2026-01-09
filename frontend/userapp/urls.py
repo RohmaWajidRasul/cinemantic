@@ -1,4 +1,4 @@
-# Implemented by Júlia
+# Implemented by Júlia and Rohma 
 from django.urls import path
 from .views import * 
 
