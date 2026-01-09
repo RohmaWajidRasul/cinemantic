@@ -7,24 +7,22 @@ from dataHandler import validateCSV, addMovies, getRecommended, updateEmb, addGe
 import requests
 from database import engine
 
+recommender: MovieRecommender | None = None
+
 def run_fine_tuning(df, params):
 
-    v = params.get("new_version")
-    api_url = f"{API_SERVICE_URL}/api/v1/internal/model-versions/{v}/"
+    new_version = params.get("new_version")
+    api_url = f"{API_SERVICE_URL}/api/v1/internal/model-versions/{new_version}/"
 
     use_default = False
 
     try:
-        recommender = MovieRecommender(
-            df=df,
-            batch_size=params.get("batch_size", 128),
-            epochs=params.get("epochs", 2)
-        )
-
         if params.get("base_model") == "default":
             use_default = True
 
-        precision_before, precision_after = recommender.setup_recommender(use_default)
+        precision_before, precision_after = recommender.setup_recommender(use_default, new_version, df=df,
+            batch_size=params.get("batch_size", 128),
+            epochs=params.get("epochs", 2))
 
         THRESHOLD = 0.05
 
@@ -36,7 +34,6 @@ def run_fine_tuning(df, params):
 
         if bad_model:
             print("Bad fine-tuned model detected. Using previous model...")
-            recommender._reset_old_model()
 
             new_ids = df["id"].tolist()
             updateEmb(recommender, only_new=True, new_ids=new_ids)
@@ -50,6 +47,8 @@ def run_fine_tuning(df, params):
                 "detail": "Model not deployed due to precision drop > 5%"
             }
         else:
+            recommender._set_new_model(new_version)
+
             updateEmb(recommender)
 
             updateRecsTable()
@@ -80,7 +79,6 @@ def run_rollback(version: str):
     try:
         print(f"ROLLBACK STARTED for version {version}")
 
-        recommender = MovieRecommender()
         updateEmb(recommender)
         updateRecsTable()
 
@@ -104,9 +102,15 @@ def run_rollback(version: str):
 
 app = FastAPI()
 
+@app.on_event("startup")
+def startup():
+    global recommender
+    recommender = MovieRecommender()
+    print("MovieRecommender loaded")
+
 @app.get("/health")
 def health():
-    return {"status": "healthy"}
+    return {"status": "healthy" if recommender and recommender.model else "unready"}
 
 @app.post("/api/v1/fine-tune/")
 def train(background_tasks: BackgroundTasks, base_model: str = Form(...), batch_size: int = Form(...), 
@@ -183,7 +187,6 @@ async def recommend(payload: dict):
         )
 
     try:
-        recommender = MovieRecommender()
         ids = []
         emb = recommender.encodeNewMovie(ids, title, genres)
 

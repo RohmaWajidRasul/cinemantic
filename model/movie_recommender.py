@@ -20,7 +20,7 @@ class MovieRecommender:
     """
 
     def __init__(self, df=None, genre_scale=0.5, default_model="all-MiniLM-L6-v2",
-                 output_path="./fine_tuned_model", batch_size=128, epochs=2):
+                 output_path="./models/current", batch_size=128, epochs=2):
         
         if genre_scale <= 0 or batch_size < 1 or epochs < 1:
             raise Exception("Integer params must be greater than 0")
@@ -37,22 +37,41 @@ class MovieRecommender:
         self.combined_vectors = None
         self.default_model = default_model
 
-        self.temp_old_model_path = "./temp_old_model"
+        self.new_model_path_prefix = "./models"
 
-        shutil.copytree(self.output_path, self.temp_old_model_path, dirs_exist_ok=True)
+        model_dir = os.path.normpath(self.new_model_path_prefix)
+        current_path = os.path.normpath(self.output_path)
+        for folder in os.listdir(model_dir):
+            folder_path = os.path.normpath(os.path.join(model_dir, folder))
+            if folder_path == current_path:
+                print("NOT DELETING CURRENT")
+                continue
+            if os.path.isdir(folder_path):
+                try:
+                    shutil.rmtree(folder_path)
+                    print(f"Deleted old model folder: {folder_path}")
+                except Exception as e:
+                    print(f"Skipped deletion of {folder_path}: {e}")
+
 
         try:
-            self.old_model = SentenceTransformer(self.temp_old_model_path)
             self.model = SentenceTransformer(self.output_path)
         except Exception as e:
             raise Exception(f"Invalid base model: {e}")      
           
-    def _reset_old_model(self):
-        print("Reset to old model...")
-        self.model = self.old_model
+    def _set_new_model(self, new_version):
+        print("Set to new model...")
 
-    def _load_movies_from_dataframe(self):
+        del self.model
+        gc.collect()
+
+        new_model_path = self.new_model_path_prefix + f"/{new_version}"
+        self.model = SentenceTransformer(new_model_path)
+
+    def _load_movies_from_dataframe(self, df):
         """Get data from dataframe"""
+
+        self.df = df
 
         self.df["id"] = self.df["id"].astype(int)
         self.df["title"] = self.df["title"].astype(str)
@@ -107,37 +126,30 @@ class MovieRecommender:
         
         return examples
 
-    def _fine_tune_model(self, training_examples):
+    def _fine_tune_model(self, use_default, training_examples, new_version, batch_size, epochs):
         """Fine tune model safely on Windows into ./fine_tuned_model"""
+        if use_default:
+            model = SentenceTransformer(self.default_model)
+        else:
+            model = SentenceTransformer(self.output_path)
+
+        new_model_path = self.new_model_path_prefix + f"/{new_version}"
+
+        self.batch_size = batch_size
+        self.epochs = epochs
         
         train_dataloader = DataLoader(training_examples, shuffle=True, batch_size=self.batch_size, pin_memory=False)
         train_loss = losses.MultipleNegativesRankingLoss(self.model)
 
-        import tempfile
-        temp_output_path = tempfile.mkdtemp(prefix="fine_tune_")
-
-        # Train into temporary folder
-        self.model.fit(
+        # Store in new folder
+        model.fit(
             train_objectives=[(train_dataloader, train_loss)],
             epochs=self.epochs,
             warmup_steps=100,
-            output_path=temp_output_path
+            output_path=new_model_path
         )
 
-        # Release model handles
-        self.model = None
-        gc.collect()
-
-        # Remove old model folder
-        if os.path.exists(self.output_path):
-            shutil.rmtree(self.output_path, ignore_errors=True)
-
-        # Move temp folder to the final location
-        os.rename(temp_output_path, self.output_path)
-
-        # Reload model
-        self.model = SentenceTransformer(self.output_path)
-        print(f"Fine-tuned model is now ready at {self.output_path}")
+        print(f"New fine-tuned model is now ready at {new_model_path}")
 
     def _compute_embeddings(self, ids, texts):
         """Helper to turn strings into vector embeddings"""
@@ -187,17 +199,13 @@ class MovieRecommender:
 
         self.combined_vectors = combined_map
 
-    def setup_recommender(self, use_default=False):
+    def setup_recommender(self, use_default=False, new_version="unknown", df=None, batch_size=128, epochs=2):
         """Loads all data and prepares the recommender"""
 
         precision_before = None
         precision_after = None 
 
-        if use_default:
-            print(f"Using default model to fine tune: {self.default_model}")
-            self.model = SentenceTransformer(self.default_model)
-
-        self._load_movies_from_dataframe()
+        self._load_movies_from_dataframe(df)
         training_examples = self._build_training_pairs(self.train_df)
         print(f"Found {len(training_examples)} training pairs.")
         
@@ -210,7 +218,7 @@ class MovieRecommender:
         precision_before = self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
 
         print("Fine-tuning model...")
-        self._fine_tune_model(training_examples)
+        self._fine_tune_model(training_examples=training_examples, use_default=use_default, new_version=new_version, batch_size=batch_size, epochs=epochs)
 
         print("Precision@k after finetuning")
         val_embeddings = self._compute_val_embeddings()
