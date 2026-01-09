@@ -1,4 +1,6 @@
 # Implemented by Bimnet, Filipe and Rohma
+import gc
+import shutil
 import numpy as np
 import pandas as pd
 import os
@@ -18,33 +20,59 @@ class MovieRecommender:
     and provides movie recommendations based on textual descriptions and genres.
     """
 
-    def __init__(self, df=None, genre_scale=0.5, model_name="all-MiniLM-L6-v2",
-                 output_path="./fine_tuned_model", batch_size=128, epochs=2):
+    def __init__(self, df=None, genre_scale=0.5, default_model="all-MiniLM-L6-v2",
+                 output_path="./models/current", batch_size=128, epochs=2):
         
         if genre_scale <= 0 or batch_size < 1 or epochs < 1:
             raise Exception("Integer params must be greater than 0")
 
         self.genre_scale = genre_scale
-        self.model_name = model_name
         self.output_path = output_path
         self.batch_size = batch_size
         self.epochs = epochs
         self.df = df
         self.train_df= None
         self.val_df = None
-        self.model = None
         self.desc_embs = None
         self.genre_embs = None
         self.combined_vectors = None
+        self.default_model = default_model
 
-        if self.df is None:
-            try:
-                self.model = SentenceTransformer(self.output_path)
-            except Exception:
-                self.model = SentenceTransformer(self.model_name)
+        self.new_model_path_prefix = "./models"
 
-    def _load_movies_from_dataframe(self):
+        model_dir = os.path.normpath(self.new_model_path_prefix)
+        current_path = os.path.normpath(self.output_path)
+        for folder in os.listdir(model_dir):
+            folder_path = os.path.normpath(os.path.join(model_dir, folder))
+            if folder_path == current_path:
+                print("NOT DELETING CURRENT")
+                continue
+            if os.path.isdir(folder_path):
+                try:
+                    shutil.rmtree(folder_path)
+                    print(f"Deleted old model folder: {folder_path}")
+                except Exception as e:
+                    print(f"Skipped deletion of {folder_path}: {e}")
+
+
+        try:
+            self.model = SentenceTransformer(self.output_path)
+        except Exception as e:
+            raise Exception(f"Invalid base model: {e}")      
+          
+    def _set_new_model(self, new_version):
+        print("Set to new model...")
+
+        del self.model
+        gc.collect()
+
+        new_model_path = self.new_model_path_prefix + f"/{new_version}"
+        self.model = SentenceTransformer(new_model_path)
+
+    def _load_movies_from_dataframe(self, df):
         """Get data from dataframe"""
+
+        self.df = df
 
         self.df["id"] = self.df["id"].astype(int)
         self.df["title"] = self.df["title"].astype(str)
@@ -99,20 +127,30 @@ class MovieRecommender:
         
         return examples
 
-    def _fine_tune_model(self, training_examples):
-        """Fine tune model using new tuples"""
+    def _fine_tune_model(self, use_default, training_examples, new_version, batch_size, epochs):
+        """Fine tune model safely on Windows into ./fine_tuned_model"""
+        if use_default:
+            model = SentenceTransformer(self.default_model)
+        else:
+            model = SentenceTransformer(self.output_path)
 
-        model = SentenceTransformer(self.model_name)
+        new_model_path = self.new_model_path_prefix + f"/{new_version}"
+
+        self.batch_size = batch_size
+        self.epochs = epochs
+        
         train_dataloader = DataLoader(training_examples, shuffle=True, batch_size=self.batch_size, pin_memory=False)
-        train_loss = losses.MultipleNegativesRankingLoss(model)
+        train_loss = losses.MultipleNegativesRankingLoss(self.model)
 
+        # Store in new folder
         model.fit(
             train_objectives=[(train_dataloader, train_loss)],
             epochs=self.epochs,
             warmup_steps=100,
-            output_path=self.output_path
+            output_path=new_model_path
         )
-        self.model = SentenceTransformer(self.output_path)
+
+        print(f"New fine-tuned model is now ready at {new_model_path}")
 
     def _compute_embeddings(self, ids, texts):
         """Helper to turn strings into vector embeddings"""
@@ -125,8 +163,8 @@ class MovieRecommender:
             batch_embs = self.model.encode(batch_texts, show_progress_bar=False)
             
             # Map each ID to its embedding
-            for movie_id, emb in zip(batch_ids, batch_embs):
-                embeddings_map[movie_id] = emb
+            embeddings_map.update({movie_id: emb for movie_id, emb in zip(batch_ids, batch_embs)})
+
         
         return embeddings_map
 
@@ -162,43 +200,33 @@ class MovieRecommender:
 
         self.combined_vectors = combined_map
 
-    def setup_recommender(self, fine_tune=False):
+    def setup_recommender(self, use_default=False, new_version="unknown", df=None, batch_size=128, epochs=2):
         """Loads all data and prepares the recommender"""
 
-        if fine_tune:
-            self.model = SentenceTransformer(self.model_name)
+        precision_before = None
+        precision_after = None 
 
-            self._load_movies_from_dataframe()
-            training_examples = self._build_training_pairs(self.train_df)
-            print(f"Found {len(training_examples)} training pairs.")
-            
-            # Get TF-IDF ground truth
-            val_ids, mpnet_sim = self.build_mpnet_ground_truth(self.val_df)
+        self._load_movies_from_dataframe(df)
+        training_examples = self._build_training_pairs(self.train_df)
+        print(f"Found {len(training_examples)} training pairs.")
+        
+        # Get TF-IDF ground truth
+        val_ids, mpnet_sim = self.build_mpnet_ground_truth(self.val_df)
 
-            print("Precision@k before finetuning")
-            val_embeddings = self._compute_val_embeddings()
-            val_embeddings = normalize(val_embeddings)
-            self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
+        print("Precision@k before finetuning")
+        val_embeddings = self._compute_val_embeddings()
+        val_embeddings = normalize(val_embeddings)
+        precision_before = self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
 
+        print("Fine-tuning model...")
+        self._fine_tune_model(training_examples=training_examples, use_default=use_default, new_version=new_version, batch_size=batch_size, epochs=epochs)
 
-            print("Fine-tuning model...")
-            self._fine_tune_model(training_examples)
+        print("Precision@k after finetuning")
+        val_embeddings = self._compute_val_embeddings()
+        val_embeddings = normalize(val_embeddings)
+        precision_after = self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
 
-            print("Precision@k after finetuning")
-            val_embeddings = self._compute_val_embeddings()
-            val_embeddings = normalize(val_embeddings)
-            self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
-        else:
-            self._load_movies_from_dataframe()
-            # If not fine-tuning, try to load a pre fine-tuned model
-            try:
-                self.model = SentenceTransformer(self.output_path)
-            except Exception as e:
-                raise Exception(f"The specified fine-tuned model does not exist: {e}")
-            
-        self._compute_text_embeddings()
-        self._compute_genre_embeddings()
-        self._build_combined_vectors()
+        return precision_before, precision_after
 
     ###EVALUATION###
     
@@ -267,8 +295,8 @@ class MovieRecommender:
         val_overviews = self.val_df["overview"].tolist()
         val_genres = [" ".join(g) for g in self.val_df["genres_list"]]
 
-        desc = self.model.encode(val_overviews, show_progress_bar=False)
-        genre = self.model.encode(val_genres, show_progress_bar=False)
+        desc = self.model.encode(val_overviews, show_progress_bar=False, convert_to_numpy=True)
+        genre = self.model.encode(val_genres, show_progress_bar=False, convert_to_numpy=True)
 
         val_embeddings = desc + self.genre_scale * genre
         return val_embeddings

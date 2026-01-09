@@ -108,13 +108,21 @@ def addGenres(df):
 
     
 
-def updateEmb(recommender):
+def updateEmb(recommender, only_new=False, new_ids=None):
 
-    newEmb = recommender.combined_vectors
-
-    with engine.connect() as conn:
-        result = conn.execute(
-            text("""
+    if only_new:
+        sql = text("""
+            SELECT m.id, m.overview,
+                array_agg(g.name) FILTER (WHERE g.name IS NOT NULL) AS genres
+            FROM movies_movie m
+            LEFT JOIN movies_movie_genres mg ON m.id = mg.movie_id
+            LEFT JOIN movies_genre g ON mg.genre_id = g.id
+            WHERE m.id = ANY(:ids)
+            GROUP BY m.id, m.overview;
+        """)
+        params = {"ids": new_ids}
+    else:
+        sql = text("""
                 SELECT 
                     m.id,
                     m.overview,
@@ -124,47 +132,36 @@ def updateEmb(recommender):
                 LEFT JOIN movies_genre g ON mg.genre_id = g.id
                 GROUP BY m.id, m.overview;
             """)
-
-        )
-
+    
+    with engine.connect() as conn:
+        result = conn.execute(sql, params) if only_new else conn.execute(sql) 
         rows = result.fetchall()  
-        ids = [row.id for row in rows]
-        overviews = [row.overview for row in rows]
-        genres_lists = []
-        for row in rows:
-            if row.genres is None:
-                genres_lists.append([])
-            else:
-                genres_lists.append(row.genres)
 
-        genre_texts = [", ".join(g) for g in genres_lists]
-        updatedOverviewsEmb = recommender._compute_embeddings(ids, overviews)
-        updatedGenresEmb = recommender._compute_embeddings(ids, genre_texts)
+    recommender.df = pd.DataFrame({
+        "id": [row.id for row in rows],
+        "overview": [row.overview for row in rows],
+        "genres_list": [row.genres if row.genres is not None else [] for row in rows]
+    })
 
-        updatedOldEmb = {}
-        for movie_id in updatedOverviewsEmb:
-            OvEmb = updatedOverviewsEmb[movie_id]
-            GEmb = updatedGenresEmb.get(movie_id)  
-            updatedOldEmb[movie_id] = OvEmb + recommender.genre_scale * GEmb
+    # Compute embeddings
+    recommender._compute_text_embeddings()
+    recommender._compute_genre_embeddings()
+    recommender._build_combined_vectors()
 
-    newEmb.update(updatedOldEmb)
+    # Update database embeddings
+    newEmb = recommender.combined_vectors
+    emb_updates = [{"id": movie_id, "embedding": emb.tolist()} for movie_id, emb in newEmb.items()]
 
-    # --- Step 1: Prepare data for SQL ---
-    emb_updates = []
-    for movie_id, emb in newEmb.items():
-        emb_updates.append({"id": movie_id, "embedding": emb.tolist()})
-
-    # --- Step 2: Execute batch update ---
-    with engine.begin() as conn:  # begin transaction
+    with engine.begin() as conn:
         for row in emb_updates:
             conn.execute(
                 text("UPDATE movies_movie SET embedding = :embedding WHERE id = :id"),
                 {"embedding": row["embedding"], "id": row["id"]}
             )
 
-
-
 def updateRecsTable():
+
+    print("UPDATING RECS TABLE")
     
     with engine.connect() as conn:
         # 1. Calculate recommendations into a temporary table using a single query.
@@ -186,6 +183,9 @@ def updateRecsTable():
         """))
         conn.commit()
 
+        print("INSERTING NEW RECS")
+
+
         # 2. Atomic swap: Truncate and Insert from Temp
         with conn.begin():
             conn.execute(text("TRUNCATE TABLE movies_recommendation"))
@@ -194,6 +194,9 @@ def updateRecsTable():
                 SELECT movie_id, recommended_movie_id, similarity FROM temp_recs
             """))
             conn.execute(text("DROP TABLE temp_recs"))
+
+        print("DONE UPDATING RECS")
+
 
 
 ###TODO: CHANGE GENRES BULLSHIT TABLE SHIT
@@ -234,20 +237,3 @@ def getRecommended(movie_emb, conn, movie_id=None):
         })
 
     return recs
-
-
-def getVersion():
-
-
-    sql = text("""
-        SELECT version
-        FROM movies_modelversion
-        WHERE status = 'fine_tuning'
-        ORDER BY created_at DESC
-        LIMIT 1;
-    """)
-
-    with engine.connect() as conn:
-        row = conn.execute(sql).fetchone()
-        
-    return row.version if row else None

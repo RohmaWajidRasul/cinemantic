@@ -9,84 +9,91 @@ tags:
 - loss:MultipleNegativesRankingLoss
 base_model: sentence-transformers/all-MiniLM-L6-v2
 widget:
-- source_sentence: Sayen is hunting down the men who murdered her grandmother. Using
-    her training and knowledge of nature, she is able to turn the tables on them,
-    learning of a conspiracy from a corporation that threatens her people's ancestral
-    lands.
+- source_sentence: Shanghai, 1934. In an insect world parallel to that of humans,
+    veteran Inspector Sun, a lone spider, leads his last mission against his archenemy
+    the Red Locust, before embarking on a well-deserved retirement. His vacation aboard
+    a Pan Am clipper between Shanghai and San Francisco comes to an abrupt end when
+    millionaire Dr. Spindelthorp is found murdered. What begins as a routine case
+    for Sun will ultimately decide the fate of humanity.
   sentences:
-  - Reporters Loretta McLaughlin and Jean Cole bravely pursue the story of the Boston
-    Strangler at great personal risk, putting their own lives on the line in their
-    quest to uncover the truth.
-  - Set more than a decade after the events of the first film, learn the story of
-    the Sully family (Jake, Neytiri, and their kids), the trouble that follows them,
-    the lengths they go to keep each other safe, the battles they fight to stay alive,
-    and the tragedies they endure.
-  - A journey deep into an uncharted and treacherous land, where fantastical creatures
-    await the legendary Clades—a family of explorers whose differences threaten to
-    topple their latest, and by far most crucial, mission.
-- source_sentence: Liliana is the dream girl of many of her co-workers, among them
-    "Piquiña", an ugly and ordinary charlatan who, convinced of his irresistible attractiveness,
-    launches into her conquest during the celebration of the company's "novena". Liliana,
-    who can't stand "Piquíña", makes it clear to him that the only way she would be
-    with him would be if he were the last man on earth.
+  - After old enemies kill his family, a former mafia enforcer and his feisty daughter
+    flee to Milan, where they hide out while plotting their revenge.
+  - After finding a host body in investigative reporter Eddie Brock, the alien symbiote
+    must face a new enemy, Carnage, the alter ego of serial killer Cletus Kasady.
+  - After starting their own detective agency, Nick and Audrey Spitz land a career-making
+    case when their billionaire pal is kidnapped from his wedding.
+- source_sentence: Ryan Logan, a former Special Forces operative, is battling to cope
+    with life after the loss of his wife.  He is thrusted into the criminal underworld
+    to keep his only son from being taken from him.
   sentences:
-  - An American priest working in Mexico is considered a saint by many local parishioners.
-    However, due to a botched exorcism, he carries a secret that’s eating him alive
-    until he gets an opportunity to face his demon one final time.
+  - An aging Chinese immigrant is swept up in an insane adventure, where she alone
+    can save what's important to her by connecting with the lives she could have led
+    in other universes.
+  - Harry Potter has lived under the stairs at his aunt and uncle's house his whole
+    life. But on his 11th birthday, he learns he's a powerful wizard—with a place
+    waiting for him at the Hogwarts School of Witchcraft and Wizardry. As he learns
+    to harness his newfound powers with the help of the school's kindly headmaster,
+    Harry uncovers the truth about his parents' deaths—and about the villain who's
+    to blame.
+  - An aging Chinese immigrant is swept up in an insane adventure, where she alone
+    can save what's important to her by connecting with the lives she could have led
+    in other universes.
+- source_sentence: 'Mathieu, a member of the French institute in Irkutsk, is arrested
+    overnight by the Russian authorities.  Imprisoned and accused of sexual abuse
+    on his own daughter, he realises he is a victim of a Kompromat. With the help
+    of the FSB, someone has built up a case to frame him. Isolated, he has no one
+    to turn to. Proving his innocence is impossible: the only solution is to escape.'
+  sentences:
+  - Ophelia, a young nun recently arriving in the town of San Ramon, is forced to
+    perform an exorcism on a pregnant woman in danger of dying. Just when she thinks
+    her possession has ended, she discovers that the evil presence hasn't disappeared
+    yet. The director of the award-winning Here Comes the Devil and Late Phases adds
+    a new twist to possession movies in one of this year's Latin American horror surprises.
+  - The Red Ribbon Army, an evil organization that was once destroyed by Goku in the
+    past, has been reformed by a group of people who have created new and mightier
+    Androids, Gamma 1 and Gamma 2, and seek vengeance against Goku and his family.
+  - A young girl discovers an idealized parallel universe behind a secret door in
+    her new home, unaware that it contains a sinister secret.
+- source_sentence: 'Blindsided by a new generation of blazing-fast racers, the legendary
+    Lightning McQueen is suddenly pushed out of the sport he loves. To get back in
+    the game, he will need the help of an eager young race technician with her own
+    plan to win, inspiration from the late Fabulous Hudson Hornet, and a few unexpected
+    turns. Proving that #95 isn''t through yet will test the heart of a champion on
+    Piston Cup Racing’s biggest stage!'
+  sentences:
   - All Gary wants is to make awesome home movies with his best buds. All his older
     sister Samantha wants is to hang with the cool kids. When their parents head out
     of town one Halloween weekend, an all-time rager of a teen house party turns to
     terror when aliens attack, forcing the siblings to band together to survive the
     night.
-  - 'Blindsided by a new generation of blazing-fast racers, the legendary Lightning
-    McQueen is suddenly pushed out of the sport he loves. To get back in the game,
-    he will need the help of an eager young race technician with her own plan to win,
-    inspiration from the late Fabulous Hudson Hornet, and a few unexpected turns.
-    Proving that #95 isn''t through yet will test the heart of a champion on Piston
-    Cup Racing’s biggest stage!'
-- source_sentence: After witnessing a grotesque murder at a party in her new town,
-    a teenager starts having strange visions and bizarre desires.
+  - It has been a year since Mic Mic and Oscar returned from their incredible adventure.
+    And now, after a diabolical plan by Vulture to sabotage the delivery of the Grizzly
+    cub to his opponent in the American presidential elections, Mic Mic, Oscar, Panda
+    teenager and Stork set off on another great adventure as they ride a zeppelin
+    to return little Grizzly to its rightful parents and save the American elections
+    and the whole continent from an erupting volcano.
+  - While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario
+    and Luigi are transported down a mysterious pipe and wander into a magical new
+    world. But when the brothers are separated, Mario embarks on an epic quest to
+    find Luigi.
+- source_sentence: 'Puss in Boots discovers that his passion for adventure has taken
+    its toll: He has burned through eight of his nine lives, leaving him with only
+    one life left. Puss sets out on an epic journey to find the mythical Last Wish
+    and restore his nine lives.'
   sentences:
-  - Mario and Luigi, plumbers from Brooklyn, find themselves in an alternate universe
-    where evolved dinosaurs live in hi-tech squalor. They're the only hope to save
-    our universe from invasion by the dino dictator, Koopa.
-  - Royal Air Force pilot Lt. Kate Sinclair is on her final flight mission when her
-    jet is shot down over one of the most dangerous rebel strongholds in Afghanistan.
-    She finds refuge in an abandoned underground bunker where deadly man-made creatures
-    known as Ravagers — half-human, half-alien, and hungry for human flesh — are awakened.
-  - The Red Ribbon Army, an evil organization that was once destroyed by Goku in the
-    past, has been reformed by a group of people who have created new and mightier
-    Androids, Gamma 1 and Gamma 2, and seek vengeance against Goku and his family.
-- source_sentence: Mario and Luigi, plumbers from Brooklyn, find themselves in an
-    alternate universe where evolved dinosaurs live in hi-tech squalor. They're the
-    only hope to save our universe from invasion by the dino dictator, Koopa.
-  sentences:
-  - When the power mysteriously fails, and almost everyone vanishes from a small tourist
-    vessel in the Arctic, fear becomes the master for the three who remain. Forced
-    ashore, the men deteriorate in body and mind until a dark truth emerges that compels
-    them to ally or perish.
-  - Thirteen-year-old Mei is experiencing the awkwardness of being a teenager with
-    a twist – when she gets too excited, she transforms into a giant red panda.
-  - A stubborn and hotheaded minor league basketball coach is forced to train a Special
-    Olympics team when he is sentenced to community service.
-- source_sentence: The hottest biotech company in the world has discovered they can
-    clone history’s most influential people from the dead. Now, they are auctioning
-    clones of Michelangelo, Galileo, Vivaldi, and others for tens of millions of dollars
-    to the world’s ultra-rich. But when they steal the Shroud of Turin and clone the
-    DNA of Jesus Christ, all hell breaks loose.
-  sentences:
-  - When five lovely young girls who hate studying hire part-time tutor Futaro, he
-    guides not only their education but also their hearts. Time spent has brought
-    them all closer, with feelings growing within the girls and Futaro. As they finish
-    their third year of high school and their last school festival approaches, they
-    set their sights on what’s next. Is there a future with one of them and Futaro?
-  - Detective James Knight 's last-minute assignment to the Independence Day shift
-    turns into a race to stop an unbalanced ambulance EMT from imperiling the city's
-    festivities. The misguided vigilante, playing cop with a stolen gun and uniform,
-    has a bank vault full of reasons to put on his own fireworks show... one that
-    will strike dangerously close to Knight's home.
-  - Decades ago, the USSR developed unkillable sharks and launched them to the moon.
-    Today, a team of American astronauts will endure the fight of their lives.
+  - Through a series of unfortunate events, three mummies end up in present-day London
+    and embark on a wacky and hilarious journey in search of an old ring belonging
+    to the Royal Family, stolen by ambitious archaeologist Lord Carnaby.
+  - A gruesome serial killer is terrorizing London while brilliant but disgraced detective
+    John Luther sits behind bars. Haunted by his failure to capture the cyber psychopath
+    who now taunts him, Luther decides to break out of prison to finish the job by
+    any means necessary.
+  - Elena and Ivan are getting ready to enter into a new phase in their life. They
+    are leaving the metropolis of Barcelona to settle in the Catalan countryside,
+    where they are taking over a cork oak plantation. Not only will the business pay
+    for their living, but they also want to exploit the plantation equitably and sustainably.
+    But despite their ideals, Elena and Ivan soon find themselves in a crisis which
+    will endanger not only their project, but also their relationship.
 pipeline_tag: sentence-similarity
 library_name: sentence-transformers
 ---
@@ -141,9 +148,9 @@ from sentence_transformers import SentenceTransformer
 model = SentenceTransformer("sentence_transformers_model_id")
 # Run inference
 sentences = [
-    'The hottest biotech company in the world has discovered they can clone history’s most influential people from the dead. Now, they are auctioning clones of Michelangelo, Galileo, Vivaldi, and others for tens of millions of dollars to the world’s ultra-rich. But when they steal the Shroud of Turin and clone the DNA of Jesus Christ, all hell breaks loose.',
-    'Decades ago, the USSR developed unkillable sharks and launched them to the moon. Today, a team of American astronauts will endure the fight of their lives.',
-    'When five lovely young girls who hate studying hire part-time tutor Futaro, he guides not only their education but also their hearts. Time spent has brought them all closer, with feelings growing within the girls and Futaro. As they finish their third year of high school and their last school festival approaches, they set their sights on what’s next. Is there a future with one of them and Futaro?',
+    'Puss in Boots discovers that his passion for adventure has taken its toll: He has burned through eight of his nine lives, leaving him with only one life left. Puss sets out on an epic journey to find the mythical Last Wish and restore his nine lives.',
+    'Elena and Ivan are getting ready to enter into a new phase in their life. They are leaving the metropolis of Barcelona to settle in the Catalan countryside, where they are taking over a cork oak plantation. Not only will the business pay for their living, but they also want to exploit the plantation equitably and sustainably. But despite their ideals, Elena and Ivan soon find themselves in a crisis which will endanger not only their project, but also their relationship.',
+    'Through a series of unfortunate events, three mummies end up in present-day London and embark on a wacky and hilarious journey in search of an old ring belonging to the Royal Family, stolen by ambitious archaeologist Lord Carnaby.',
 ]
 embeddings = model.encode(sentences)
 print(embeddings.shape)
@@ -152,9 +159,9 @@ print(embeddings.shape)
 # Get the similarity scores for the embeddings
 similarities = model.similarity(embeddings, embeddings)
 print(similarities)
-# tensor([[1.0000, 0.1682, 0.1853],
-#         [0.1682, 1.0000, 0.0770],
-#         [0.1853, 0.0770, 1.0000]])
+# tensor([[1.0000, 0.1894, 0.2391],
+#         [0.1894, 1.0000, 0.1800],
+#         [0.2391, 0.1800, 1.0000]])
 ```
 
 <!--
@@ -205,13 +212,13 @@ You can finetune this model on your own dataset.
   |         | sentence_0                                                                          | sentence_1                                                                          |
   |:--------|:------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------|
   | type    | string                                                                              | string                                                                              |
-  | details | <ul><li>min: 18 tokens</li><li>mean: 58.72 tokens</li><li>max: 129 tokens</li></ul> | <ul><li>min: 18 tokens</li><li>mean: 59.11 tokens</li><li>max: 111 tokens</li></ul> |
+  | details | <ul><li>min: 18 tokens</li><li>mean: 58.72 tokens</li><li>max: 129 tokens</li></ul> | <ul><li>min: 18 tokens</li><li>mean: 58.42 tokens</li><li>max: 129 tokens</li></ul> |
 * Samples:
-  | sentence_0                                                                                                                                                                                                                                                                                                                                                                                                                                                 | sentence_1                                                                                                                                                                                                                                                                      |
-  |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-  | <code>Rich and powerful Simon Qing has been schooled in the ways of sex by his virile father, but is still a virgin. That is, until he meets his first love Violetta who has fun with him all over his father’s estate. Their love does not last, so Simon embarks on a journey. Along the way he meets the comely nun Moon whom Simon deflowers and then marries. He then becomes enamored of Golden Lotus but she is married to dwarf Wu Da-Lang.</code> | <code>Between personal obligations and training for his next big fight against an opponent with ties to his family's past, Adonis Creed is up against the challenge of his life.</code>                                                                                         |
-  | <code>When the power mysteriously fails, and almost everyone vanishes from a small tourist vessel in the Arctic, fear becomes the master for the three who remain. Forced ashore, the men deteriorate in body and mind until a dark truth emerges that compels them to ally or perish.</code>                                                                                                                                                              | <code>With the price on his head ever increasing, John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe and forces that turn old friends into foes.</code> |
-  | <code>This Christmas, Homer surprises Marge with the ultimate gift: an unforgettable performance from Italian opera superstar Andrea Bocelli and his children Matteo and Virginia.</code>                                                                                                                                                                                                                                                                  | <code>The Elric brothers’ long and winding journey comes to a close in this epic finale, where they must face off against an unworldly, nationwide threat.</code>                                                                                                               |
+  | sentence_0                                                                                                                                                                                                                                                                                                                                           | sentence_1                                                                                                                                                                                                                                                                                                                             |
+  |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | <code>A cold and mysterious new security guard for a Los Angeles cash truck company surprises his co-workers when he unleashes precision skills during a heist. The crew is left wondering who he is and where he came from. Soon, the marksman's ultimate motive becomes clear as he takes dramatic and irrevocable steps to settle a score.</code> | <code>With the price on his head ever increasing, John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe and forces that turn old friends into foes.</code>                                                        |
+  | <code>Puss in Boots discovers that his passion for adventure has taken its toll: He has burned through eight of his nine lives, leaving him with only one life left. Puss sets out on an epic journey to find the mythical Last Wish and restore his nine lives.</code>                                                                              | <code>A young girl discovers an idealized parallel universe behind a secret door in her new home, unaware that it contains a sinister secret.</code>                                                                                                                                                                                   |
+  | <code>A mysterious force knocks the moon from its orbit around Earth and sends it hurtling on a collision course with life as we know it.</code>                                                                                                                                                                                                     | <code>After depleting Earth's resources for centuries, humankind's survival requires an exodus to outer space. An international expedition is quickly formed to find a suitable new planet, but when plans go awry, the crew is suddenly stranded without power on a strange planet, where something unimaginable lies in wait.</code> |
 * Loss: [<code>MultipleNegativesRankingLoss</code>](https://sbert.net/docs/package_reference/sentence_transformer/losses.html#multiplenegativesrankingloss) with these parameters:
   ```json
   {
@@ -355,7 +362,7 @@ You can finetune this model on your own dataset.
 </details>
 
 ### Framework Versions
-- Python: 3.12.6
+- Python: 3.14.1
 - Sentence Transformers: 5.1.2
 - Transformers: 4.57.3
 - PyTorch: 2.9.1+cpu
