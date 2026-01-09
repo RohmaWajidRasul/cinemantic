@@ -17,10 +17,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import HttpResponse, JsonResponse
+
+
+def home(request):
+    return HttpResponse("Welcome to the Movie Recommender API!")
+
+def health(request):
+    """A simple view that returns a 200 OK status for health checks."""
+    return JsonResponse({"status": "healthy"})
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/users/', include('users.urls')),
     path('api/v1/', include('movies.urls')),
+    path('health/', health),
+    path('', home),
 ]
-

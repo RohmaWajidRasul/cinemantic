@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: django-migrate-job
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      serviceAccountName: app-sa
+      containers:
+      - name: django-migrate
+        image: gcr.io/starry-braid-483111-t0/django-web:latest
+        command: ["python", "manage.py", "migrate"]
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef: { name: cloudsql-credentials, key: username }
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef: { name: cloudsql-credentials, key: password }
+          - name: POSTGRES_DB
+            value: "cinemantic_db"
+          - name: POSTGRES_HOST
+            value: "127.0.0.1"
+          - name: POSTGRES_PORT
+            value: "5432"
+          - name: DJANGO_SECRET_KEY
+            valueFrom:
+              secretKeyRef: { name: internal-shared-secret, key: DJANGO_SECRET_KEY }
+          - name: DJANGO_ALLOWED_HOSTS
+            value: "*"
+
+      - name: cloudsql-proxy
+        image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.11.0
+        args:
+          - "--address=0.0.0.0"
+          - "--port=5432"
+          - "--private-ip"
+          - "starry-braid-483111-t0:europe-central2:cinemantic-db"
+      
+      restartPolicy: Never

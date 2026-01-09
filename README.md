@@ -4,7 +4,7 @@ To be able to run the system, you need to install the dependencies from our requ
 
 There are three in total: one for the model, one for the api-server and one for the frontend.
 
-They can all be installed using the following command:
+They can all be installed using the following command in each directory:
 
 ```
 pip install -r requirements.txt
@@ -15,7 +15,8 @@ Another requirement to run the system is to have an .env file.
 
 To do so, you can follow the example give in "env.example" file or use the following template:
 
-```
+```python
+# Local deployment config
 POSTGRES_DB=cinemantic
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=cinemantic
@@ -33,18 +34,23 @@ MODEL_UPDATE_SECRET=secret
 
 # Running the system
 
-Command to run the API-server:
+Before running the API-server with a new database, Django needs to execute migrations. You can do that by the following command in `api-server`:
+```bash
+python manage.py migrate
 ```
+
+Command to run the API-server in `api-server`:
+```bash
 python manage.py runserver 8000
 ```
 
-Command to run the frontend:
-```
+Command to run the frontend in `frontend`:
+```bash
 python manage.py runserver 8001
 ```
 
-Command to run the AI-model:
-```
+Command to run the AI-model in `model`:
+```bash
 uvicorn main:app --host localhost  --port 8002
 ```
 

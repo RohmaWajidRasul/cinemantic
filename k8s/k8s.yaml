@@ -1,0 +1,300 @@
+# =============================================================================
+# 1. Django Web Deployment (Workload Identity + Cloud SQL Auth Proxy v2)
+# =============================================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-web-deployment
+  labels:
+    app: django-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-web
+  strategy:
+    type: Recreate # Terminate old pod before creating a new one
+  template:
+    metadata:
+      labels:
+        app: django-web
+    spec:
+      # --- Workload Identity Implementation ---
+      serviceAccountName: app-sa # Links the Pod to the KSA
+      # ----------------------------------------
+      containers:
+      - name: django-web
+        image: gcr.io/starry-braid-483111-t0/django-web:latest
+        ports:
+        - containerPort: 8000
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: cloudsql-credentials
+                key: username
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: cloudsql-credentials
+                key: password
+          - name: POSTGRES_HOST
+            value: "127.0.0.1"
+          - name: POSTGRES_DB
+            value: "cinemantic_db"
+          - name: POSTGRES_PORT
+            value: "5432"
+          - name: AI_SERVICE_URL
+            value: "http://fastapi-model-service"
+          - name: OMDB_API_KEY
+            value: "${OMDB_API_KEY}"
+          - name: OMDB_API_URL
+            value: "https://www.omdbapi.com/"
+          - name: MODEL_UPDATE_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: internal-shared-secret
+                key: model-update-secret
+          - name: DJANGO_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: internal-shared-secret
+                key: DJANGO_SECRET_KEY
+          - name: DJANGO_DEBUG
+            valueFrom:
+              secretKeyRef:
+                name: internal-shared-secret
+                key: DJANGO_DEBUG
+          - name: DJANGO_ALLOWED_HOSTS
+            valueFrom:
+              secretKeyRef:
+                name: internal-shared-secret
+                key: DJANGO_ALLOWED_HOSTS
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        readinessProbe:
+          httpGet:
+            path: /health/
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health/
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 15
+
+      # Cloud SQL Auth Proxy v2 (Uses IAM for Auth)
+      - name: cloudsql-proxy
+        image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.11.0
+        args:
+          - "--address=0.0.0.0"
+          - "--port=5432"
+          - "--private-ip"
+          - "${TF_VAR_project_id}:${TF_VAR_region}:${CLOUDSQL_INSTANCE_NAME}" 
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "100Mi"
+          limits:
+            cpu: "100m"
+            memory: "150Mi"
+        ports:
+          - containerPort: 5432
+
+---
+# =============================================================================
+# 2. FastAPI Embedding Model Server Deployment
+# =============================================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-server # MUST match the name used in model/main.py trigger_k8s_rollout()
+  labels:
+    app: fastapi-model
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate # Terminate old pod before creating a new one
+  selector:
+    matchLabels:
+      app: fastapi-model
+  template:
+    metadata:
+      labels:
+        app: fastapi-model
+    spec:
+      serviceAccountName: app-sa # Required for GCS access and K8s API access
+      containers:
+      - name: fastapi-model
+        image: gcr.io/starry-braid-483111-t0/fastapi-model:latest
+        ports:
+        - containerPort: 8000
+        env:
+          - name: MODEL_BUCKET_NAME
+            value: "cinemantic-models-${TF_VAR_project_id}"
+          - name: API_SERVICE_URL
+            value: "http://django-web-service"
+          - name: MODEL_UPDATE_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: internal-shared-secret
+                key: model-update-secret
+          # DB Config for SQLAlchemy
+          - name: POSTGRES_DB
+            value: "cinemantic_db"
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: cloudsql-credentials
+                key: username
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: cloudsql-credentials
+                key: password
+          - name: POSTGRES_HOST
+            value: "127.0.0.1"
+          - name: POSTGRES_PORT
+            value: "5432"
+        resources:
+          requests:
+            cpu: "1000m"
+            memory: "1Gi"
+          limits:
+            cpu: "2000m"
+            memory: "2Gi"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 20
+
+      # Cloud SQL Auth Proxy Sidecar (Required for Model Server too)
+      - name: cloudsql-proxy
+        image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.11.0
+        args:
+          - "--address=0.0.0.0"
+          - "--port=5432"
+          - "--private-ip"
+          - "${TF_VAR_project_id}:${TF_VAR_region}:${CLOUDSQL_INSTANCE_NAME}"
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "100Mi"
+          limits:
+            cpu: "100m"
+            memory: "150Mi"
+
+---
+# =============================================================================
+# 3. Services
+# =============================================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-web-service
+spec:
+  selector:
+    app: django-web
+  ports:
+    - port: 80
+      targetPort: 8000
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-model-service
+spec:
+  selector:
+    app: fastapi-model
+  ports:
+    - port: 80
+      targetPort: 8000
+  type: ClusterIP
+
+---
+# =============================================================================
+# 4. Ingress (GCE External Load Balancer)
+# =============================================================================
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: movie-recs-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    # IMPORTANT: Ensure this static IP is created via Terraform
+    kubernetes.io/ingress.global-static-ip-name: "movie-recs-ip" 
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: django-web-service
+            port:
+              number: 80
+
+---
+# =============================================================================
+# 5. Horizontal Pod Autoscalers
+# =============================================================================
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: django-web-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: django-web-deployment
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: fastapi-model-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: model-server
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70

@@ -26,13 +26,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-f-e=%%x-hgfo36frdj(p9zrs-&d+tgaf*av32_5y1ir#+=m^1u'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'django-web-service',
+    'django-web-service.default',
+    'django-web-service.default.svc',
+    'django-web-service.default.svc.cluster.local',
+]
 
+# Add the pod's own IP for health checks via the Downward API
+POD_IP = os.getenv('POD_IP')
+if POD_IP:
+    ALLOWED_HOSTS.append(POD_IP)
+
+# Add hosts from environment variable for flexibility
+# e.g., DJANGO_ALLOWED_HOSTS="34.36.107.162,mydomain.com"
+allowed_hosts_env = os.getenv('DJANGO_ALLOWED_HOSTS')
+if allowed_hosts_env:
+    ALLOWED_HOSTS.extend(allowed_hosts_env.split(','))
 
 # Application definition
 
@@ -161,8 +175,11 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8001",
-    "http://localhost:8001",
+    # Origins for local frontend development
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    # Origin for deployed frontend
+    "http://34.36.107.162",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

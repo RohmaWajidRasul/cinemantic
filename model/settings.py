@@ -14,3 +14,4 @@ POSTGRES = {
 
 API_SERVICE_URL = os.getenv('API_SERVICE_URL')
 MODEL_UPDATE_SECRET = os.getenv('MODEL_UPDATE_SECRET')
+MODEL_BUCKET_NAME = os.getenv('MODEL_BUCKET_NAME', 'cinemantic-models-optical-empire-480918-j2')

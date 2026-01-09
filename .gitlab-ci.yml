@@ -1,0 +1,66 @@
+default:
+  tags:
+    - docker
+
+image:
+  name: hashicorp/terraform:1.7.0
+  entrypoint: [""]
+
+variables:
+  TF_ROOT: ${CI_PROJECT_DIR}/infra
+  TF_VAR_gitlab_api_url: ${CI_API_V4_URL}
+
+stages:
+  - test
+  - tf-validate
+  - tf-build
+  # - k8s-deploy
+
+before_script:
+  - cd ${TF_ROOT}
+  # These 2 variables are the "Magic Key" - they fix the auth error automatically
+  - terraform init
+
+python-tests:
+  stage: test
+  image: python:3.11
+  before_script:
+    - pip install pandas
+  script:
+    - cd model
+    - python -m unittest discover -s . -p "test_*.py"
+
+tf-validate:
+  stage: tf-validate
+  script:
+    - terraform validate
+
+tf-build:
+  stage: tf-build
+  script:
+    - terraform plan -out=tfplan
+  artifacts:
+    paths:
+      - ${TF_ROOT}/tfplan
+
+#deploy-app:
+#  stage: k8s-deploy
+#  image: 
+#    name: alpine/k8s:1.29.2
+#    entrypoint: [""]
+#  before_script: []
+#  dependencies:
+#    - tf-deploy
+#  script:
+#    - apk add --no-cache jq gettext
+#    - kubectl config use-context "$KUBE_CONTEXT"
+#    # Read values from the JSON file
+#    - export DJANGO_ALLOWED_HOSTS=$(jq -r '.ingress_ip_address.value' infra/tf_outputs.json)
+#    - export CLOUDSQL_SA_EMAIL=$(jq -r '.cloudsql_gsa_email.value' infra/tf_outputs.json)
+#    - export CLOUDSQL_INSTANCE_NAME=$(jq -r '.cloud_sql_instance_connection_name.value' infra/tf_outputs.json)
+#    # Deploy
+#    - envsubst < k8s/k8s-prereqs.yaml | kubectl apply -f -
+#    - envsubst < k8s/k8s.yaml | kubectl apply -f -
+#  when: manual
+#  only:
+#    - main

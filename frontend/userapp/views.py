@@ -220,7 +220,7 @@ class SearchPageView(TemplateView):
 class RecommendationPageView(TemplateView):
     template_name = "recommendation.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs,):
         context = super().get_context_data(**kwargs)
         movie_id = kwargs.get("movie_id")
         external_movie_name = self.request.GET.get("movie-name")
