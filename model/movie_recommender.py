@@ -8,10 +8,8 @@ from sklearn.preprocessing import normalize
 from sklearn.neighbors import NearestNeighbors
 import random
 from torch.utils.data import DataLoader
-from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.model_selection import train_test_split
-
 
 class MovieRecommender:
     """
@@ -59,6 +57,13 @@ class MovieRecommender:
         except Exception as e:
             raise Exception(f"Invalid base model: {e}")      
           
+    def _reset_model(self):
+        """Reset to default model without fine-tuning"""
+        print("Resetting to default model...")
+        del self.model
+        gc.collect()
+        self.model = SentenceTransformer(self.output_path)
+
     def _set_new_model(self, new_version):
         print("Set to new model...")
 
@@ -126,12 +131,12 @@ class MovieRecommender:
         
         return examples
 
-    def _fine_tune_model(self, use_default, training_examples, new_version, batch_size, epochs):
+    def _fine_tune_model(self, use_default, training_examples, new_version, batch_size, epochs, base_model_path=None):
         """Fine tune model safely on Windows into ./fine_tuned_model"""
         if use_default:
             model = SentenceTransformer(self.default_model)
         else:
-            model = SentenceTransformer(self.output_path)
+            model = SentenceTransformer(base_model_path)
 
         new_model_path = self.new_model_path_prefix + f"/{new_version}"
 
@@ -199,7 +204,7 @@ class MovieRecommender:
 
         self.combined_vectors = combined_map
 
-    def setup_recommender(self, use_default=False, new_version="unknown", df=None, batch_size=128, epochs=2):
+    def setup_recommender(self, use_default=False, new_version="unknown", df=None, batch_size=128, epochs=2, base_model_path=None):
         """Loads all data and prepares the recommender"""
 
         precision_before = None
@@ -218,7 +223,7 @@ class MovieRecommender:
         precision_before = self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
 
         print("Fine-tuning model...")
-        self._fine_tune_model(training_examples=training_examples, use_default=use_default, new_version=new_version, batch_size=batch_size, epochs=epochs)
+        self._fine_tune_model(training_examples=training_examples, use_default=use_default, new_version=new_version, batch_size=batch_size, epochs=epochs, base_model_path=base_model_path)
 
         print("Precision@k after finetuning")
         val_embeddings = self._compute_val_embeddings()

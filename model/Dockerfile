@@ -1,4 +1,4 @@
-FROM python:3.13-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
@@ -11,6 +11,5 @@ COPY . .
 # Expose the port the app runs on
 EXPOSE 8000
 
-# Command to run the FastAPI application using Uvicorn
-# This command keeps the server running in the foreground
+# Command to run the application using uvicorn
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

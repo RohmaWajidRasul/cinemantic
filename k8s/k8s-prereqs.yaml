@@ -31,5 +31,6 @@ type: Opaque
 stringData:
   model-update-secret: "${INTERNAL_MODEL_UPDATE_SECRET}"
   DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY}"
-  DJANGO_ALLOWED_HOSTS: "${DJANGO_ALLOWED_HOSTS}"
+  DJANGO_ALLOWED_HOSTS: "*,django-web-service" # Allow all (for demo) and the internal service name
+  DJANGO_DEBUG: "True"
   CORS_ALLOWED_ORIGINS: "${CORS_ALLOWED_ORIGINS}"
