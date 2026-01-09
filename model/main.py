@@ -195,7 +195,7 @@ async def recommend(payload: dict):
             status_code=200,
             content={
             "detail": "Recommendations fetched successfully.",
-            "results": results
+            "recommendations": results
         }
         )
     except Exception as e:

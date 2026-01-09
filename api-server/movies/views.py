@@ -326,7 +326,7 @@ class ExternalMovieRecommendationView(APIView):
 
             current_model_version = ModelVersion.objects.filter(status="current").order_by("-created_at").first()
 
-            recommended_ids = [item["id"] for item in recs.get("results", [])]
+            recommended_ids = [item["id"] for item in recs.get("recommendations", [])]
 
             RecommendationHistory.objects.create(
                 user=request.user,
