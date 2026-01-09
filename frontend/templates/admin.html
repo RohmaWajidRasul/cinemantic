@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 
 <head>
-    <!--Implemented by Júlia -->
     <link rel="stylesheet" href="{% static 'global.css' %}">
 </head>
 <html>
@@ -46,17 +45,34 @@
                             <th>Version</th>
                             <th>Status</th>
                             <th>Created</th>
+                            <th>Precision before training</th>
+                            <th>Precision after training</th>
+                            <th>User feedback</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- TODO: add likes and dislikes data -->
                         {% for model in model_versions %}
                         <tr>
-                            <td>{{ model.version }}</td>
+                            <td>
+                                <form method="post" action="{% url 'admin-page' %}"
+                                    onsubmit="return confirm('Are you sure you want to rollback to this version?')">
+                                    {% csrf_token %}
+                                    <button type="submit" name="model_version" value="{{model.version}}">
+                                        {{ model.version }}
+                                    </button>
+                                </form>
+                            </td>
                             <td class="status {{ model.status }}">
                                 {{ model.status|cut:"_"|capfirst }}
                             </td>
                             <td>{{ model.created_at|date:"d/m/Y H:i" }}</td>
+                            <td>{{ model.precision_before|floatformat:2| default:"-"}}</td>
+                            <td>{{ model.precision_after|floatformat:2| default:"-"}}</td>
+                            <td>
+                                <p>Pos: {{ model.user_feedback_summary.positive }}</p>
+                                <p>Neg: {{ model.user_feedback_summary.negative }}</p>
+                                <p>Neut: {{ model.user_feedback_summary.null }}</p>
+                            </td>
                         </tr>
                         {% empty %}
                         <tr>
@@ -76,15 +92,15 @@
 
 <style scoped>
     .admin-form {
-        flex: 4;
+        flex: 4.5;
     }
 
     .model-info {
-        flex: 6;
+        flex: 6.5;
     }
 
     .model-info .white-container {
-        width: 70%;
+        width: 80%;
         height: 420px;
         padding: 1rem;
         overflow: scroll;
@@ -100,6 +116,8 @@
         border-collapse: collapse;
         color: #0d0d0d;
     }
+
+
 
     .model-table th,
     .model-table td {
