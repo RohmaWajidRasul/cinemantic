@@ -1,3 +1,5 @@
+import gc
+import shutil
 import numpy as np
 import pandas as pd
 import os
@@ -17,30 +19,37 @@ class MovieRecommender:
     and provides movie recommendations based on textual descriptions and genres.
     """
 
-    def __init__(self, df=None, genre_scale=0.5, model_name="all-MiniLM-L6-v2",
+    def __init__(self, df=None, genre_scale=0.5, default_model="all-MiniLM-L6-v2",
                  output_path="./fine_tuned_model", batch_size=128, epochs=2):
         
         if genre_scale <= 0 or batch_size < 1 or epochs < 1:
             raise Exception("Integer params must be greater than 0")
 
         self.genre_scale = genre_scale
-        self.model_name = model_name
         self.output_path = output_path
         self.batch_size = batch_size
         self.epochs = epochs
         self.df = df
         self.train_df= None
         self.val_df = None
-        self.model = None
         self.desc_embs = None
         self.genre_embs = None
         self.combined_vectors = None
+        self.default_model = default_model
 
-        if self.df is None:
-            try:
-                self.model = SentenceTransformer(self.output_path)
-            except Exception:
-                self.model = SentenceTransformer(self.model_name)
+        self.temp_old_model_path = "./temp_old_model"
+
+        shutil.copytree(self.output_path, self.temp_old_model_path, dirs_exist_ok=True)
+
+        try:
+            self.old_model = SentenceTransformer(self.temp_old_model_path)
+            self.model = SentenceTransformer(self.output_path)
+        except Exception as e:
+            raise Exception(f"Invalid base model: {e}")      
+          
+    def _reset_old_model(self):
+        print("Reset to old model...")
+        self.model = self.old_model
 
     def _load_movies_from_dataframe(self):
         """Get data from dataframe"""
@@ -99,19 +108,36 @@ class MovieRecommender:
         return examples
 
     def _fine_tune_model(self, training_examples):
-        """Fine tune model using new tuples"""
-
-        model = SentenceTransformer(self.model_name)
+        """Fine tune model safely on Windows into ./fine_tuned_model"""
+        
         train_dataloader = DataLoader(training_examples, shuffle=True, batch_size=self.batch_size, pin_memory=False)
-        train_loss = losses.MultipleNegativesRankingLoss(model)
+        train_loss = losses.MultipleNegativesRankingLoss(self.model)
 
-        model.fit(
+        import tempfile
+        temp_output_path = tempfile.mkdtemp(prefix="fine_tune_")
+
+        # Train into temporary folder
+        self.model.fit(
             train_objectives=[(train_dataloader, train_loss)],
             epochs=self.epochs,
             warmup_steps=100,
-            output_path=self.output_path
+            output_path=temp_output_path
         )
+
+        # Release model handles
+        self.model = None
+        gc.collect()
+
+        # Remove old model folder
+        if os.path.exists(self.output_path):
+            shutil.rmtree(self.output_path, ignore_errors=True)
+
+        # Move temp folder to the final location
+        os.rename(temp_output_path, self.output_path)
+
+        # Reload model
         self.model = SentenceTransformer(self.output_path)
+        print(f"Fine-tuned model is now ready at {self.output_path}")
 
     def _compute_embeddings(self, ids, texts):
         """Helper to turn strings into vector embeddings"""
@@ -124,8 +150,8 @@ class MovieRecommender:
             batch_embs = self.model.encode(batch_texts, show_progress_bar=False)
             
             # Map each ID to its embedding
-            for movie_id, emb in zip(batch_ids, batch_embs):
-                embeddings_map[movie_id] = emb
+            embeddings_map.update({movie_id: emb for movie_id, emb in zip(batch_ids, batch_embs)})
+
         
         return embeddings_map
 
@@ -161,43 +187,37 @@ class MovieRecommender:
 
         self.combined_vectors = combined_map
 
-    def setup_recommender(self, fine_tune=False):
+    def setup_recommender(self, use_default=False):
         """Loads all data and prepares the recommender"""
 
-        if fine_tune:
-            self.model = SentenceTransformer(self.model_name)
+        precision_before = None
+        precision_after = None 
 
-            self._load_movies_from_dataframe()
-            training_examples = self._build_training_pairs(self.train_df)
-            print(f"Found {len(training_examples)} training pairs.")
-            
-            # Get TF-IDF ground truth
-            val_ids, mpnet_sim = self.build_mpnet_ground_truth(self.val_df)
+        if use_default:
+            print(f"Using default model to fine tune: {self.default_model}")
+            self.model = SentenceTransformer(self.default_model)
 
-            print("Precision@k before finetuning")
-            val_embeddings = self._compute_val_embeddings()
-            val_embeddings = normalize(val_embeddings)
-            self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
+        self._load_movies_from_dataframe()
+        training_examples = self._build_training_pairs(self.train_df)
+        print(f"Found {len(training_examples)} training pairs.")
+        
+        # Get TF-IDF ground truth
+        val_ids, mpnet_sim = self.build_mpnet_ground_truth(self.val_df)
 
+        print("Precision@k before finetuning")
+        val_embeddings = self._compute_val_embeddings()
+        val_embeddings = normalize(val_embeddings)
+        precision_before = self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
 
-            print("Fine-tuning model...")
-            self._fine_tune_model(training_examples)
+        print("Fine-tuning model...")
+        self._fine_tune_model(training_examples)
 
-            print("Precision@k after finetuning")
-            val_embeddings = self._compute_val_embeddings()
-            val_embeddings = normalize(val_embeddings)
-            self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
-        else:
-            self._load_movies_from_dataframe()
-            # If not fine-tuning, try to load a pre fine-tuned model
-            try:
-                self.model = SentenceTransformer(self.output_path)
-            except Exception as e:
-                raise Exception(f"The specified fine-tuned model does not exist: {e}")
-            
-        self._compute_text_embeddings()
-        self._compute_genre_embeddings()
-        self._build_combined_vectors()
+        print("Precision@k after finetuning")
+        val_embeddings = self._compute_val_embeddings()
+        val_embeddings = normalize(val_embeddings)
+        precision_after = self.precision_at_k(val_ids, mpnet_sim, val_embeddings)
+
+        return precision_before, precision_after
 
     ###EVALUATION###
     
@@ -266,8 +286,8 @@ class MovieRecommender:
         val_overviews = self.val_df["overview"].tolist()
         val_genres = [" ".join(g) for g in self.val_df["genres_list"]]
 
-        desc = self.model.encode(val_overviews, show_progress_bar=False)
-        genre = self.model.encode(val_genres, show_progress_bar=False)
+        desc = self.model.encode(val_overviews, show_progress_bar=False, convert_to_numpy=True)
+        genre = self.model.encode(val_genres, show_progress_bar=False, convert_to_numpy=True)
 
         val_embeddings = desc + self.genre_scale * genre
         return val_embeddings

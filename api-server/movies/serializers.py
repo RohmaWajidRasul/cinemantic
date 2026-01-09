@@ -94,6 +94,25 @@ class RecommendationFeedbackSerializer(serializers.ModelSerializer):
         fields = ["feedback"]
 
 class ModelVersionSerializer(serializers.ModelSerializer):
+    user_feedback_summary = serializers.SerializerMethodField()
+
     class Meta:
         model = ModelVersion
-        fields = ["id", "version", "status", "created_at"]
+        fields = [
+            "id",
+            "version",
+            "status",
+            "precision_before",
+            "precision_after",
+            "detail",
+            "created_at",
+            "user_feedback_summary",
+        ]
+
+    def get_user_feedback_summary(self, obj):
+        # Annotated counts from queryset
+        return {
+            "positive": getattr(obj, "positive_count", 0),
+            "negative": getattr(obj, "negative_count", 0),
+            "null": getattr(obj, "null_count", 0),
+        }

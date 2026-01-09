@@ -98,17 +98,11 @@ class MovieRecommendationsView(ListAPIView):
 
         if request.user and request.user.is_authenticated and recommendations:
 
-            latest_ready_version = (
-                ModelVersion.objects
-                .filter(status="ready")
-                .order_by("-created_at")
-                .values_list("version", flat=True)
-                .first()
-            )
+            current_model_version = ModelVersion.objects.filter(status="current").order_by("-created_at").first()
 
             RecommendationHistory.objects.create(
                 user=request.user,
-                model_version=latest_ready_version or "unknown",
+                model_version=current_model_version,
                 input_movies=[movie.id],
                 recommended_ids=recommended_ids,
             )
@@ -212,17 +206,11 @@ class CombinedRecommendationsView(APIView):
         # ------------------------------------------
         if request.user and request.user.is_authenticated and top5:
 
-            latest_ready_version = (
-                ModelVersion.objects
-                .filter(status="ready")
-                .order_by("-created_at")
-                .values_list("version", flat=True)
-                .first()
-            )
+            current_model_version = ModelVersion.objects.filter(status="current").order_by("-created_at").first()
 
             RecommendationHistory.objects.create(
                 user=request.user,
-                model_version=latest_ready_version or "unknown",
+                model_version=current_model_version or "unknown",
                 input_movies = movie_ids,
                 recommended_ids=[mid for mid, _ in top5],
             )
@@ -336,19 +324,13 @@ class ExternalMovieRecommendationView(APIView):
 
             input_movie_str = f"{movie_title} ({year})"
 
-            latest_ready_version = (
-                ModelVersion.objects
-                .filter(status="ready")
-                .order_by("-created_at")
-                .values_list("version", flat=True)
-                .first()
-            )
+            current_model_version = ModelVersion.objects.filter(status="current").order_by("-created_at").first()
 
             recommended_ids = [item["id"] for item in recs.get("results", [])]
 
             RecommendationHistory.objects.create(
                 user=request.user,
-                model_version=latest_ready_version or "unknown",
+                model_version=current_model_version or "unknown",
                 is_external=True,
                 input_movies=[input_movie_str],
                 recommended_ids=recommended_ids
