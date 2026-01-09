@@ -344,7 +344,7 @@ class ExternalMovieRecommendationView(APIView):
                 .first()
             )
 
-            recommended_ids = [item["id"] for item in recs.get("results", [])]
+            recommended_ids = [item["id"] for item in recs.get("recommendations", [])]
 
             RecommendationHistory.objects.create(
                 user=request.user,
